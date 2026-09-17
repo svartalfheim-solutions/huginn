@@ -1,0 +1,10 @@
+# Huginn data lives in the user's own folder, never in this repo
+huginn-data*.json
+huginn.xlsx
+huginn-backup-*.json
+prospektor-data*.json
+prospektor.xlsx
+pitch.json
+innsyn-*.json
+.DS_Store
+.claude/launch.json

@@ -1,0 +1,1118 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1e1e1e">
+<title>Huginn</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 800%22 width=%2232%22 height=%2232%22%3E  %3Ccircle cx=%22400%22 cy=%22400%22 r=%22390%22 fill=%22%232A2A2A%22/%3E  %3Ccircle cx=%22400%22 cy=%22400%22 r=%22360%22 fill=%22none%22 stroke=%22%23FF6B00%22 stroke-width=%224%22/%3E  %3Ccircle cx=%22400%22 cy=%22400%22 r=%22245%22 fill=%22none%22 stroke=%22%23FF6B00%22 stroke-width=%222%22 stroke-dasharray=%2210 13%22 opacity=%220.5%22/%3E  %3Cline x1=%22400%22 y1=%22640%22 x2=%22400%22 y2=%22220%22 stroke=%22%23FF6B00%22 stroke-width=%2218%22 stroke-linecap=%22round%22/%3E  %3Cline x1=%22400%22 y1=%22640%22 x2=%22310%22 y2=%22700%22 stroke=%22%23FF6B00%22 stroke-width=%228%22 stroke-linecap=%22round%22 opacity=%220.45%22/%3E  %3Cline x1=%22400%22 y1=%22640%22 x2=%22490%22 y2=%22700%22 stroke=%22%23FF6B00%22 stroke-width=%228%22 stroke-linecap=%22round%22 opacity=%220.45%22/%3E  %3Cline x1=%22400%22 y1=%22640%22 x2=%22400%22 y2=%22730%22 stroke=%22%23FF6B00%22 stroke-width=%226%22 stroke-linecap=%22round%22 opacity=%220.3%22/%3E  %3Cline x1=%22400%22 y1=%22360%22 x2=%22225%22 y2=%22235%22 stroke=%22%23FF6B00%22 stroke-width=%2210%22 stroke-linecap=%22round%22/%3E  %3Cline x1=%22400%22 y1=%22360%22 x2=%22575%22 y2=%22235%22 stroke=%22%23FF6B00%22 stroke-width=%2210%22 stroke-linecap=%22round%22/%3E  %3Cline x1=%22283%22 y1=%22277%22 x2=%22306%22 y2=%22214%22 stroke=%22%23FF6B00%22 stroke-width=%227%22 stroke-linecap=%22round%22/%3E  %3Cline x1=%22517%22 y1=%22277%22 x2=%22494%22 y2=%22214%22 stroke=%22%23FF6B00%22 stroke-width=%227%22 stroke-linecap=%22round%22/%3E  %3Ccircle cx=%22400%22 cy=%22155%22 r=%2226%22 fill=%22%23FF6B00%22/%3E  %3Ccircle cx=%22535%22 cy=%22196%22 r=%2218%22 fill=%22%23FF6B00%22/%3E  %3Ccircle cx=%22637%22 cy=%22336%22 r=%2218%22 fill=%22%23FF6B00%22 opacity=%220.85%22/%3E  %3Ccircle cx=%22612%22 cy=%22522%22 r=%2216%22 fill=%22%23FF6B00%22 opacity=%220.7%22/%3E  %3Ccircle cx=%22522%22 cy=%22612%22 r=%2213%22 fill=%22%23FF6B00%22 opacity=%220.55%22/%3E  %3Ccircle cx=%22278%22 cy=%22612%22 r=%2213%22 fill=%22%23FF6B00%22 opacity=%220.55%22/%3E  %3Ccircle cx=%22188%22 cy=%22522%22 r=%2216%22 fill=%22%23FF6B00%22 opacity=%220.7%22/%3E  %3Ccircle cx=%22163%22 cy=%22336%22 r=%2218%22 fill=%22%23FF6B00%22 opacity=%220.85%22/%3E  %3Ccircle cx=%22265%22 cy=%22196%22 r=%2218%22 fill=%22%23FF6B00%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+--charcoal:#1E1E1E;--rune-grey:#2A2A2A;--rune-grey-2:#333333;
+--orange:#FF6B00;--orange-hover:#FF8A33;--orange-press:#E05F00;
+--silver:#A5ACAF;--verdigris:#4F7365;--verdigris-hover:#6B8F81;
+--white:#F5F4F2;--black:#0D0D0D;
+--danger:#E5484D;--success:#4F7365;--warning:#D9A441;--info:#5B8DB8;
+--bg:#1E1E1E;--surface:#2A2A2A;--surface-2:#333333;--inset:#161616;--overlay:rgba(13,13,13,.72);
+--border:#3D3D3D;--border-subtle:#2F2F2F;--border-strong:#54544f;
+--text:#F2F1EE;--text-2:#A5ACAF;--text-3:#787E80;--text-disabled:#5C5F60;
+--focus:rgba(255,107,0,.45);
+--btn-hover:#3D3D3D;--btn-press:#262626;
+--accent-text:var(--orange);--danger-dim:#dc2626;--danger-border:#7f1d1d;--danger-surface:#2e1616;--card-shadow:var(--sh-sm);
+--display:'Cinzel',serif;--body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;
+--r-sm:4px;--r-md:6px;--r-lg:8px;--r-xl:10px;
+--sh-sm:0 1px 2px rgba(0,0,0,.35);--sh-md:0 4px 12px rgba(0,0,0,.4);--sh-lg:0 12px 32px rgba(0,0,0,.5);
+--ease:cubic-bezier(.4,0,.2,1);--dur:180ms;
+}
+/* Light theme — token values and rules copied from asgard apps/platform/src/index.css
+   (YD-568, merged 1833e66): ground #ebe6dd, white card, 3:1 border, no card shadow,
+   orange-as-text aliased to the darker shade, sidebar pinned dark (see .side). */
+:root[data-theme="light"]{
+--bg:#ebe6dd;--surface:#ffffff;--surface-2:#f0ece5;--inset:#f7f4ef;--overlay:rgba(30,30,30,.45);
+--border:#847e71;--border-subtle:#d9d3c8;--border-strong:#68655e;
+--text:#1e1e1e;--text-2:#55524c;--text-3:#68655e;--text-disabled:#a8a196;--white:#ffffff;
+--verdigris:#2f6b4f;--verdigris-hover:#3d8264;--success:#2f6b4f;
+--accent-text:#993d00;--warning:#8a5a00;
+--danger:#b3261e;--danger-dim:#8a1c15;--danger-border:#b3564c;--danger-surface:#f9ded9;
+--btn-hover:#e6e1d8;--btn-press:#d9d3c8;--card-shadow:none;
+--sh-md:0 4px 12px rgba(0,0,0,.10);--sh-lg:0 12px 32px rgba(0,0,0,.14);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.55}
+a{color:var(--accent-text)}
+button{font:inherit;color:inherit;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--text);background:var(--inset);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;width:100%;outline:none;transition:border-color var(--dur) var(--ease)}
+input:focus,select:focus,textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--focus)}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--silver) 50%),linear-gradient(135deg,var(--silver) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+textarea{min-height:88px;resize:vertical}
+label{display:block;font-size:13px;color:var(--text-2);margin-bottom:6px;font-weight:500}
+.field{margin-bottom:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.row{grid-template-columns:1fr}}
+.hint{font-size:12px;color:var(--text-3);margin-top:6px}
+
+/* layout */
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+.side{background:var(--inset);border-right:1px solid var(--border);padding:20px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain;
+ /* pinned to dark in both themes (asgard .site-navbar): the dark wordmark stays correct here and no on-light logo is needed */
+ --bg:#1E1E1E;--surface:#2A2A2A;--surface-2:#333333;--inset:#161616;--border:#3D3D3D;--border-subtle:#2F2F2F;--border-strong:#54544f;
+ --text:#F2F1EE;--text-2:#A5ACAF;--text-3:#787E80;--white:#F5F4F2;--verdigris:#4F7365;--verdigris-hover:#6B8F81;--accent-text:#FF6B00;--btn-hover:#3D3D3D;--btn-press:#262626;color:var(--text)}
+.theme{padding:4px 8px 8px}
+.theme .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-3);margin-bottom:6px}
+.theme .seg{display:flex;border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+.theme .seg button{flex:1;background:transparent;border:0;padding:6px 0;font-size:12px;color:var(--text-2)}
+.theme .seg button+button{border-left:1px solid var(--border)}
+.theme .seg button.on{background:var(--surface-2);color:var(--text);font-weight:600}
+/* Mobile: the sidebar becomes a sticky top bar. Declared after every .side rule so it wins the cascade. */
+@media(max-width:900px){
+ .app{grid-template-columns:1fr}
+ .side{position:sticky;top:0;z-index:5;height:auto;overflow:visible;display:grid;grid-template-columns:1fr auto;grid-template-areas:"brand new" "nav nav";gap:8px 12px;padding:10px 12px;border-right:0;border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.25)}
+ .side .brand{grid-area:brand;padding:0;min-width:0}
+ .side #btn-new{grid-area:new;padding:7px 12px;font-size:13px}
+ .side #btn-new kbd{display:none}
+ .side nav{grid-area:nav;flex-direction:row;overflow-x:auto;gap:4px;margin:0 -12px;padding:0 12px;scrollbar-width:none}
+ .side nav::-webkit-scrollbar{display:none}
+ .side nav a{padding:7px 10px}
+ .side .spacer,.side .status,.side .theme{display:none}
+}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 6px 18px;white-space:nowrap}
+.brand .mark{width:32px;height:32px;flex:none}
+.brand .wm{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.brand .wm .name{font-family:var(--display);font-weight:600;font-size:18px;letter-spacing:.06em;color:var(--white)}
+.brand .wm .by{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-top:3px}
+.madeby{display:flex;align-items:center;gap:8px;padding:10px 8px 4px;border-top:1px solid var(--border-subtle);text-decoration:none;color:var(--text-3)}
+.madeby svg{width:22px;height:22px;flex:none}
+.madeby .co{font-family:var(--display);font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-2)}
+.madeby .co span{color:var(--verdigris)}
+.madeby .v{font-family:var(--mono);font-size:10px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;color:var(--text);font-weight:400;margin:0 0 8px}
+.check:has(input:checked){border-color:var(--verdigris)}
+.check input{width:auto;margin-top:3px}
+.check small{display:block;color:var(--text-3);font-size:12px}
+nav{display:flex;flex-direction:column;gap:2px}
+nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r-md);color:var(--text-2);text-decoration:none;font-weight:500;font-size:14px;white-space:nowrap}
+nav a:hover{background:var(--surface);color:var(--text)}
+nav a.active{background:var(--surface-2);color:var(--text)}
+nav a svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+nav a .badge{margin-left:auto;background:var(--orange);color:var(--charcoal);font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px}
+.spacer{flex:1}
+.status{font-family:var(--mono);font-size:11px;color:var(--text-3);padding:8px;border-top:1px solid var(--border-subtle);line-height:1.5}
+.status b{color:var(--text-2);font-weight:500}
+main{padding:28px 32px 80px;max-width:1280px;width:100%}
+@media(max-width:700px){main{padding:20px 16px 80px}}
+h1{font-family:var(--display);font-weight:600;font-size:26px;margin:0 0 20px;letter-spacing:.02em}
+h2{font-size:17px;font-weight:600;margin:0 0 12px}
+h3{font-size:15px;font-weight:600;margin:0 0 8px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.top h1{margin:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-weight:500;font-size:14px;transition:background var(--dur) var(--ease);white-space:nowrap}
+.btn:hover{background:var(--btn-hover)}
+.btn:active{background:var(--btn-press)}
+.btn.primary{background:var(--orange);border-color:var(--orange);color:var(--charcoal);font-weight:600}
+.btn.primary:hover{background:var(--orange-hover)}
+.btn.primary:active{background:var(--orange-press)}
+.btn.secondary{background:var(--verdigris);border-color:var(--verdigris);color:var(--white)}
+.btn.secondary:hover{background:var(--verdigris-hover)}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger);border-color:var(--danger)}
+.btn.sm{padding:6px 11px;font-size:13px}
+.btn.lg{padding:13px 22px;font-size:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;box-shadow:var(--card-shadow)}
+.grid{display:grid;gap:16px}
+.grid.c2{grid-template-columns:1fr 1fr}.grid.c3{grid-template-columns:repeat(3,1fr)}.grid.c4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.grid.c3,.grid.c4{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid.c3,.grid.c4{grid-template-columns:1fr}}
+@media(max-width:900px){.grid.c2{grid-template-columns:1fr!important}}
+.stat{padding:16px 20px}
+.stat .n{font-size:34px;font-weight:600;line-height:1.1;font-family:var(--mono)}
+.stat .l{font-size:13px;color:var(--text-2);margin-top:4px}
+.stat.warn .n{color:var(--warning)}.stat.bad .n{color:var(--danger)}.stat.good .n{color:var(--verdigris-hover)}
+button.stat.filter{text-align:left;cursor:pointer;font:inherit;color:inherit;transition:border-color var(--dur) var(--ease)}
+button.stat.filter:hover{border-color:var(--border-strong)}
+button.stat.filter.on{border-color:var(--orange);box-shadow:0 0 0 1px rgba(255,107,0,.25)}
+.muted{color:var(--text-2)}.tiny{font-size:12px;color:var(--text-3)}
+.mono{font-family:var(--mono)}
+.empty{padding:32px;text-align:center;color:var(--text-3);border:1px dashed var(--border);border-radius:var(--r-lg)}
+
+/* list rows */
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);cursor:pointer;transition:border-color var(--dur) var(--ease)}
+.item:hover{border-color:var(--border-strong)}
+.item:focus-visible,.kcard:focus-visible,tr.click:focus-visible,.results div:focus-visible{outline:2px solid var(--orange);outline-offset:1px}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--surface);color:var(--text);padding:8px 12px;border:1px solid var(--orange);border-radius:var(--r-md);z-index:100}
+.skip:focus{left:8px}
+.item .main{flex:1;min-width:0}
+.item .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .s{font-size:13px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .due{font-family:var(--mono);font-size:12px;color:var(--text-3);white-space:nowrap}
+.item .due.over{color:var(--danger)}.item .due.today{color:var(--warning)}
+.chip{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);white-space:nowrap}
+.chip.stage{border-color:var(--border-strong)}
+
+/* table */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-subtle);vertical-align:top}
+th{font-size:12px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:.06em;position:sticky;top:0;background:var(--surface)}
+tr.click{cursor:pointer}tr.click:hover td{background:var(--surface-2)}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg)}
+
+/* kanban */
+.board{display:grid;grid-auto-flow:column;grid-auto-columns:260px;gap:12px;overflow-x:auto;padding-bottom:12px}
+.col{background:var(--inset);border:1px solid var(--border-subtle);border-radius:var(--r-lg);padding:10px;min-height:200px}
+.col h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-2);padding:4px 6px 10px;display:flex;justify-content:space-between}
+.col.over{border-color:var(--orange)}
+.kcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;margin-bottom:8px;cursor:grab;font-size:13px}
+.kcard:hover{border-color:var(--border-strong)}
+.kcard .t{font-weight:600;font-size:14px}
+.kcard .s{color:var(--text-2)}
+.kcard .d{font-family:var(--mono);font-size:11px;color:var(--text-3);margin-top:4px}
+.kcard .d.over{color:var(--danger)}
+
+/* modal */
+.modal-bg{position:fixed;inset:0;background:var(--overlay);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto;z-index:50}
+#modal-root2 .modal-bg{z-index:70;align-items:center}
+#modal-root2 .modal{max-width:420px}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);width:100%;max-width:760px;box-shadow:var(--sh-lg)}
+.modal .head{padding:20px 24px 12px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal .head h2{margin:0;font-family:var(--display);font-weight:600;font-size:20px}
+.modal .body{padding:24px}
+.modal .foot{padding:16px 24px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.steps{display:flex;gap:6px;font-size:12px;color:var(--text-3)}
+.steps span{padding:3px 10px;border-radius:999px;border:1px solid var(--border-subtle)}
+.steps span.on{border-color:var(--orange);color:var(--text)}
+.steps span.done{color:var(--verdigris-hover);border-color:var(--verdigris)}
+.results{border:1px solid var(--border);border-radius:var(--r-md);background:var(--inset);max-height:220px;overflow:auto;margin-top:8px}
+.results div{padding:9px 12px;border-bottom:1px solid var(--border-subtle);cursor:pointer;font-size:14px}
+.results div:hover{background:var(--surface-2)}
+.results .s{font-size:12px;color:var(--text-3)}
+.radios{display:flex;flex-direction:column;gap:8px}
+.radios label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r-md);cursor:pointer;color:var(--text);font-weight:400;margin:0}
+.radios label:has(input:checked){border-color:var(--orange)}
+.radios input{width:auto;margin-top:3px}
+.radios small{display:block;color:var(--text-3);font-size:12px}
+.banner{padding:12px 16px;border-radius:var(--r-lg);border:1px solid var(--border);border-left:3px solid var(--warning);background:var(--surface);font-size:14px;margin-bottom:20px}
+.banner.info{border-left-color:var(--info)}.banner.danger{border-left-color:var(--danger);background:var(--danger-surface)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface-2);border:1px solid var(--border-strong);padding:10px 18px;border-radius:var(--r-md);box-shadow:var(--sh-md);font-size:14px;z-index:60;opacity:0;transition:opacity var(--dur) var(--ease)}
+.toast.show{opacity:1}
+
+/* call mode */
+.call{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+@media(max-width:900px){.call{grid-template-columns:1fr}.call>div:nth-child(2){order:-1}}
+.outcomes .btn{white-space:normal;text-align:left}
+.script p{margin:0 0 14px;font-size:17px;line-height:1.6}
+.script .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-text);margin:18px 0 6px;font-weight:600}
+.script .lbl:first-child{margin-top:0}
+.script .ph{font-weight:600;color:var(--text)}
+.script .prep{background:var(--inset);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 14px;margin-bottom:14px}
+.script .prep p{margin:0;font-size:15px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tab{background:transparent;border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--text-2)}
+.tab.on{border-color:var(--orange);color:var(--text);background:var(--surface-2)}
+.tab.add{border-style:dashed}
+.script .ph-missing{background:transparent;color:var(--warning);font-weight:500;border-bottom:1px dashed var(--warning)}
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.outcomes .btn{justify-content:flex-start;padding:12px 14px}
+.phone{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:.02em}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:14px}
+.kv div:nth-child(odd){color:var(--text-3)}
+details{border:1px solid var(--border-subtle);border-radius:var(--r-md);padding:8px 12px;margin-top:10px}
+summary{cursor:pointer;font-weight:500;font-size:14px;color:var(--text-2)}
+.obj{margin:8px 0 4px}
+.obj b{display:block;font-size:13px;color:var(--text)}
+.obj span{font-size:13px;color:var(--text-2)}
+.hist{font-size:13px}
+.hist div{padding:8px 0;border-bottom:1px solid var(--border-subtle);display:flex;gap:12px}
+.hist .d{font-family:var(--mono);color:var(--text-3);white-space:nowrap}
+kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--border-strong);border-radius:4px;padding:1px 5px;color:var(--text-2)}
+.funnel td:nth-child(n+2){font-family:var(--mono)}
+.pedit textarea,.pedit input{font-size:15px;line-height:1.5;overflow:hidden}
+.pitem{display:flex;gap:6px;align-items:flex-start;margin-bottom:8px}
+.pitem .btn{padding:8px 10px;flex:none}
+.pobj{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.pobj input{margin-bottom:6px;font-weight:600}
+label.btn input{display:none}
+.links{display:flex;gap:6px;flex-wrap:wrap;margin:-6px 0 14px}
+.links a{font-size:12px;color:var(--text-2);text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:2px 10px}
+.links a:hover{border-color:var(--orange);color:var(--text)}
+.lbl-link{float:right;font-size:12px;font-weight:400;color:var(--accent-text);text-decoration:none}
+.lbl-link:hover{text-decoration:underline}
+.hint .ok{color:var(--verdigris-hover)}.hint .warn{color:var(--warning)}.hint .bad{color:var(--danger)}
+.tips{margin:4px 0 16px;border-color:var(--border-subtle)}
+.tips summary{font-size:12px;color:var(--text-3)}
+.tips ul{margin:8px 0 4px;padding-left:18px;font-size:13px;color:var(--text-2)}
+.tips li{margin-bottom:4px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Hopp til innhold</a>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><svg class="mark" viewBox="0 0 800 800" aria-hidden="true"><circle cx="400" cy="400" r="360" fill="none" stroke="#FF6B00" stroke-width="4"/><circle cx="400" cy="400" r="245" fill="none" stroke="#FF6B00" stroke-width="2" stroke-dasharray="10 13" opacity="0.5"/><line x1="360" y1="170" x2="360" y2="640" stroke="#FF6B00" stroke-width="22" stroke-linecap="round"/><line x1="360" y1="200" x2="560" y2="350" stroke="#FF6B00" stroke-width="18" stroke-linecap="round"/><line x1="360" y1="340" x2="560" y2="490" stroke="#FF6B00" stroke-width="18" stroke-linecap="round"/><circle cx="360" cy="170" r="24" fill="#FF6B00"/><circle cx="560" cy="350" r="14" fill="#FF6B00" opacity="0.85"/><circle cx="560" cy="490" r="14" fill="#FF6B00" opacity="0.7"/></svg><span class="wm"><span class="name">Huginn</span><span class="by">by Svartalfheim</span></span></div>
+    <nav id="nav">
+      <a href="#/today" data-v="today"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>I dag<span class="badge" id="badge-today" hidden></span></a>
+      <a href="#/pipeline" data-v="pipeline"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="3" width="5" height="12" rx="1"/><rect x="17" y="3" width="4" height="8" rx="1"/></svg>Pipeline</a>
+      <a href="#/leads" data-v="leads"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>Leads</a>
+      <a href="#/pitch" data-v="pitch"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.7A2 2 0 0 1 22 16.9z"/></svg>Pitch</a>
+      <a href="#/lists" data-v="lists"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg>Lister</a>
+      <a href="#/settings" data-v="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Innstillinger</a>
+    </nav>
+    <div class="spacer"></div>
+    <div class="theme"><div class="lbl">Tema</div><div class="seg" role="group" aria-label="Tema"><button data-theme-pref="system">System</button><button data-theme-pref="dark">Mørkt</button><button data-theme-pref="light">Lyst</button></div></div>
+    <div class="theme" style="padding-top:0"><div class="lbl">Språk</div><div class="seg" role="group" aria-label="Språk"><button data-lang="nb">Norsk</button><button data-lang="en">English</button></div></div>
+    <button class="btn primary" id="btn-new" style="justify-content:center">Ny lead <kbd style="border-color:rgba(0,0,0,.3);color:inherit">N</kbd></button>
+    <div class="status" id="status"></div>
+    <a class="madeby" id="madeby" href="https://svartalfheim.no" target="_blank" rel="noopener"><svg viewBox="0 0 800 800" aria-hidden="true"><circle cx="400" cy="400" r="360" fill="none" stroke="#FF6B00" stroke-width="4"/> <circle cx="400" cy="400" r="245" fill="none" stroke="#FF6B00" stroke-width="2" stroke-dasharray="10 13" opacity="0.5"/> <line x1="400" y1="640" x2="400" y2="220" stroke="#FF6B00" stroke-width="18" stroke-linecap="round"/> <line x1="400" y1="640" x2="310" y2="700" stroke="#FF6B00" stroke-width="8" stroke-linecap="round" opacity="0.45"/> <line x1="400" y1="640" x2="490" y2="700" stroke="#FF6B00" stroke-width="8" stroke-linecap="round" opacity="0.45"/> <line x1="400" y1="640" x2="400" y2="730" stroke="#FF6B00" stroke-width="6" stroke-linecap="round" opacity="0.3"/> <line x1="400" y1="360" x2="225" y2="235" stroke="#FF6B00" stroke-width="10" stroke-linecap="round"/> <line x1="400" y1="360" x2="575" y2="235" stroke="#FF6B00" stroke-width="10" stroke-linecap="round"/> <line x1="283" y1="277" x2="306" y2="214" stroke="#FF6B00" stroke-width="7" stroke-linecap="round"/> <line x1="517" y1="277" x2="494" y2="214" stroke="#FF6B00" stroke-width="7" stroke-linecap="round"/> <circle cx="400" cy="155" r="26" fill="#FF6B00"/> <circle cx="535" cy="196" r="18" fill="#FF6B00"/> <circle cx="637" cy="336" r="18" fill="#FF6B00" opacity="0.85"/> <circle cx="612" cy="522" r="16" fill="#FF6B00" opacity="0.7"/> <circle cx="522" cy="612" r="13" fill="#FF6B00" opacity="0.55"/> <circle cx="278" cy="612" r="13" fill="#FF6B00" opacity="0.55"/> <circle cx="188" cy="522" r="16" fill="#FF6B00" opacity="0.7"/> <circle cx="163" cy="336" r="18" fill="#FF6B00" opacity="0.85"/> <circle cx="265" cy="196" r="18" fill="#FF6B00"/></svg><span><span class="co">Svart<span>alfheim</span></span><br><span class="v" id="ver"></span></span></a>
+  </aside>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div id="modal-root"></div>
+<div id="modal-root2"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+(function(){let p="system";try{const r=localStorage.getItem("svart_theme");if(r==="dark"||r==="light"||r==="system")p=r}catch(e){}
+ const dark=typeof matchMedia!=="function"||matchMedia("(prefers-color-scheme: dark)").matches;
+ document.documentElement.dataset.theme=(p==="dark"||p==="light")?p:(dark?"dark":"light");})();
+/* =====================================================================
+   HUGINN — single-file local CRM for founder-led B2B prospecting.
+   Named after Odin's raven Huginn ("thought"), who flies out over the
+   world each day and comes back to report. Mark: the rune Ansuz, the
+   rune of speech.
+   Storage: a folder you pick (Innstillinger → Velg mappe). The app writes
+     huginn-data.json       leads + activity (source of truth)
+     huginn.xlsx            the same data as a spreadsheet, regenerated on save
+     pitch.json             your call script, editable in the app
+   Put the folder somewhere that is backed up or synced. Nothing leaves
+   the machine except calls to data.brreg.no for company lookup.
+   Export for HubSpot/other CRMs is under Innstillinger.
+
+   Made by Svartalfheim Solutions AS, Klepp, Norway — svartalfheim.no.
+   Free to use and share as-is. Questions, ideas, or help keeping your
+   customer data inside the EU: hello@svartalfheim.no
+   ===================================================================== */
+const APP={name:"Huginn",slug:"huginn",legacySlug:"prospektor",version:"0.9.8",company:"Svartalfheim Solutions AS",orgnr:"937497989",site:"https://svartalfheim.no",email:"hello@svartalfheim.no",phone:"",/* no phone in the shipped build; the example lead carries email only */privacy:"privacy@svartalfheim.no",linkedin:"https://www.linkedin.com/company/svartalfheim-as"};
+
+/* ---------- constants (mirrors the sheet's Lists tab) ---------- */
+const STAGES=["1 Prospekt","2 Aktiv prospekt","3 Sendt e-post","4 Møte booket","5 Tilbud/pris sendt","6 Vunnet","7 Rabattsalg","8 Tapt / neste år"];
+const DEFAULT_SEGMENTS=["Konsulentselskap","SaaS / programvare","Bygg og anlegg","Regnskap og revisjon","Offentlig sektor","Gründer / startup","Bemanning","Annet"];
+const DEFAULT_SOURCES=["proff.no","brreg.no","1881","Google","LinkedIn","Doffin","Byggfakta","Referanse","Messe","Inbound","Annet"];
+const DEFAULT_ACTIONS=["Ring","Ring igjen","Ring tilbake som avtalt","Send e-post","Følg opp e-post","Møte","Send tilbud","Følg opp tilbud","Avklar internt"];
+const LISTS={segment:{key:"segments",label:"Segment",plural:"Segmenter",def:DEFAULT_SEGMENTS,ph:"f.eks. Advokatfirma (NDA)"},source:{key:"sources",label:"Kilde",plural:"Kilder",def:DEFAULT_SOURCES,ph:"f.eks. Messe"},nextAction:{key:"actions",label:"Handling",plural:"Handlinger",def:DEFAULT_ACTIONS,ph:"f.eks. Send referanser"}};
+function listOf(f){const L=LISTS[f];if(!Array.isArray(state.settings[L.key]))state.settings[L.key]=L.def.slice();return state.settings[L.key]}
+const ADD="__add__";
+function selectHtml(f,value,attrs=""){const list=listOf(f);const extra=value&&!list.includes(value)?[value]:[];return `<select data-f="${f}" data-prev="${esc(value||"")}" onfocus="this.dataset.prev=this.value" ${attrs}><option value="">–</option>${[...list,...extra].map(o=>`<option value="${esc(o)}" ${o===value?"selected":""}>${esc(o)}</option>`).join("")}<option value="${ADD}">+ Ny ${LISTS[f].label.toLowerCase()} …</option></select>`}
+function handleAdd(sel,f,cb){if(sel.value!==ADD)return false;const prev=sel.dataset.prev||"";sel.value=prev;nameDialog(`Ny ${LISTS[f].label.toLowerCase()}`,LISTS[f].ph,name=>{const list=listOf(f);if(name){if(!list.includes(name))list.push(name);store.save();cb(name)}else cb(prev)});return true}
+const CONTACT_TYPES=[
+ {v:"named",l:"Navngitt person",s:"Kun telefon uten samtykke. Kald e-post krever samtykke (mfl. §15)."},
+ {v:"generic",l:"Generisk adresse (post@)",s:"E-post er OK."}];
+const deriveContactType=l=>{l.contactType=l.email&&H.emailIsGeneric(l.email)?"generic":"named";return l.contactType};
+const canEmail=l=>l.contactType==="generic"||!!l.emailConsent;
+function seedExample(){if(state.leads.length||state.settings.seeded)return;state.settings.seeded=true;const l=newLead();Object.assign(l,{company:"Svartalfheim Solutions AS",orgnr:"937497989",nace:"62.100 Dataprogrammeringstjenester",segment:"SaaS / programvare",source:"brreg.no",website:"svartalfheim.no",city:"Klepp Stasjon",contact:"Jan Odvar Grindheim",role:"Daglig leder",email:APP.email,phone:APP.phone,contactType:"generic",reason:"alle som bruker Huginn får én lead gratis: oss. Send oss en e-post hvis du vil ha hjelp med GDPR, EU-hosting eller et system som gjør mer enn dette",notes:"Eksempel-lead fra Svartalfheim. Slett den, eller behold den og send oss en e-post når du vil.",nextAction:"Send e-post",nextActionDate:today()});state.leads.push(l)}
+function migrate(){const d=newLead();let changed=false;for(const l of state.leads){for(const k of Object.keys(d))if(l[k]==null)l[k]=d[k];
+  /* the example lead seeded by 0.7.x–0.9.4 carried a phone number; scrub it wherever that row still lives */
+  if(l.orgnr===APP.orgnr&&l.email===APP.email){if(l.phone){l.phone="";changed=true}if(l.contact==="Svartalfheim Solutions"){l.contact="Jan Odvar Grindheim";changed=true}if(l.role==="Laget Huginn"){l.role="Daglig leder";changed=true}if(/Ring hvis du vil ha hjelp/.test(l.reason||"")){l.reason=l.reason.replace("Ring hvis du vil ha hjelp","Send oss en e-post hvis du vil ha hjelp");changed=true}if(/ring oss når du vil/.test(l.notes||"")){l.notes=l.notes.replace("ring oss når du vil","send oss en e-post når du vil");changed=true}if(l.nextAction==="Ring"&&!state.activities.some(a=>a.leadId===l.id)){l.nextAction="Send e-post";changed=true}}if(l.contactType==="relation"){l.emailConsent=true;l.consentNote=l.consentNote||"Eksisterende relasjon (migrert)"}if(l.emailConsent==null)l.emailConsent=false;if(l.consentNote==null)l.consentNote="";deriveContactType(l)}if(changed)store.save()}
+const proffLink=l=>l.company?`<a class="lbl-link" href="https://www.proff.no/bransjes%C3%B8k?q=${encodeURIComponent(l.company)}" target="_blank" rel="noopener">proff.no ↗</a>`:"";
+const consentHtml=l=>`<label class="check"><input type="checkbox" data-f="emailConsent" ${l.emailConsent?"checked":""}><span>Har sagt ja til e-post fra oss<small>Kryss av bare når de faktisk har sagt det, og noter hvor og når.</small></span></label><div class="field" ${l.emailConsent?"":"hidden"} data-consent-note style="margin-top:-2px"><input data-f="consentNote" value="${esc(l.consentNote||"")}" placeholder="Hvor/når? f.eks. telefon ${today()}"></div>`;
+const LOST=["Ikke behov","Ikke budsjett","Timing / neste år","Valgte konkurrent","Ingen respons","Ikke ICP","Annet"];
+const OUTCOMES=[
+ {k:"noanswer",l:"Ikke svar",type:"Ring",days:2,action:"Ring igjen"},
+ {k:"voicemail",l:"Telefonsvarer",type:"Ring",days:3,action:"Ring igjen"},
+ {k:"gate",l:"Portvakt",type:"Ring",days:1,action:"Ring igjen, be om å bli satt over"},
+ {k:"callback",l:"Snakket – ring tilbake",type:"Ring",ask:"date",action:"Ring tilbake som avtalt",stage:1},
+ {k:"meeting",l:"Snakket – møte booket",type:"Ring",ask:"date",action:"Møte",stage:3,secondary:true},
+ {k:"notint",l:"Snakket – ikke interessert",type:"Ring",ask:"lost",stage:7},
+ {k:"email",l:"E-post sendt",type:"E-post",days:3,action:"Følg opp e-post",stage:2},
+ {k:"held",l:"Møte gjennomført",type:"Møte",days:2,action:"Send tilbud"},
+ {k:"noshow",l:"No show",type:"Møte",days:1,action:"Ring og book på nytt",stage:1,force:true},
+];
+const GDPR_DEFAULT="Berettiget interesse (GDPR art. 6(1)(f)): rolle er offentlig i Enhetsregisteret, henvendelsen gjelder virksomheten. Slettes etter 12 mnd uten dialog.";
+const FIELDS=["id","company","orgnr","nace","segment","source","website","city","shareholder","contact","role","phone","email","contactType","emailConsent","consentNote","linkedin","stage","owner","dateAdded","lastContact","nextAction","nextActionDate","meetingDate","meetingTime","meetingEnd","script","callPrep","value","lostReason","notes","gdprBasis","reason"];
+const SHEET_HEADERS={ // English template headers -> fields (import from the xlsx/csv template); FIELDS themselves are added below
+ "Reason for calling":"reason","Script":"script","Call prep":"callPrep",
+ "Company":"company","Org.nr":"orgnr","Industry / NACE":"nace","Segment":"segment","Source":"source","Website":"website","City":"city",
+ "Largest shareholder":"shareholder","Contact name":"contact","Role":"role","Phone":"phone","Email":"email","Contact type (GDPR)":"contactType","Email consent":"emailConsent","Consent note":"consentNote",
+ "LinkedIn":"linkedin","Stage":"stage","Owner":"owner","Date added":"dateAdded","Last contact":"lastContact","Next action":"nextAction",
+ "Next action date":"nextActionDate","Meeting date":"meetingDate","Meeting from":"meetingTime","Meeting to":"meetingEnd","Call prep":"callPrep","Est. value (NOK)":"value","Lost reason":"lostReason","Notes":"notes","GDPR basis / consent note":"gdprBasis"};
+
+/* ---------- language ---------- */
+/* UI strings are written in Norwegian in the templates. T(html) translates text
+   nodes, placeholders and titles through this dictionary when lang==="en".
+   Stored data (stages, outcomes, next actions) stays Norwegian on disk and is
+   translated for display only, so a file can move between languages. */
+const I18N={
+"I dag":"Today","Pipeline":"Pipeline","Leads":"Leads","Pitch":"Pitch","Innstillinger":"Settings","Ny lead":"New lead","Tema":"Theme","Mørkt":"Dark","Lyst":"Light","Språk":"Language",
+"oppgaver i dag":"tasks today","Oppgaveliste":"Task list","Åpne leads":"Open leads","Møter neste 7 dager":"Meetings next 7 days","Over 12 måneder (GDPR)":"Over 12 months (GDPR)","Ingen oppgaver i dag.":"No tasks today.","Ingen åpne leads.":"No open leads.","Ingen møter booket de neste 7 dagene.":"No meetings booked in the next 7 days.","åpne leads":"open leads","møter neste 7 dager":"meetings next 7 days","over 12 mnd (GDPR)":"over 12 months (GDPR)","Ringeliste":"Call list","Ring":"Call","Trakt":"Funnel","Steg":"Stage","Antall":"Count","Andel":"Ratio","Mål":"Target","Samtaler":"Calls","Snakket med":"Conversations","Møter booket":"Meetings booked","Møter holdt":"Meetings held","Vunnet":"Won",
+"Kursets benchmark: 30 samtaler → 10 snakket → 3 møter → 1 salg.":"Course benchmark: 30 calls → 10 conversations → 3 meetings → 1 sale.",
+"Trykk":"Press","for å legge til den første.":"to add the first one.","i dag":"today","d over":"d overdue",
+"Mappen er låst etter omstart.":"The folder is locked after a restart.","Gi tilgang":"Grant access","så lagres alt til mappen igjen.":"and everything is saved to the folder again.","Data ligger kun i denne nettleseren.":"Data lives only in this browser.","Velg en mappe":"Pick a folder","for varig lagring, xlsx og pitch-fil.":"for durable storage, xlsx and the pitch file.",
+"Dra kort mellom kolonner for å endre steg.":"Drag cards between columns to change stage.",
+"1 Prospekt":"1 Prospect","2 Aktiv prospekt":"2 Active prospect","3 Sendt e-post":"3 Email sent","4 Møte booket":"4 Meeting booked","5 Tilbud/pris sendt":"5 Proposal/price sent","6 Vunnet":"6 Closed won","7 Rabattsalg":"7 Discount sale","8 Tapt / neste år":"8 Lost / next year",
+"Søk selskap, kontakt, by, bransje…":"Search company, contact, city, industry…","Selskap":"Company","Kontakt":"Contact","Telefon":"Phone","Segment":"Segment","Kilde":"Source","Neste":"Next","Dato":"Date","Ingen leads":"No leads","matcher søket":"match the search",
+"Ring nå":"Call now","Logg aktivitet":"Log activity","Slett":"Delete","Org.nr":"Org. no.","Bransje / NACE":"Industry / NACE","Sted":"City","Nettside":"Website","Største aksjonær":"Largest shareholder","Navn":"Name","Rolle":"Role","E-post":"Email","Kontakttype (GDPR)":"Contact type (GDPR)","Hvorfor ringer du akkurat dem?":"Why are you calling them specifically?","Notater":"Notes","Om virksomheten og salget, ikke om personen":"About the business and the sale, not the person","GDPR-grunnlag / samtykke":"GDPR basis / consent","GDPR-grunnlag":"GDPR basis","Neste handling":"Next action","Est. verdi (NOK)":"Est. value (NOK)","Tapt-årsak":"Lost reason","Lagt til":"Added","sist kontakt":"last contact","slett etter":"delete after","Last ned denne leaden (innsyn)":"Download this lead (access request)","Til en innsynsbegjæring: send filen til personen. Alt vi har om dem er der.":"For an access request: send the file to the person. Everything we hold on them is in it.","Historikk":"History","Ingen aktivitet ennå.":"No activity yet.",
+"Navngitt person":"Named person","Kun telefon uten samtykke. Kald e-post krever samtykke (mfl. §15).":"Phone only without consent. Cold email needs consent (Norwegian Marketing Act §15).","E-postsamtykke":"Email consent","Personen har sagt ja til e-post fra oss":"The person has said yes to email from us","Kryss av bare når de faktisk har sagt det, og skriv hvor og når. Det er samtykket ditt hvis noen spør.":"Tick only when they actually said so, and write where and when. That is your consent record if anyone asks.","Hvor/når? f.eks. telefon":"Where/when? e.g. phone","Samtykke registrert. E-post er OK.":"Consent recorded. Email is fine.","e-postsamtykke":"email consent","Navngitt adresse: kald e-post krever samtykke. Ring først, eller be om lov og kryss av.":"Named address: cold email needs consent. Call first, or ask permission and tick the box.","Huginn":"Huginn","by Svartalfheim":"by Svartalfheim","Generisk adresse (post@)":"Generic address (post@)","E-post er OK.":"Email is fine.","Eksisterende relasjon / samtykke gitt":"Existing relationship / consent given","E-post er OK. Noter hvor samtykket kom fra.":"Email is fine. Note where the consent came from.",
+"Ikke behov":"No need","Ikke budsjett":"No budget","Timing / neste år":"Timing / next year","Valgte konkurrent":"Chose competitor","Ingen respons":"No response","Ikke ICP":"Not ICP","Annet":"Other",
+"Ikke svar":"No answer","Telefonsvarer":"Voicemail","Portvakt":"Gatekeeper","Snakket – ring tilbake":"Spoke – call back","Snakket – møte booket":"Spoke – meeting booked","Snakket – ikke interessert":"Spoke – not interested","E-post sendt":"Email sent","Møte gjennomført":"Meeting held","No show":"No show","Ring igjen":"Call again","Ring igjen, be om å bli satt over":"Call again, ask to be put through","Ring tilbake som avtalt":"Call back as agreed","Møte":"Meeting","Følg opp e-post":"Follow up email","Send tilbud":"Send proposal","Ring og book på nytt":"Call and rebook",
+"Utfall":"Outcome","Notat fra samtalen":"Note from the call","Hva sa de? Hva ble avtalt?":"What did they say? What was agreed?","Innspill til pitchen":"Input for the pitch","(spørsmål de stilte, noe du bør si annerledes)":"(questions they asked, something to say differently)","Enter for å lagre i pitch.json":"Enter to save to pitch.json","Ringer":"Calling","Avbryt":"Cancel","ingen nummer":"no number","Bransje":"Industry","Aksjonær":"Shareholder","Sist":"Last","Lagt til i pitchen":"Added to the pitch","Logget:":"Logged:","Når er møtet?":"When is the meeting?","Når skal du ringe tilbake?":"When will you call back?","Hvorfor ikke?":"Why not?","Lagre":"Save","Type":"Type","Notat":"Note",
+"1 · Åpning":"1 · Opening","2 · Budskap":"2 · Message","3 · Finn tid (to valg, spør NÅR, ikke OM)":"3 · Find a time (two choices, ask WHEN, not IF)","3 · Finn tid":"3 · Find a time","4 · Avslutning":"4 · Close","4 · Avslutning, punkt for punkt":"4 · Close, point by point","Innvendinger":"Objections","USP-er (til møtet, ikke pitchen)":"USPs (for the meeting, not the pitch)","USP-er":"USPs","Innspill fra samtaler":"Input from calls","Fyll «Hvorfor ringer du akkurat dem?» på leaden, så settes den inn her.":"Fill in “Why are you calling them specifically?” on the lead and it is inserted here.",
+"Mål: booke et møte. Ikke fortell for mye.":"Goal: book a meeting. Do not say too much.","Rediger":"Edit","Ferdig":"Done","Ingen ennå. Legg inn fra ringemodus, eller her:":"None yet. Add from call mode, or here:","Ingen ennå.":"None yet.","Nytt innspill … Enter for å lagre":"New input … Enter to save","Tall: 30 samtaler → 10 snakket → 3 møter → 1 salg. 1 av 3–5 tar telefonen. Book 4–5 møter for å få 3 gjennomført. Ha 100 prospekter klare.":"Numbers: 30 calls → 10 conversations → 3 meetings → 1 sale. 1 in 3–5 picks up. Book 4–5 meetings to hold 3. Keep 100 prospects ready.",
+"Redigeres rett i feltene og lagres i":"Edited in place and saved to","Last ned pitch.json":"Download pitch.json","Importer":"Import","Ny tom pitch":"New blank pitch","Tilbakestill":"Reset","Tittel":"Title","(leadens «hvorfor» settes inn etter første komma når du ringer)":"(the lead's “why” is inserted after the first comma when you call)","punkt":"point","Første linje er innvendingen, andre er svaret ditt.":"First line is the objection, second is your answer.","«Innvending»":"“Objection”","Svar":"Answer","innvending":"objection","Spørsmål og kommentarer du legger inn mens du ringer. Flytt det som holder inn i manuset.":"Questions and comments you add while calling. Move what holds up into the script.","Fjern":"Remove","Pitch importert":"Pitch imported",
+"Selskap":"Company","Personer":"People","Hvorfor":"Why","Neste steg":"Next step","Tilbake":"Back","Lagre lead":"Save lead","Firmanavn eller org.nr":"Company name or org. no.","Søk i Brønnøysundregistrene, eller skriv inn selv.":"Search the Norwegian business register, or type it in.","går videre.":"moves on.","Daglig leder og styreleder hentes fra Brreg. Aksjonær finner du på proff.no.":"CEO and chair are fetched from Brreg. Shareholders are on proff.no.","Én setning som gjør at det føles som du ringer akkurat dem.":"One sentence that makes it feel like you are calling them specifically.","Alt du trenger er en neste handling med dato.":"All you need is a next action with a date.","Roller fra Brreg (klikk for å bruke)":"Roles from Brreg (click to use)","Fant ingen roller i Brreg for dette org.nr.":"No roles found in Brreg for this org. no.","Kontaktperson":"Contact person","Fra 1881":"From 1881","Formateres når du går videre. Jobbnummer foran privat mobil.":"Formatted when you continue. Work number over private mobile.","Fra proff.no":"From proff.no","Settes rett inn i pitchen når du ringer.":"Inserted straight into the pitch when you call.","Brreg utilgjengelig":"Brreg unavailable","Skriv inn selv.":"Type it in.","ans.":"empl.","Selskap mangler":"Company missing","Org.nr ser ugyldig ut":"Org. no. looks invalid","Notatet inneholder noe som ser ut som en særlig kategori. Fjern det først.":"The note contains something that looks like a special category. Remove it first.","«Hvorfor ringer du akkurat dem?» inneholder noe som ser ut som en særlig kategori. Fjern det først.":"“Why are you calling them specifically?” contains something that looks like a special category. Remove it first.","Lagret":"Saved",
+"Gyldig org.nr":"Valid org. no.","Org.nr skal ha 9 siffer":"Org. no. must have 9 digits","Kontrollsifferet stemmer ikke":"Check digit does not match","Ser ikke ut som en e-postadresse":"Does not look like an email address","Navngitt adresse: kald e-post krever samtykke. Ring først, eller be om lov.":"Named address: cold email needs consent. Call first, or ask permission.","Generisk adresse. Sett kontakttype til «Generisk» så er e-post OK.":"Generic address. Set contact type to “Generic” and email is fine.","ser ut som en særlig kategori (art. 9). Ikke lagre det.":"looks like a special category (art. 9). Do not store it.","LinkedIn-søk":"LinkedIn search",
+"GDPR-tips":"GDPR tips",
+"Rolle fra Enhetsregisteret og nummer fra 1881 er offentlige kilder. Noter kilden.":"Role from the business register and number from 1881 are public sources. Note the source.","Privat mobil er personopplysning selv om den er offentlig. Bruk jobbnummer der det finnes.":"A private mobile is personal data even when public. Use the work number where one exists.","Kald e-post til navngitt person krever samtykke (mfl. §15). Til post@ er det greit. Sier de ja på telefon: kryss av og noter når.":"Cold email to a named person needs consent (Marketing Act §15). To post@ it is fine. If they say yes on the phone: tick the box and note when.","LinkedIn: les, ikke lagre mer enn navn og rolle. Ikke last ned profiler eller lister.":"LinkedIn: read, store no more than name and role. Do not download profiles or lists.",
+"Noter bare det som gjelder virksomheten og salget.":"Note only what concerns the business and the sale.","Aldri helse, familie, fagforening, religion, politikk, økonomiske problemer eller rykter (GDPR art. 9).":"Never health, family, union, religion, politics, financial trouble or rumours (GDPR art. 9).","Skriv slik at personen kunne lest det selv. De har innsynsrett.":"Write as if the person could read it. They have a right of access.","Slett leads uten dialog etter 12 måneder. Appen minner deg på det.":"Delete leads without dialogue after 12 months. The app reminds you.",
+"Skru på FileVault (Systemvalg → Personvern og sikkerhet) så disken er kryptert.":"Turn on FileVault (System Settings → Privacy & Security) so the disk is encrypted.","Mappen bør tas backup av eller synkes. Filene er ren tekst, så mappen er like sensitiv som et kunderegister.":"Back up or sync the folder. The files are plain text, so the folder is as sensitive as a customer register.","Ikke send regnearket på e-post eller i chat. Del heller en filtrert eksport.":"Do not email or chat the spreadsheet. Share a filtered export instead.","Innsynsbegjæring: åpne leaden, «Last ned denne leaden», send filen. Sletting: «Slett» på leaden. Begge innen 30 dager.":"Access request: open the lead, “Download this lead”, send the file. Erasure: “Delete” on the lead. Both within 30 days.","Ved import til HubSpot eller annet CRM: sjekk databehandleravtale og hvor dataene lagres.":"When importing to HubSpot or another CRM: check the data processing agreement and where data is stored.","Bruk ett sted som kilde. Kopier i Notater, e-post og telefon blir aldri slettet.":"Keep one source of truth. Copies in Notes, email and phone never get deleted.",
+"Lagring":"Storage","Velg en mappe på maskinen, gjerne en som synkes eller tas backup av. Appen skriver":"Pick a folder on this machine, ideally one that is synced or backed up. The app writes","(kilden),":"(the source),","(samme data som regneark) og":"(same data as a spreadsheet) and","(manuset) dit ved hver endring. Ingenting forlater maskinen.":"(the script) there on every change. Nothing leaves the machine.","Gi tilgang til mappen":"Grant access to the folder","Bytt mappe":"Change folder","Velg mappe":"Pick folder","Mappe:":"Folder:","Ingen mappe valgt. Data ligger i nettleserens lager.":"No folder chosen. Data lives in browser storage.","Siste feil:":"Last error:",
+"Denne nettleseren tilbyr ikke mappetilgang (File System Access API). Safari har den ikke, Brave har den skrudd av som standard. Bruk Chrome eller Edge for lagring til mappe. Her ligger data kun i nettleseren, så eksporter jevnlig.":"This browser offers no folder access (File System Access API). Safari lacks it, Brave ships it disabled. Use Chrome or Edge for folder storage. Here data lives only in the browser, so export regularly.",
+"Brave:":"Brave:","funksjonen er skrudd av som standard. Åpne":"the feature is disabled by default. Open",", sett den til":", set it to",", start Brave på nytt og åpne denne filen igjen. Alternativt bruk Chrome eller Edge.":", restart Brave and open this file again. Or use Chrome or Edge.",
+"Eksport og import":"Export and import","Last ned xlsx":"Download xlsx","Last ned JSON (backup)":"Download JSON (backup)","Last ned CSV":"Download CSV","Til HubSpot":"To HubSpot","To filer med HubSpot sine standard kolonnenavn. Importer selskaper først, så kontakter; kontaktene kobles til selskap via navn og domene. Org.nr og steg kommer som egendefinerte felter du oppretter under importen.":"Two files with HubSpot's standard column names. Import companies first, then contacts; contacts link to companies by name and domain. Org. no. and stage arrive as custom properties you create during import.","Selskaper (CSV)":"Companies (CSV)","Kontakter (CSV)":"Contacts (CSV)","Importer fra xlsx (arket «Leads»), CSV eller JSON-backup":"Import from xlsx (the “Leads” sheet), CSV or JSON backup","Import legger til leads som ikke finnes fra før (samme org.nr eller navn hoppes over). JSON-backup erstatter alt.":"Import adds leads that do not exist yet (same org. no. or name is skipped). A JSON backup replaces everything.",
+"GDPR-rydding":"GDPR clean-up","Leads eldre enn 12 måneder som ikke er vunnet. Slett dem, eller oppdater «lagt til»-datoen hvis det er en levende dialog.":"Leads older than 12 months that are not won. Delete them, or update the “added” date if the dialogue is alive.","lagt til":"added","Ingenting å rydde.":"Nothing to clean up.",
+"Nettlesere":"Browsers","Nettleser":"Browser","Lagring til mappe":"Folder storage","Fungerer":"Works",". Anbefalt.":". Recommended.","Skrudd av som standard. Skru på: lim inn":"Disabled by default. Enable: paste","i adressefeltet, velg":"into the address bar, choose",", klikk":", click",", åpne denne filen igjen.":", open this file again.","Ikke støttet. Data ligger kun i nettleseren; bruk «Last ned JSON» som backup og «Importer» for å hente den tilbake.":"Not supported. Data lives only in the browser; use “Download JSON” as backup and “Import” to bring it back.","Mobil":"Mobile","Kun lesing og enkel registrering i nettleserlager. Ringemodus fungerer, med tap-to-call.":"Reading and simple entry in browser storage. Call mode works, with tap-to-call.","Mappetilgang bruker File System Access API. Første gang etter omstart av nettleseren må du klikke «Gi tilgang» én gang.":"Folder access uses the File System Access API. After a browser restart you click “Grant access” once.",
+"Lister":"Lists","Din profil":"Your profile","Lagring nektet":"Storage refused","Ingenting lagres. Last ned JSON.":"Nothing is saved. Download JSON.","Nettleseren nekter å lagre (privat modus eller blokkert nettstedsdata). Alt du legger inn forsvinner når fanen lukkes.":"The browser refuses to save (private mode or blocked site data). Everything you enter disappears when the tab closes.","hvis du kan, ellers last ned JSON før du går.":"if you can, otherwise download JSON before you leave.","Velg en mappe hvis du kan, ellers last ned JSON før du går.":"Pick a folder if you can, otherwise download JSON before you leave.","Første samtale":"First call","Oppfølging":"Follow-up","Nytt manus":"New script","+ manus":"+ script","Manus":"Script","Navn på manuset":"Script name","Dupliser":"Duplicate","Slett manus":"Delete script","Tilbakestill alt":"Reset all","Fra Din profil":"From Your profile","tom":"empty","· ikke brukt i dette manuset":"· not used in this script","Fra leaden:":"From the lead:","Endre profil":"Change profile","Hvilket manus en lead bruker velger du på leaden eller i ringemodus.":"Which script a lead uses is chosen on the lead or in call mode.","Felles for alle manus. Flytt det som holder inn i et manus.":"Shared by all scripts. Move what holds up into a script.","Til denne samtalen":"For this call","Til neste samtale":"For the next call","(vises øverst i ringemodus)":"(shown at the top in call mode)","Legg til møte":"Add meeting","Endre møte":"Change meeting","Fjern møte":"Remove meeting","Fra – til":"From – to","Møte lagt til":"Meeting added","Møte oppdatert":"Meeting updated","Møte booket":"Meeting booked","(kopi)":"(copy)","Settes inn i manuset der det står":"Inserted into the script where it says","fra Din profil ·":"from Your profile ·","fra leaden. Uløste vises gult i ringemodus.":"from the lead. Unresolved ones show in yellow in call mode.","Plassholdere:":"Placeholders:","Hva dere gjør, i én setning":"What you do, in one sentence","Tema du ringer om":"Topic you call about","bygger systemer som holder kundedata i Europa":"build systems that keep customer data in Europe","GDPR og hvor kundedataene ligger":"GDPR and where the customer data lives","Fyll":"Fill in","under Innstillinger, så settes navn, selskap og tema inn i manuset.":"under Settings and name, company and topic are inserted into the script.","Klokkeslett":"Time","Kun til visning her. Legg møtet i din egen kalender.":"Shown here only. Put the meeting in your own calendar.","Møte, dato":"Meeting, date","kl.":"at","Handling":"Action","Handlinger":"Actions","+ handling":"+ action","Ny handling":"New action","+ Ny handling …":"+ New action …","f.eks. Send referanser":"e.g. Send references","Ring tilbake som avtalt":"Call back as agreed","Send e-post":"Send email","Følg opp tilbud":"Follow up proposal","Avklar internt":"Clarify internally","Verdiene i nedtrekksmenyene. Endrer du et navn, oppdateres leads som bruker det. «+ Ny …» nederst i hver meny legger også til her.":"The values in the dropdowns. Rename one and the leads using it are updated. “+ New …” at the bottom of each menu adds here too.","Hvem du selger til. Brukes til å filtrere og til å se hva som konverterer.":"Who you sell to. Used to filter and to see what converts.","Hvor leaden kom fra.":"Where the lead came from.","Det som kan stå som neste handling. Ringe-handlinger (starter med «Ring») åpner ringemodus fra oppgavelisten.":"What can be a next action. Call actions (starting with “Ring”) open call mode from the task list.","Tilbakestill til standard":"Reset to default","Har sagt ja til e-post fra oss":"Has said yes to email from us","Kryss av bare når de faktisk har sagt det, og noter hvor og når.":"Tick only when they actually said so, and note where and when.","Generisk adresse. E-post er OK uten samtykke.":"Generic address. Email is fine without consent.","samtykke":"consent","kun telefon":"phone only","Segmenter og kilder i nedtrekksmenyene. Endrer du et navn, oppdateres leads som bruker det.":"Segments and sources in the dropdowns. Rename one and the leads using it are updated.","Åpne":"Open","Konsulentselskap":"Consultancy","SaaS / programvare":"SaaS / software","Bygg og anlegg":"Construction","Regnskap og revisjon":"Accounting and audit","Offentlig sektor":"Public sector","Gründer / startup":"Founder / startup","Bemanning":"Staffing","Referanse":"Referral","Messe":"Trade fair","alle som bruker Huginn får én lead gratis: oss. Send oss en e-post hvis du vil ha hjelp med GDPR, EU-hosting eller et system som gjør mer enn dette":"everyone who uses Huginn gets one lead for free: us. Send us an email if you want help with GDPR, EU hosting or a system that does more than this","Eksempel-lead fra Svartalfheim. Slett den, eller behold den og send oss en e-post når du vil.":"Example lead from Svartalfheim. Delete it, or keep it and email us whenever you like.","Segmenter":"Segments","Kilder":"Sources","+ segment":"+ segment","+ kilde":"+ source","Ny segment":"New segment","Ny kilde":"New source","+ Ny segment …":"+ New segment …","+ Ny kilde …":"+ New source …","f.eks. Advokatfirma (NDA)":"e.g. Law firm (NDA)","f.eks. Messe":"e.g. Trade fair","Legg til":"Add",
+"Om":"About","er Odins ravn som flyr ut, finner det som er verdt å vite, og kommer tilbake og forteller. Et gratis verktøy fra":"is Odin's raven that flies out, finds what is worth knowing, and comes back to tell. A free tool from","Klepp, Norge":"Klepp, Norway",", et norsk utviklingsselskap som bygger for bedrifter som vil holde dataene sine i Europa. Én fil, ingen konto, ingenting sendes noe sted. Del den videre til gründere og selgere som trenger noe enkelt å starte med.":", a Norwegian software company building for businesses that want to keep their data in Europe. One file, no account, nothing is sent anywhere. Pass it on to founders and sellers who need something simple to start with.","Personvern":"Privacy","Versjon":"Version","Trenger dere hjelp med GDPR, EU-hosting eller et system som gjør mer enn dette? Det er det vi driver med. Send en e-post, så tar vi en kaffe.":"Need help with GDPR, EU hosting or a system that does more than this? That is what we do. Send an email and we will have a coffee.",
+"Kun i nettleseren":"Browser only","Ingen mappetilgang her":"No folder access here","Mappe låst":"Folder locked","Gi tilgang under Innstillinger":"Grant access under Settings","Velg mappe i Innstillinger":"Pick a folder under Settings","leads":"leads",
+"Åpnet eksisterende database":"Opened existing database","Ny database opprettet i mappen":"New database created in the folder","Kunne ikke skrive til mappen:":"Could not write to the folder:","Kunne ikke lagre pitch.json:":"Could not save pitch.json:","Kunne ikke lese filen:":"Could not read the file:","Import feilet:":"Import failed:","Importerte":"Imported","Nettleseren regner ikke denne siden som sikker (må åpnes som fil eller via https).":"The browser does not treat this page as secure (open it as a file or over https).","Mappevelger feilet:":"Folder picker failed:","Fikk ikke skrivetilgang til mappen":"Did not get write access to the folder","Kan ikke skrive i mappen:":"Cannot write in the folder:","Ikke en zip/xlsx":"Not a zip/xlsx","Fant ikke arket 'Leads'":"Sheet 'Leads' not found","Kjente ikke igjen kolonneoverskriftene":"Did not recognise the column headers",
+"Slette":"Delete","og all historikk? Kan ikke angres.":"and all history? Cannot be undone.","Erstatte alle data med denne backupen?":"Replace all data with this backup?","Fjerne":"Remove","fra listen?":"from the list?","leads beholder verdien.":"leads keep the value.","Slette alle leads og aktiviteter i nettleseren?":"Delete all leads and activities in this browser?","Tilbakestille alle manus til de innebygde? Innspill beholdes.":"Reset all scripts to the built-in ones? Input notes are kept.","Slette manuset":"Delete the script","leads går tilbake til første manus.":"leads fall back to the first script.","Tilbakestille":"Reset","til standardlisten? Leads beholder verdiene sine.":"to the default list? Leads keep their values.","Forkaste denne leaden?":"Discard this lead?","Hopp over →":"Skip →","Hopp til innhold":"Skip to content","Sist":"Last","Hva sa de? Hva lovte du?":"What did they say? What did you promise?","Lagret endringene dine til mappen":"Saved your changes to the folder","Det du logger nå ligger trygt i nettleseren til da.":"What you log now is kept safely in the browser until then.","f.eks. lovte å sende referanser fra kommune, spør om budsjettmøtet i oktober":"e.g. promised to send municipal references, ask about the October budget meeting","Rører ikke filene i mappen, og kobler fra mappen så de ikke overskrives. Velg mappen igjen for å hente dem tilbake.":"Does not touch the files in the folder, and disconnects the folder so they are not overwritten. Pick the folder again to get them back."
+};
+const LANG={key:"svart_lang",get(){try{const r=localStorage.getItem(this.key);if(r==="en"||r==="nb")return r}catch(e){}return "nb"},set(v){try{localStorage.setItem(this.key,v)}catch(e){}lang=v;document.documentElement.lang=v;applyLangStatic();route()}};
+let lang=LANG.get();document.documentElement.lang=lang;
+const I18N_KEYS=Object.keys(I18N).sort((a,b)=>b.length-a.length);
+const I18N_RE=new RegExp(I18N_KEYS.map(k=>{const e=k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");const a=/^[\p{L}\p{N}]/u.test(k)?"(?<![\\p{L}\\p{N}])":"";const b=/[\p{L}\p{N}]$/u.test(k)?"(?![\\p{L}\\p{N}])":"";return a+e+b}).join("|"),"gu");
+const decodeEnt=x=>x.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&#39;/g,"'");
+function tText(x){return x.replace(I18N_RE,m=>I18N[m]??m)}
+function t(x){return lang==="en"?tText(String(x)):String(x)}
+const ud=v=>`<span translate="no">${esc(v)}</span>`; /* user data: never translated */
+function T(html){if(lang!=="en")return html;
+ const tpl=document.createElement("template");tpl.innerHTML=String(html);
+ const skip=el=>{for(let e=el;e&&e.nodeType===1;e=e.parentNode){if(e.getAttribute("translate")==="no"||e.tagName==="TEXTAREA"||e.tagName==="SCRIPT"||e.tagName==="STYLE")return true}return false};
+ const walker=document.createTreeWalker(tpl.content,NodeFilter.SHOW_TEXT);const nodes=[];let n;while((n=walker.nextNode()))nodes.push(n);
+ for(const t of nodes){if(!t.nodeValue.trim()||skip(t.parentNode))continue;const v=tText(t.nodeValue);if(v!==t.nodeValue)t.nodeValue=v}
+ for(const el of tpl.content.querySelectorAll("[placeholder],[title],[aria-label]")){for(const a of ["placeholder","title","aria-label"]){const v=el.getAttribute(a);if(v!=null&&!skip(el.parentNode))el.setAttribute(a,tText(v))}}
+ return tpl.innerHTML;}
+function applyLangStatic(){document.querySelectorAll(".side nav a, .side .theme .lbl, .side [data-theme-pref], .side [data-lang], #btn-new").forEach(el=>{[...el.childNodes].forEach(n=>{if(n.nodeType!==3||!n.textContent.trim())return;if(!n._nb)n._nb=n.textContent;const lead=n._nb.match(/^\s*/)[0],trail=n._nb.match(/\s*$/)[0];n.textContent=lead+t(n._nb.trim())+trail})});document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on",b.dataset.lang===lang))}
+
+FIELDS.forEach(f=>{SHEET_HEADERS[f]=f});
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+const confirm=m=>window.confirm(t(m)); /* looked up at call time so it can be stubbed in tests */
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ymd=x=>x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");
+const today=()=>ymd(new Date());
+const addDays=(d,n)=>{const x=new Date(String(d||"")+"T00:00:00");if(isNaN(x))return "";x.setDate(x.getDate()+n);return ymd(x)};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const stageIdx=s=>Math.max(0,STAGES.indexOf(s));
+const fmtDate=d=>d||"";
+const isOpen=l=>stageIdx(l.stage)<5;
+let toastT;function toast(m,raw=false){const t=$("#toast");t.textContent=(lang==="en"&&!raw)?tText(String(m)):m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200)}
+
+/* ---------- state + storage ---------- */
+const state={leads:[],activities:[],settings:{profile:{name:"",company:"",oneliner:"",topic:""}}};
+const ownerInitials=()=>String((state.settings.profile||{}).name||"").trim().split(/\s+/).filter(Boolean).map(w=>w[0].toUpperCase()).join("");
+const profile=()=>{if(!state.settings.profile)state.settings.profile={name:"",company:"",oneliner:"",topic:""};return state.settings.profile};
+const store={
+ mode:"local",dirHandle:null,lastSaved:null,dirty:false,
+ idb(){return new Promise((res,rej)=>{const r=indexedDB.open("prospektor",1);r.onupgradeneeded=()=>r.result.createObjectStore("kv");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})},
+ async kvGet(k){const db=await this.idb();return new Promise(res=>{const t=db.transaction("kv").objectStore("kv").get(k);t.onsuccess=()=>res(t.result);t.onerror=()=>res(undefined)})},
+ async kvSet(k,v){const db=await this.idb();return new Promise(res=>{const t=db.transaction("kv","readwrite").objectStore("kv").put(v,k);t.onsuccess=()=>res();t.onerror=()=>res()})},
+ supportsFS(){return typeof window.showDirectoryPicker==="function"},
+ lastError:null,
+ async isBrave(){try{return !!(navigator.brave&&await navigator.brave.isBrave())}catch(e){return false}},
+ storageBroken:false,
+ async init(){
+  try{localStorage.setItem(APP.slug+"-probe","1");localStorage.removeItem(APP.slug+"-probe")}catch(e){this.storageBroken=true}
+  try{const raw=localStorage.getItem(APP.slug+"-data")||localStorage.getItem(APP.legacySlug+"-data");if(raw)Object.assign(state,JSON.parse(raw))}catch(e){}
+  try{const pr=localStorage.getItem(APP.slug+"-pitch")||localStorage.getItem(APP.legacySlug+"-pitch");if(pr)pitch=normPitch(JSON.parse(pr))}catch(e){}
+  migrate();seedExample();
+  if(!this.supportsFS())return;
+  try{const h=await this.kvGet("dir");
+  if(h){this.dirHandle=h;const p=h.queryPermission?await h.queryPermission({mode:"readwrite"}):"prompt";if(p==="granted"){await this.loadFromDir()}else{this.mode="needs-permission"}}}catch(e){console.warn("init",e);this.lastError=e.message}
+ },
+ async pickDir(){
+  if(!window.isSecureContext)throw new Error("Nettleseren regner ikke denne siden som sikker (må åpnes som fil eller via https).");
+  let h;try{h=await window.showDirectoryPicker({mode:"readwrite",id:"prospektor"})}catch(e){if(e.name==="AbortError")throw e;throw new Error("Mappevelger feilet: "+e.message)}
+  try{const p=await h.requestPermission({mode:"readwrite"});if(p!=="granted")throw new Error("Fikk ikke skrivetilgang til mappen ("+p+").")}catch(e){throw new Error(e.message)}
+  try{const fh=await h.getFileHandle(".huginn-write-test",{create:true});const w=await fh.createWritable();await w.write("ok");await w.close();await h.removeEntry(".huginn-write-test").catch(()=>{})}catch(e){throw new Error("Kan ikke skrive i mappen: "+e.message)}
+  this.dirHandle=h;try{await this.kvSet("dir",h)}catch(e){console.warn("kunne ikke huske mappen",e)}
+  const existing=await this.readFile(APP.slug+"-data.json")||await this.readFile(APP.legacySlug+"-data.json");
+  if(existing){Object.assign(state,JSON.parse(existing));migrate();this.mode="fs";this.localEdits=false;toast("Åpnet eksisterende database")}
+  else{this.mode="fs";await this.save();toast("Ny database opprettet i mappen")}
+  const pj=await this.readFile("pitch.json");if(pj){try{pitch=normPitch(JSON.parse(pj))}catch(e){}}else await this.savePitch();
+ },
+ async grant(){const p=await this.dirHandle.requestPermission({mode:"readwrite"});if(p!=="granted")return;if(this.dirty||this.localEdits){this.mode="fs";await this._save();await this.savePitch();toast("Lagret endringene dine til mappen")}else{await this.loadFromDir()}},
+ localEdits:false,
+ async loadFromDir(){const t=await this.readFile(APP.slug+"-data.json")||await this.readFile(APP.legacySlug+"-data.json");if(t){Object.assign(state,JSON.parse(t));migrate()}this.localEdits=false;const pj=await this.readFile("pitch.json");if(pj){try{pitch=normPitch(JSON.parse(pj))}catch(e){}}this.mode="fs"},
+ pitchTimer:null,
+ savePitch(){clearTimeout(this.pitchTimer);this.pitchTimer=setTimeout(async()=>{const json=JSON.stringify(pitch,null,1);try{localStorage.setItem(APP.slug+"-pitch",json)}catch(e){}if(this.mode==="fs"&&this.dirHandle){try{await this.writeFile("pitch.json",json)}catch(e){toast("Kunne ikke lagre pitch.json: "+e.message)}}},300);return Promise.resolve()},
+ async readFile(name){try{const fh=await this.dirHandle.getFileHandle(name);const f=await fh.getFile();return await f.text()}catch(e){return null}},
+ async writeFile(name,data){const fh=await this.dirHandle.getFileHandle(name,{create:true});const w=await fh.createWritable();await w.write(data);await w.close()},
+ saveTimer:null,
+ save(){this.dirty=true;clearTimeout(this.saveTimer);this.saveTimer=setTimeout(()=>this._save(),400);return Promise.resolve()},
+ async _save(){
+  const json=JSON.stringify(state,null,1);
+  try{localStorage.setItem(APP.slug+"-data",json)}catch(e){}
+  if(this.mode==="fs"&&this.dirHandle){
+   try{await this.writeFile(APP.slug+"-data.json",json);await this.writeFile(APP.slug+".xlsx",buildXlsx());this.lastSaved=new Date();this.dirty=false}
+   catch(e){console.error(e);toast("Kunne ikke skrive til mappen: "+e.message)}
+  }else{this.lastSaved=new Date();this.dirty=false;if(this.mode==="needs-permission")this.localEdits=true}
+  renderStatus();
+ }
+};
+function renderStatus(){
+ const ver=$("#ver");if(ver&&!ver.textContent)ver.textContent=`${APP.name} ${APP.version}`;
+ const s=$("#status");
+ const tm=store.lastSaved?store.lastSaved.toTimeString().slice(0,5):"–";
+ if(store.mode==="fs")s.innerHTML=T(`<b>Mappe:</b> ${esc(store.dirHandle.name)}<br>Lagret ${tm} · ${state.leads.length} leads`);
+ else if(store.storageBroken)s.innerHTML=T(`<b style="color:var(--danger)">Lagring nektet</b><br>Ingenting lagres. Last ned JSON.`);
+ else if(!store.supportsFS())s.innerHTML=T(`<b>Kun i nettleseren</b><br>Ingen mappetilgang her`);
+ else if(store.mode==="needs-permission")s.innerHTML=T(`<b>Mappe låst</b><br>Gi tilgang under Innstillinger`);
+ else s.innerHTML=T(`<b>Kun i nettleseren</b><br>Velg mappe i Innstillinger`);
+ const open=state.leads.filter(l=>isOpen(l)&&l.nextActionDate&&l.nextActionDate<=today()).length;
+ const b=$("#badge-today");b.hidden=!open;b.textContent=open;
+}
+
+/* ---------- xlsx writer (values only, no dependencies) ---------- */
+const CRC_T=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c}return t})();
+function crc32(u8){let c=-1;for(let i=0;i<u8.length;i++)c=CRC_T[(c^u8[i])&255]^(c>>>8);return (c^-1)>>>0}
+function zipStore(files){ // files: [{name,data:Uint8Array}]
+ const enc=new TextEncoder();const parts=[];const cd=[];let off=0;
+ const dt=new Date();const dosT=((dt.getHours()<<11)|(dt.getMinutes()<<5)|(dt.getSeconds()>>1))&0xffff;const dosD=(((dt.getFullYear()-1980)<<9)|((dt.getMonth()+1)<<5)|dt.getDate())&0xffff;
+ for(const f of files){
+  const n=enc.encode(f.name);const crc=crc32(f.data);
+  const h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(8,0,true);h.setUint16(10,dosT,true);h.setUint16(12,dosD,true);h.setUint32(14,crc,true);h.setUint32(18,f.data.length,true);h.setUint32(22,f.data.length,true);h.setUint16(26,n.length,true);h.setUint16(28,0,true);
+  parts.push(new Uint8Array(h.buffer),n,f.data);
+  const c=new DataView(new ArrayBuffer(46));c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint16(10,0,true);c.setUint16(12,dosT,true);c.setUint16(14,dosD,true);c.setUint32(16,crc,true);c.setUint32(20,f.data.length,true);c.setUint32(24,f.data.length,true);c.setUint16(28,n.length,true);c.setUint16(30,0,true);c.setUint16(32,0,true);c.setUint16(34,0,true);c.setUint16(36,0,true);c.setUint32(38,0,true);c.setUint32(42,off,true);
+  cd.push(new Uint8Array(c.buffer),n);off+=30+n.length+f.data.length;
+ }
+ const cdLen=cd.reduce((a,b)=>a+b.length,0);
+ const e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cdLen,true);e.setUint32(16,off,true);
+ const all=[...parts,...cd,new Uint8Array(e.buffer)];const out=new Uint8Array(all.reduce((a,b)=>a+b.length,0));let p=0;for(const a of all){out.set(a,p);p+=a.length}return out;
+}
+function colName(i){let s="";i++;while(i>0){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=(i-m-1)/26}return s}
+function sheetXml(rows){
+ const xe=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+ let x='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><sheetData>';
+ rows.forEach((r,ri)=>{x+=`<row r="${ri+1}">`;r.forEach((v,ci)=>{if(v===""||v==null)return;const ref=colName(ci)+(ri+1);
+  if(typeof v==="number"&&Number.isFinite(v))x+=`<c r="${ref}"><v>${v}</v></c>`;else x+=`<c r="${ref}" t="inlineStr"${ri===0?' s="1"':''}><is><t xml:space="preserve">${xe(v)}</t></is></c>`});x+="</row>"});
+ return x+"</sheetData></worksheet>";
+}
+function buildXlsx(){
+ const enc=new TextEncoder();
+ const leadsHdr=["ID","Company","Org.nr","Industry / NACE","Segment","Source","Website","City","Largest shareholder","Contact name","Role","Phone","Email","Contact type (GDPR)","Email consent","Consent note","LinkedIn","Stage","Owner","Date added","Last contact","Next action","Next action date","Meeting date","Meeting from","Meeting to","Script","Call prep","Est. value (NOK)","Lost reason","Notes","GDPR basis / consent note","Reason for calling","Delete after"];
+ const ct=v=>({named:"Named person - phone only, no cold email",generic:"Generic (post@) - email OK"}[v]||v||"");
+ const leads=[leadsHdr,...state.leads.map((l,i)=>[i+1,l.company,l.orgnr,l.nace,l.segment,l.source,l.website,l.city,l.shareholder,l.contact,l.role,l.phone,l.email,ct(l.contactType),l.emailConsent?"yes":"no",l.consentNote||"",l.linkedin,l.stage,l.owner,l.dateAdded,l.lastContact,l.nextAction,l.nextActionDate,l.meetingDate||"",l.meetingTime||"",l.meetingEnd||"",scriptFor(l).id,l.callPrep||"",l.value?Number(l.value):"",l.lostReason,l.notes,l.gdprBasis,l.reason,l.dateAdded?addDays(l.dateAdded,365):""])];
+ const byId=Object.fromEntries(state.leads.map(l=>[l.id,l]));
+ const acts=[["Date","Company","Type","Outcome","Notes","Next step"],...state.activities.map(a=>[a.date,byId[a.leadId]?.company||"",a.type,a.outcome,a.notes||"",a.next||""])];
+ const f=funnel();const pipe=STAGES.map(s=>[s,state.leads.filter(l=>l.stage===s).length,state.leads.filter(l=>l.stage===s).reduce((a,l)=>a+(Number(l.value)||0),0)]);
+ const dash=[["Pipeline","Count","Value (NOK)"],...pipe,[],["Funnel","Actual","Ratio","Benchmark"],["Calls",f.calls,1,1],["Conversations",f.conv,f.calls?+(f.conv/f.calls).toFixed(2):"",0.33],["Meetings booked",f.booked,f.calls?+(f.booked/f.calls).toFixed(2):"",0.10],["Meetings held",f.held,f.booked?+(f.held/f.booked).toFixed(2):"",0.7],["Closed won",f.won,f.calls?+(f.won/f.calls).toFixed(2):"",0.03],[],["Generated by "+APP.name,today()]];
+ const sheets=[["Dashboard",dash],["Leads",leads],["Activity",acts]];
+ const files=[
+  {name:"[Content_Types].xml",data:enc.encode('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join("")+'</Types>')},
+  {name:"_rels/.rels",data:enc.encode('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>')},
+  {name:"xl/workbook.xml",data:enc.encode('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'+sheets.map((s,i)=>`<sheet name="${s[0]}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")+'</sheets></workbook>')},
+  {name:"xl/_rels/workbook.xml.rels",data:enc.encode('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")+`<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`)},
+  {name:"xl/styles.xml",data:enc.encode('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf fontId="0" fillId="0" borderId="0" xfId="0"/><xf fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>')},
+  ...sheets.map((s,i)=>({name:`xl/worksheets/sheet${i+1}.xml`,data:enc.encode(sheetXml(s[1]))}))
+ ];
+ return zipStore(files);
+}
+
+/* ---------- xlsx / csv / json import ---------- */
+async function unzip(buf){ // returns {name: Uint8Array}
+ const dv=new DataView(buf);const u8=new Uint8Array(buf);let eocd=-1;for(let i=buf.byteLength-22;i>=0;i--){if(dv.getUint32(i,true)===0x06054b50){eocd=i;break}}
+ if(eocd<0)throw new Error("Ikke en zip/xlsx");const n=dv.getUint16(eocd+10,true);let p=dv.getUint32(eocd+16,true);const out={};const dec=new TextDecoder();
+ for(let i=0;i<n;i++){const method=dv.getUint16(p+10,true);const csz=dv.getUint32(p+20,true);const nl=dv.getUint16(p+28,true),el=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true);const lho=dv.getUint32(p+42,true);const name=dec.decode(u8.subarray(p+46,p+46+nl));
+  const lnl=dv.getUint16(lho+26,true),lel=dv.getUint16(lho+28,true);const start=lho+30+lnl+lel;const data=u8.slice(start,start+csz);
+  if(method===0)out[name]=data;else if(method===8){const ds=new DecompressionStream("deflate-raw");const w=ds.writable.getWriter();w.write(data);w.close();out[name]=new Uint8Array(await new Response(ds.readable).arrayBuffer())}
+  p+=46+nl+el+cl}
+ return out;
+}
+function parseSheetRows(xml,shared){
+ const rows=[];const doc=new DOMParser().parseFromString(xml,"application/xml");
+ for(const r of doc.getElementsByTagName("row")){const cells=[];for(const c of r.getElementsByTagName("c")){const ref=c.getAttribute("r").replace(/\d+/g,"");let ci=0;for(const ch of ref)ci=ci*26+(ch.charCodeAt(0)-64);ci--;const t=c.getAttribute("t");let v="";
+  if(t==="s"){v=shared[Number(c.getElementsByTagName("v")[0]?.textContent)]??""}else if(t==="inlineStr"){v=c.getElementsByTagName("t")[0]?.textContent??""}else{v=c.getElementsByTagName("v")[0]?.textContent??"";}
+  cells[ci]=v}rows.push(cells)}
+ return rows;
+}
+async function importXlsx(buf){
+ const z=await unzip(buf);const dec=new TextDecoder();const wb=dec.decode(z["xl/workbook.xml"]);const rels=dec.decode(z["xl/_rels/workbook.xml.rels"]);
+ const shared=[];if(z["xl/sharedStrings.xml"]){const d=new DOMParser().parseFromString(dec.decode(z["xl/sharedStrings.xml"]),"application/xml");for(const si of d.getElementsByTagName("si"))shared.push(Array.from(si.getElementsByTagName("t")).map(t=>t.textContent).join(""))}
+ const sheetOf=name=>{const wbd=new DOMParser().parseFromString(wb,"application/xml");const sh=Array.from(wbd.getElementsByTagName("sheet")).find(x=>x.getAttribute("name")===name);if(!sh)return null;const rid=sh.getAttribute("r:id")||sh.getAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships","id");const rd=new DOMParser().parseFromString(rels,"application/xml");const rel=Array.from(rd.getElementsByTagName("Relationship")).find(x=>x.getAttribute("Id")===rid);if(!rel)return null;let t=rel.getAttribute("Target").replace(/^\//,"");if(!t.startsWith("xl/"))t="xl/"+t;return z[t]?dec.decode(z[t]):null};
+ const lx=sheetOf("Leads");if(!lx)throw new Error("Fant ikke arket 'Leads'");
+ const rows=parseSheetRows(lx,shared);return importRows(rows);
+}
+function parseCsv(text){const rows=[];let row=[],cur="",q=false;for(let i=0;i<text.length;i++){const c=text[i];if(q){if(c==='"'){if(text[i+1]==='"'){cur+='"';i++}else q=false}else cur+=c}else{if(c==='"')q=true;else if(c===","||c===";"){row.push(cur);cur=""}else if(c==="\n"||c==="\r"){if(c==="\r"&&text[i+1]==="\n")i++;row.push(cur);rows.push(row);row=[];cur=""}else cur+=c}}if(cur!==""||row.length){row.push(cur);rows.push(row)}return rows}
+function importRows(rows){
+ const hdr=rows[0]||[];const map={};hdr.forEach((h,i)=>{const f=SHEET_HEADERS[String(h).trim()];if(f&&f!=="id")map[i]=f});
+ if(!Object.keys(map).length)throw new Error("Kjente ikke igjen kolonneoverskriftene");
+ const ctMap=v=>/named/i.test(v)?"named":/generic/i.test(v)?"generic":/existing/i.test(v)?"relation":"";const yes=v=>/^(yes|ja|true|1)$/i.test(String(v).trim());
+ let n=0;for(const r of rows.slice(1)){if(!r||!r.some(x=>String(x||"").trim()))continue;const l=newLead();for(const [i,f] of Object.entries(map)){let v=r[i]??"";if(/Date$|^dateAdded$|^lastContact$|^nextActionDate$|^meetingDate$/.test(f)&&/^\d{4,5}(\.\d+)?$/.test(String(v))){const d=new Date(Date.UTC(1899,11,30)+Number(v)*86400000);v=d.toISOString().slice(0,10)}if(f==="emailConsent"&&typeof v==="boolean")v=v?"yes":"no";if(f==="contactType")v=ctMap(v);if(f==="emailConsent"){l.emailConsent=yes(v);continue}if(f==="stage"){const k=STAGES.findIndex(s=>s[0]===String(v)[0]);v=k>=0?STAGES[k]:STAGES[0]}l[f]=String(v).trim()}
+  if(l.contactType==="relation"){l.contactType="named";l.emailConsent=true}
+  if(!l.company)continue;if(state.leads.some(x=>x.orgnr&&x.orgnr===l.orgnr||x.company.toLowerCase()===l.company.toLowerCase()))continue;state.leads.push(l);n++}
+ return n;
+}
+function newLead(){return {id:uid(),company:"",orgnr:"",nace:"",segment:"",source:"",website:"",city:"",shareholder:"",contact:"",role:"",phone:"",email:"",contactType:"named",emailConsent:false,consentNote:"",linkedin:"",stage:STAGES[0],owner:ownerInitials(),dateAdded:today(),lastContact:"",nextAction:"Ring",nextActionDate:addDays(today(),1),meetingDate:"",meetingTime:"",meetingEnd:"",script:"",callPrep:"",value:"",lostReason:"",notes:"",gdprBasis:GDPR_DEFAULT,reason:""}}
+function download(name,data,type){const b=new Blob([data],{type});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+
+/* ---------- field helpers ---------- */
+const H={
+ orgnr(s){return String(s||"").replace(/\D/g,"")},
+ orgnrValid(s){const d=this.orgnr(s);if(d.length!==9)return false;const w=[3,2,7,6,5,4,3,2];const sum=w.reduce((a,x,i)=>a+x*Number(d[i]),0);let c=11-(sum%11);if(c===11)c=0;return c!==10&&c===Number(d[8])},
+ phone(s){let d=String(s||"").replace(/[^\d+]/g,"");if(d.startsWith("0047"))d="+47"+d.slice(4);if(d.startsWith("47")&&d.length===10)d="+47"+d.slice(2);if(/^\+47\d{8}$/.test(d))d=d.slice(3);if(/^\d{8}$/.test(d))return /^[49]/.test(d)?`${d.slice(0,3)} ${d.slice(3,5)} ${d.slice(5)}`:`${d.slice(0,2)} ${d.slice(2,4)} ${d.slice(4,6)} ${d.slice(6)}`;return String(s||"").trim()},
+ tel(s){const d=String(s||"").replace(/[^\d+]/g,"");return /^\d{8}$/.test(d)?"+47"+d:d},
+ domain(s){return String(s||"").trim().replace(/^https?:\/\//i,"").replace(/^www\./i,"").split(/[/?#]/)[0].toLowerCase()},
+ emailOk(s){return !s||/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(s).trim())},
+ emailIsGeneric(s){return /^(post|kontakt|hei|hello|info|firmapost|mail|salg|sales|kundeservice|support|admin|office|kontor)@/i.test(String(s||"").trim())},
+ sensitive(s){const m=String(s||"").toLowerCase().match(/\b(syk|sjuk|sykemeld|sykmeld|gravid|helse|diagnos|fagforening|fagorganis|religi|kristen|muslim|politisk|parti|seksuell|legning|etnisk|straff|dom|rus|alkohol|skilt|skilsmisse|fødselsnummer|personnummer)\w*/);return m?m[0]:null},
+ links(l){const q=encodeURIComponent;const o=this.orgnr(l.orgnr);const out=[];
+  if(o)out.push({t:"Brreg",u:`https://virksomhet.brreg.no/nb/oppslag/enheter/${o}`});
+  if(l.company)out.push({t:"proff.no",u:`https://www.proff.no/bransjes%C3%B8k?q=${q(l.company)}`},{t:"1881",u:`https://www.1881.no/?query=${q(l.company)}`},{t:"Google",u:`https://www.google.com/search?q=${q(l.company)}`},{t:"Doffin",u:`https://www.doffin.no/search?searchString=${q(l.company)}`});
+  if(l.website)out.push({t:"Nettside",u:"https://"+this.domain(l.website)});
+  if(l.linkedin&&/linkedin\.com/i.test(l.linkedin))out.push({t:"LinkedIn",u:/^https?:/i.test(l.linkedin)?l.linkedin.trim():"https://"+l.linkedin.trim().replace(/^\/+/,"")});
+  else if(l.contact)out.push({t:"LinkedIn-søk",u:`https://www.google.com/search?q=${q(`site:linkedin.com/in "${l.contact}" ${l.company||""}`)}`});
+  return out},
+ linksHtml(l){const ls=this.links(l);return ls.length?`<div class="links">${ls.map(x=>`<a href="${x.u}" target="_blank" rel="noopener">${esc(x.t)}</a>`).join("")}</div>`:""}
+};
+const GDPR_TIPS={
+ people:["Rolle fra Enhetsregisteret og nummer fra 1881 er offentlige kilder. Noter kilden.","Privat mobil er personopplysning selv om den er offentlig. Bruk jobbnummer der det finnes.","Kald e-post til navngitt person krever samtykke (mfl. §15). Til post@ er det greit. Sier de ja på telefon: kryss av og noter når.","LinkedIn: les, ikke lagre mer enn navn og rolle. Ikke last ned profiler eller lister."],
+ notes:["Noter bare det som gjelder virksomheten og salget.","Aldri helse, familie, fagforening, religion, politikk, økonomiske problemer eller rykter (GDPR art. 9).","Skriv slik at personen kunne lest det selv. De har innsynsrett.","Slett leads uten dialog etter 12 måneder. Appen minner deg på det."],
+ safety:["Skru på FileVault (Systemvalg → Personvern og sikkerhet) så disken er kryptert.","Mappen bør tas backup av eller synkes. Filene er ren tekst, så mappen er like sensitiv som et kunderegister.","Ikke send regnearket på e-post eller i chat. Del heller en filtrert eksport.","Innsynsbegjæring: åpne leaden, «Last ned denne leaden», send filen. Sletting: «Slett» på leaden. Begge innen 30 dager.","Ved import til HubSpot eller annet CRM: sjekk databehandleravtale og hvor dataene lagres.","Bruk ett sted som kilde. Kopier i Notater, e-post og telefon blir aldri slettet."]
+};
+const tips=(k,open=false)=>`<details class="tips" ${open?"open":""}><summary>GDPR-tips</summary><ul>${GDPR_TIPS[k].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></details>`;
+function fieldHints(l){ // returns {orgnr,phone,email,notes} hint html
+ const o={};
+ const d=H.orgnr(l.orgnr);o.orgnr=!d?"":H.orgnrValid(d)?`<span class="ok">Gyldig org.nr</span>`:`<span class="bad">${d.length!==9?"Org.nr skal ha 9 siffer":"Kontrollsifferet stemmer ikke"}</span>`;
+ o.email=!l.email?"":!H.emailOk(l.email)?`<span class="bad">Ser ikke ut som en e-postadresse</span>`:l.emailConsent?`<span class="ok">Samtykke registrert. E-post er OK.</span>`:(l.contactType==="named"&&!H.emailIsGeneric(l.email))?`<span class="warn">Navngitt adresse: kald e-post krever samtykke. Ring først, eller be om lov og kryss av.</span>`:H.emailIsGeneric(l.email)?`<span class="ok">Generisk adresse. E-post er OK uten samtykke.</span>`:"";
+ const art9=v=>{const w=H.sensitive(v);return w?`<span class="bad">«${esc(w)}» ser ut som en særlig kategori (art. 9). Ikke lagre det.</span>`:""};
+ o.notes=art9(l.notes);o.reason=art9(l.reason);
+ return o;
+}
+
+/* ---------- Brreg ---------- */
+const brreg={
+ async search(q){q=q.trim();if(!q)return[];const url=/^\d{9}$/.test(q.replace(/\s/g,""))?`https://data.brreg.no/enhetsregisteret/api/enheter?organisasjonsnummer=${q.replace(/\s/g,"")}`:`https://data.brreg.no/enhetsregisteret/api/enheter?navn=${encodeURIComponent(q)}&size=8`;
+  const r=await fetch(url);if(!r.ok)throw new Error("Brreg "+r.status);const d=await r.json();return (d._embedded?.enheter||[]).map(e=>({company:e.navn,orgnr:e.organisasjonsnummer,nace:e.naeringskode1?`${e.naeringskode1.kode} ${e.naeringskode1.beskrivelse}`:"",city:e.forretningsadresse?.poststed||"",website:e.hjemmeside||"",employees:e.antallAnsatte,form:e.organisasjonsform?.kode}))},
+ async roles(orgnr){const r=await fetch(`https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}/roller`);if(!r.ok)return[];const d=await r.json();const out=[];for(const g of d.rollegrupper||[])for(const ro of g.roller||[]){if(ro.avregistrert||!ro.person)continue;const n=ro.person.navn;out.push({name:[n.fornavn,n.mellomnavn,n.etternavn].filter(Boolean).join(" "),role:ro.type.beskrivelse,code:ro.type.kode})}
+  const order={DAGL:0,LEDE:1,INNH:2,KONT:3};return out.sort((a,b)=>(order[a.code]??9)-(order[b.code]??9))}
+};
+
+/* ---------- metrics ---------- */
+function funnel(){const A=state.activities;const calls=A.filter(a=>a.type==="Ring").length;const conv=A.filter(a=>/^Snakket/.test(a.outcome)).length;const booked=A.filter(a=>a.outcome==="Snakket – møte booket"||a.outcome==="Møte booket").length;const held=A.filter(a=>a.outcome==="Møte gjennomført").length;const won=state.leads.filter(l=>l.stage===STAGES[5]).length;return{calls,conv,booked,held,won}}
+function callList(){const t=today();return state.leads.filter(l=>isOpen(l)&&l.nextActionDate&&l.nextActionDate<=t).sort((a,b)=>a.nextActionDate.localeCompare(b.nextActionDate))}
+
+/* ---------- views ---------- */
+const mainEl=$("#main");
+/* a11y pass: labels get for/id, clickable rows and cards become focusable buttons, Enter/Space activates */
+function a11y(root){
+ let n=0;root.querySelectorAll(".field > label").forEach(lb=>{let c=lb.nextElementSibling;if(c&&!/^(INPUT|SELECT|TEXTAREA)$/.test(c.tagName))c=c.querySelector("input,select,textarea");if(!c||lb.htmlFor||c.type==="hidden")return;if(!c.id)c.id="f"+(++n)+"-"+Math.random().toString(36).slice(2,6);lb.htmlFor=c.id});
+ root.querySelectorAll(".item,.kcard,tr.click,.results [data-i],.results [data-r]").forEach(el=>{if(el.hasAttribute("tabindex"))return;el.tabIndex=0;el.setAttribute("role",el.tagName==="TR"?"link":"button");el.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target===el){e.preventDefault();el.click()}})});
+ root.querySelectorAll("button.stat.filter").forEach(b=>b.setAttribute("aria-pressed",b.classList.contains("on")?"true":"false"));
+}
+const main={set innerHTML(v){mainEl.innerHTML=T(v);a11y(mainEl)},get innerHTML(){return mainEl.innerHTML},querySelectorAll:(...a)=>mainEl.querySelectorAll(...a),querySelector:(...a)=>mainEl.querySelector(...a)};
+function setActive(v){document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("active",a.dataset.v===v))}
+function dueClass(d){const t=today();return !d?"":d<t?"over":d===t?"today":""}
+function dueLabel(d){const t=today();if(!d)return"";if(d<t){const n=Math.round((new Date(t)-new Date(d))/86400000);return `${n} d over`}if(d===t)return"i dag";return d}
+
+let todayFilter="due";
+function taskLists(){const t=today();const due=callList();const open=state.leads.filter(isOpen).sort((a,b)=>(a.nextActionDate||"9").localeCompare(b.nextActionDate||"9"));const md=l=>l.meetingDate||l.nextActionDate||"";const week=state.leads.filter(l=>(l.stage===STAGES[3]||l.meetingDate)&&md(l)>=t&&md(l)<=addDays(t,7)&&isOpen(l)).sort((a,b)=>md(a).localeCompare(md(b)));const expired=state.leads.filter(l=>l.dateAdded&&addDays(l.dateAdded,365)<=t&&l.stage!==STAGES[5]);return{due,open,week,expired}}
+const isCallTask=l=>/^(ring|call)/i.test(l.nextAction||"Ring");
+function viewToday(){
+ setActive("today");const f=funnel();const t=today();const L=taskLists();
+ const pct=(a,b)=>b?Math.round(a/b*100)+" %":"–";
+ const filters={due:{h:"Oppgaveliste",e:"Ingen oppgaver i dag."},open:{h:"Åpne leads",e:"Ingen åpne leads."},week:{h:"Møter neste 7 dager",e:"Ingen møter booket de neste 7 dagene."},expired:{h:"Over 12 måneder (GDPR)",e:"Ingenting å rydde."}};
+ const list=L[todayFilter];const cur=filters[todayFilter];
+ main.innerHTML=`
+ <div class="top"><h1>I dag</h1><div class="muted tiny mono">${t}</div></div>
+ ${store.storageBroken&&store.mode!=="fs"?'<div class="banner danger">Nettleseren nekter å lagre (privat modus eller blokkert nettstedsdata). Alt du legger inn forsvinner når fanen lukkes. <a href="#/settings">Velg en mappe</a> hvis du kan, ellers last ned JSON før du går.</div>':""}
+ ${store.mode!=="fs"?`<div class="banner">${store.mode==="needs-permission"?'Mappen er låst etter omstart. <a href="#/settings">Gi tilgang</a> så lagres alt til mappen igjen.':'Data ligger kun i denne nettleseren. <a href="#/settings">Velg en mappe</a> for varig lagring, xlsx og pitch-fil.'}</div>`:""}
+ <div class="grid c4" style="margin-bottom:24px">
+  <button class="card stat filter ${todayFilter==="due"?"on":""} ${L.due.length?'warn':''}" data-filter="due"><div class="n">${L.due.length}</div><div class="l">oppgaver i dag</div></button>
+  <button class="card stat filter ${todayFilter==="open"?"on":""}" data-filter="open"><div class="n">${L.open.length}</div><div class="l">åpne leads</div></button>
+  <button class="card stat filter ${todayFilter==="week"?"on":""} good" data-filter="week"><div class="n">${L.week.length}</div><div class="l">møter neste 7 dager</div></button>
+  <button class="card stat filter ${todayFilter==="expired"?"on":""} ${L.expired.length?'bad':''}" data-filter="expired"><div class="n">${L.expired.length}</div><div class="l">over 12 mnd (GDPR)</div></button>
+ </div>
+ <div class="grid c2" style="grid-template-columns:1.3fr .7fr;align-items:start">
+  <div>
+   <h2>${cur.h} <span class="muted mono" style="font-size:13px;font-weight:400">${list.length}</span></h2>
+   ${list.length?`<div class="list">${list.map(l=>{const call=isCallTask(l);const sub=todayFilter==="expired"?`lagt til ${ud(l.dateAdded)}`:`${ud(l.contact||"—")}${l.role?" · "+esc(l.role):""} · ${esc(l.nextAction||"Ring")}${l.meetingDate&&(todayFilter==="week"||/^møte/i.test(l.nextAction||""))?` · <span class="mono">${esc(l.meetingDate)} ${esc(meetingSpan(l))}</span>`:""}`;return `<div class="item" data-id="${l.id}"><div class="main"><div class="t">${ud(l.company)}</div><div class="s">${sub}</div></div><span class="chip stage">${esc(l.stage)}</span><span class="due ${dueClass(l.nextActionDate)}">${dueLabel(l.nextActionDate)}</span>${todayFilter==="expired"?`<button class="btn danger sm" data-del="${l.id}">Slett</button>`:call?`<button class="btn primary sm" data-call="${l.id}">Ring</button>`:`<button class="btn sm" data-open="${l.id}">Åpne</button>`}</div>`}).join("")}</div>`
+   :`<div class="empty">${cur.e}${state.leads.length?"":' Trykk <kbd>N</kbd> for å legge til den første.'}</div>`}
+  </div>
+  <div>
+   <h2>Trakt</h2>
+   <div class="card" style="padding:12px 16px">
+    <table class="funnel"><tr><th>Steg</th><th>Antall</th><th>Andel</th><th>Mål</th></tr>
+    <tr><td>Samtaler</td><td>${f.calls}</td><td>–</td><td>30</td></tr>
+    <tr><td>Snakket med</td><td>${f.conv}</td><td>${pct(f.conv,f.calls)}</td><td>33 %</td></tr>
+    <tr><td>Møter booket</td><td>${f.booked}</td><td>${pct(f.booked,f.calls)}</td><td>10 %</td></tr>
+    <tr><td>Møter holdt</td><td>${f.held}</td><td>${pct(f.held,f.booked)}</td><td>60–75 %</td></tr>
+    <tr><td>Vunnet</td><td>${f.won}</td><td>${pct(f.won,f.calls)}</td><td>3 %</td></tr></table>
+    <div class="tiny" style="margin-top:8px">Kursets benchmark: 30 samtaler → 10 snakket → 3 møter → 1 salg.</div>
+   </div>
+   <h2 style="margin-top:20px">Pipeline</h2>
+   <div class="card" style="padding:12px 16px"><table>${STAGES.map(s=>`<tr><td>${esc(s)}</td><td class="mono" style="text-align:right">${state.leads.filter(l=>l.stage===s).length}</td></tr>`).join("")}</table></div>
+  </div>
+ </div>`;
+ main.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{todayFilter=b.dataset.filter;viewToday()});
+ main.querySelectorAll(".item").forEach(el=>el.onclick=e=>{if(e.target.dataset.call||e.target.dataset.del||e.target.dataset.open)return;location.hash="#/lead/"+el.dataset.id});
+ main.querySelectorAll("[data-call]").forEach(b=>b.onclick=()=>location.hash="#/call/"+b.dataset.call);
+ main.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>location.hash="#/lead/"+b.dataset.open);
+ main.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const l=state.leads.find(x=>x.id===b.dataset.del);if(confirm(`Slette ${l.company}?`)){state.leads=state.leads.filter(x=>x.id!==l.id);state.activities=state.activities.filter(a=>a.leadId!==l.id);store.save();viewToday()}});
+}
+
+function viewPipeline(){
+ setActive("pipeline");
+ main.innerHTML=`<div class="top"><h1>Pipeline</h1><div class="tiny">Dra kort mellom kolonner for å endre steg.</div></div><div class="board">${STAGES.map(s=>{const ls=state.leads.filter(l=>l.stage===s);return `<div class="col" data-stage="${esc(s)}"><h3><span>${esc(s)}</span><span class="mono">${ls.length}</span></h3>${ls.map(l=>`<div class="kcard" draggable="true" data-id="${l.id}"><div class="t">${ud(l.company)}</div><div class="s">${ud(l.contact||"")}</div><div class="d ${dueClass(l.nextActionDate)}">${esc(l.nextAction||"")} ${l.nextActionDate?"· "+dueLabel(l.nextActionDate):""}</div></div>`).join("")}</div>`}).join("")}</div>`;
+ main.querySelectorAll(".kcard").forEach(c=>{c.onclick=()=>location.hash="#/lead/"+c.dataset.id;c.ondragstart=e=>{e.dataTransfer.setData("text/plain",c.dataset.id)}});
+ main.querySelectorAll(".col").forEach(col=>{col.ondragover=e=>{e.preventDefault();col.classList.add("over")};col.ondragleave=()=>col.classList.remove("over");col.ondrop=e=>{e.preventDefault();col.classList.remove("over");const id=e.dataTransfer.getData("text/plain");const l=state.leads.find(x=>x.id===id);if(l&&l.stage!==col.dataset.stage){l.stage=col.dataset.stage;store.save();viewPipeline()}}});
+}
+
+let leadsQuery="";
+function viewLeads(){
+ setActive("leads");
+ const q=leadsQuery.toLowerCase();const ls=state.leads.filter(l=>!q||[l.company,l.contact,l.city,l.segment,l.orgnr,l.nace].join(" ").toLowerCase().includes(q)).sort((a,b)=>(a.nextActionDate||"9").localeCompare(b.nextActionDate||"9"));
+ main.innerHTML=`<div class="top"><h1>Leads <span class="muted" style="font-family:var(--mono);font-size:15px">${state.leads.length}</span></h1><input id="q" placeholder="Søk selskap, kontakt, by, bransje…" value="${esc(leadsQuery)}" style="max-width:360px"></div>
+ ${ls.length?`<div class="tablewrap"><table><thead><tr><th>Selskap</th><th>Kontakt</th><th>Telefon</th><th>Segment</th><th>Steg</th><th>Neste</th><th>Dato</th></tr></thead><tbody>${ls.map(l=>`<tr class="click" data-id="${l.id}"><td><b>${ud(l.company)}</b><div class="tiny">${ud(l.city)}</div></td><td>${ud(l.contact)}<div class="tiny">${ud(l.role)}</div></td><td class="mono">${ud(l.phone)}</td><td class="tiny">${esc(l.segment)}</td><td><span class="chip stage">${esc(l.stage)}</span></td><td>${esc(l.nextAction)}</td><td class="mono ${dueClass(l.nextActionDate)==='over'?'':''}" style="color:${dueClass(l.nextActionDate)==='over'?'var(--danger)':dueClass(l.nextActionDate)==='today'?'var(--warning)':'inherit'}">${esc(l.nextActionDate)}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">Ingen leads${q?" matcher søket":""}.</div>`}`;
+ $("#q").oninput=e=>{leadsQuery=e.target.value;const pos=e.target.selectionStart;viewLeads();const i=$("#q");i.focus();i.setSelectionRange(pos,pos)};
+ main.querySelectorAll("tr.click").forEach(r=>r.onclick=()=>location.hash="#/lead/"+r.dataset.id);
+}
+
+function fieldInput(l,f,label,opts={}){
+ const v=l[f]??"";
+ let inp;
+ if(LISTS[f])inp=selectHtml(f,v);
+ else if(opts.select)inp=`<select data-f="${f}"><option value="">–</option>${opts.select.map(o=>`<option value="${esc(o)}" ${o===v?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+ else if(opts.textarea)inp=`<textarea data-f="${f}">${esc(v)}</textarea>`;
+ else inp=`<input data-f="${f}" type="${opts.type||"text"}" value="${esc(v)}">`;
+ return `<div class="field"><label>${label}</label>${inp}</div>`;
+}
+function viewLead(id){
+ const l=state.leads.find(x=>x.id===id);if(!l){location.hash="#/leads";return}
+ setActive("leads");
+ const acts=state.activities.filter(a=>a.leadId===id).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts);
+ main.innerHTML=`<div class="top"><div><a href="#/leads" class="tiny">← Leads</a><h1 style="margin-top:4px">${ud(l.company)}</h1></div><div style="display:flex;gap:8px"><button class="btn primary" id="b-call">Ring nå</button><button class="btn" id="b-log">Logg aktivitet</button><button class="btn ghost danger sm" id="b-del">Slett</button></div></div>
+ <div class="grid c2" style="grid-template-columns:1.2fr .8fr;align-items:start">
+  <div class="card">
+   ${H.linksHtml(l)}
+   <div class="row">${fieldInput(l,"company","Selskap")}<div class="field"><label>Org.nr</label><input data-f="orgnr" value="${esc(l.orgnr)}"><div class="hint" data-hint="orgnr">${fieldHints(l).orgnr}</div></div></div>
+   <div class="row">${fieldInput(l,"nace","Bransje / NACE")}${fieldInput(l,"city","Sted")}</div>
+   <div class="row">${fieldInput(l,"segment","Segment")}${fieldInput(l,"source","Kilde")}</div>
+   <div class="row">${fieldInput(l,"website","Nettside")}<div class="field"><label>Største aksjonær ${proffLink(l)}</label><input data-f="shareholder" value="${esc(l.shareholder)}"></div></div>
+   <h3 style="margin-top:8px">Kontakt</h3>
+   <div class="row">${fieldInput(l,"contact","Navn")}${fieldInput(l,"role","Rolle")}</div>
+   <div class="row">${fieldInput(l,"phone","Telefon",{type:"tel"})}<div class="field"><label>E-post</label><input data-f="email" type="email" value="${esc(l.email)}"><div class="hint" data-hint="email">${fieldHints(l).email}</div></div></div>
+   <div class="row"><div></div><div class="field">${consentHtml(l)}</div></div>
+   <div class="row">${fieldInput(l,"linkedin","LinkedIn")}<div></div></div>
+   <div class="field"><label>Hvorfor ringer du akkurat dem?</label><textarea data-f="reason">${esc(l.reason||"")}</textarea><div class="hint" data-hint="reason">${fieldHints(l).reason}</div></div>
+   <div class="row"><div class="field"><label>Manus</label><select data-f="script">${pitch.scripts.map(x=>`<option value="${x.id}" ${x.id===scriptFor(l).id?"selected":""}>${ud(x.name)}</option>`).join("")}</select></div><div></div></div>
+   <div class="field"><label>Til neste samtale <span class="tiny">(vises øverst i ringemodus)</span></label><textarea data-f="callPrep" placeholder="f.eks. lovte å sende referanser fra kommune, spør om budsjettmøtet i oktober">${esc(l.callPrep||"")}</textarea></div>
+   <div class="field"><label>Notater</label><textarea data-f="notes" placeholder="Om virksomheten og salget, ikke om personen">${esc(l.notes)}</textarea><div class="hint" data-hint="notes">${fieldHints(l).notes}</div></div>
+   ${fieldInput(l,"gdprBasis","GDPR-grunnlag / samtykke",{textarea:true})}
+   ${tips("notes")}
+  </div>
+  <div>
+   <div class="card">
+    ${fieldInput(l,"stage","Steg",{select:STAGES})}
+    <div class="row">${fieldInput(l,"nextAction","Neste handling")}${fieldInput(l,"nextActionDate","Dato",{type:"date"})}</div>
+    <div class="row">${fieldInput(l,"meetingDate","Møte, dato",{type:"date"})}<div class="field"><label>Fra – til</label><div style="display:flex;gap:6px;align-items:center"><input data-f="meetingTime" type="time" step="300" value="${esc(l.meetingTime||"")}"><span class="tiny">–</span><input data-f="meetingEnd" type="time" step="300" value="${esc(l.meetingEnd||"")}"></div></div></div>
+    <div style="margin:-6px 0 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn sm secondary" id="b-meet">${l.meetingDate?"Endre møte":"Legg til møte"}</button>${l.meetingDate?`<span class="tiny">${esc(l.meetingDate)} ${meetingSpan(l)} · Kun til visning her. Legg møtet i din egen kalender.</span>`:""}</div>
+    <div class="row">${fieldInput(l,"value","Est. verdi (NOK)",{type:"number"})}${fieldInput(l,"lostReason","Tapt-årsak",{select:LOST})}</div>
+    <div class="tiny">Lagt til ${ud(l.dateAdded)} · sist kontakt ${ud(l.lastContact||"–")} · slett etter ${l.dateAdded?addDays(l.dateAdded,365):"–"}</div>
+    <div style="margin-top:12px"><button class="btn sm ghost" id="b-dsar">Last ned denne leaden (innsyn)</button><div class="hint">Til en innsynsbegjæring: send filen til personen. Alt vi har om dem er der.</div></div>
+   </div>
+   <h2 style="margin-top:20px">Historikk</h2>
+   <div class="card hist">${acts.length?acts.map(a=>`<div><span class="d">${esc(a.date)}</span><span><b>${esc(a.type)}</b> · ${esc(a.outcome)}${a.notes?`<div class="tiny">${ud(a.notes)}</div>`:""}</span></div>`).join(""):'<span class="tiny">Ingen aktivitet ennå.</span>'}</div>
+  </div>
+ </div>`;
+ main.querySelectorAll("[data-f]").forEach(el=>{el.oninput=()=>{l[el.dataset.f]=el.type==="checkbox"?el.checked:el.value;store.dirty=true;clearTimeout(store.leadTimer);store.leadTimer=setTimeout(()=>store.save(),1500);if(el.dataset.f==="emailConsent"){const n=main.querySelector("[data-consent-note]");if(n)n.hidden=!el.checked}const h=fieldHints(l);main.querySelectorAll("[data-hint]").forEach(x=>x.innerHTML=T(h[x.dataset.hint]||""))};el.onchange=()=>{if(LISTS[el.dataset.f]&&handleAdd(el,el.dataset.f,v=>{l[el.dataset.f]=v;store.save();viewLead(id)}))return;l[el.dataset.f]=el.type==="checkbox"?el.checked:el.value;if(el.dataset.f==="email"){l.email=l.email.trim().toLowerCase();el.value=l.email;deriveContactType(l)}if(el.dataset.f==="phone"){l.phone=H.phone(l.phone);el.value=l.phone}if(el.dataset.f==="orgnr"&&H.orgnr(l.orgnr).length===9){l.orgnr=H.orgnr(l.orgnr);el.value=l.orgnr}if(el.dataset.f==="website"){l.website=H.domain(l.website);el.value=l.website}store.save();renderStatus()}});
+ $("#b-dsar").onclick=()=>{const acts=state.activities.filter(a=>a.leadId===id);download(`innsyn-${(l.company||"lead").replace(/[^\w\-]+/g,"_")}-${today()}.json`,JSON.stringify({exportert:today(),lead:l,aktiviteter:acts},null,1),"application/json")};
+ $("#b-call").onclick=()=>location.hash="#/call/"+id;
+ $("#b-meet").onclick=()=>meetingDialog(l,()=>viewLead(id));
+ $("#b-log").onclick=()=>logDialog(l,()=>viewLead(id));
+ $("#b-del").onclick=()=>{if(confirm(`Slette ${l.company} og all historikk? Kan ikke angres.`)){state.leads=state.leads.filter(x=>x.id!==id);state.activities=state.activities.filter(a=>a.leadId!==id);store.save();location.hash="#/leads"}};
+}
+
+const SCRIPT_FIRST={id:"first",name:"Første samtale",
+ open:"Hei, <fornavn> fra <selskap>. Vi <hva dere gjør>.",
+ msg:"Grunnen til at jeg ringer deg er at <grunn>.",
+ time:"Hvordan ser tirsdag eller torsdag ut for deg for en kjapp prat på 15 minutter?",
+ recap:["Gjenta alt som ble avtalt.","Dato, klokkeslett, bekreft møtet.","«Er det andre som bør være med på det møtet?»","Smil og le litt. Folk skal være litt blidere enn før du ringte."],
+ objections:[
+  ["«Ikke interessert»","«Skjønner. Hvordan løser dere <tema> i dag?» Ett spørsmål, så be om møtet igjen med to valg."],
+  ["«Send meg en mail»","«Gjerne. Så jeg sender rett ting: hva er viktigst for dere, <A> eller <B>? … Da tar vi 15 min tirsdag eller torsdag så slipper du lese.» Be om lov til å sende e-post og kryss av for e-postsamtykke på leaden."],
+  ["«Vi har leverandør»","«Bra, de fleste har det. Hva er det viktigste den gjør for dere?» Ikke argumenter mot leverandøren. Spør om møte."],
+  ["«Ingen budsjett»","«Skjønner. Når setter dere budsjett for neste år?» Sett steg 8 Tapt / neste år med dato."],
+  ["Portvakt","Rolig og trygg, som om du forventer å bli satt over: «Kan du sette meg over til <navn>, det gjelder <tema>.»"]],
+ usps:["<USP 1: det kunden får, ikke det dere gjør>","<USP 2>","<USP 3>"]};
+const SCRIPT_FOLLOWUP={id:"followup",name:"Oppfølging",
+ open:"Hei <navn>, det er <fornavn> fra <selskap> igjen. Vi snakket <sist>.",
+ msg:"Da sa du at <det de sa sist>. Jeg ringer for å <det du lovte: sende tilbud, svare på spørsmålet, avtale møtet>.",
+ time:"Passer det å ta det nå, eller skal vi sette av 15 minutter tirsdag eller torsdag?",
+ recap:["Gjenta det som er avtalt nå.","Neste steg med dato.","Takk for sist."],
+ objections:[["«Har ikke rukket å se på det»","«Helt greit. Hva er det ene spørsmålet du må ha svar på for å ta det videre?» Svar på det, så foreslå tid."],["«Vi har valgt noe annet»","«Takk for at du sier det. Hva ble avgjørende?» Noter det i innspill. Sett steg 8 med dato for neste år."]],
+ usps:["<det som traff sist>"]};
+const DEFAULT_PITCH={title:"Telefonpitch",scripts:[SCRIPT_FIRST,SCRIPT_FOLLOWUP],notes:[]};
+const BLANK_SCRIPT={name:"Nytt manus",open:"Hei, <fornavn> fra <selskap>. Vi <hva dere gjør>.",msg:"Grunnen til at jeg ringer deg er at <grunn>.",time:"Hvordan ser tirsdag eller torsdag ut for deg for en kjapp prat?",recap:["Gjenta alt som ble avtalt.","Dato, klokkeslett, bekreft møtet.","Er det andre som bør være med?","Avslutt med et smil."],objections:[["«Ikke interessert»","<ett spørsmål, så be om møtet igjen med to valg>"]],usps:["<USP 1>","<USP 2>","<USP 3>"]};
+const BLANK_SCRIPT_EN={name:"New script",open:"Hi, <fornavn> from <selskap>. We <hva dere gjør>.",msg:"The reason I am calling you is that <grunn>.",time:"How does Tuesday or Thursday look for a quick chat?",recap:["Repeat everything agreed.","Date, time, confirm the meeting.","Should anyone else join?","End with a smile."],objections:[["“Not interested”","<one question, then ask for the meeting again with two choices>"]],usps:["<USP 1>","<USP 2>","<USP 3>"]};
+function normScript(x,i){const d=JSON.parse(JSON.stringify(BLANK_SCRIPT));const o=Object.assign({},d,x||{});for(const k of ["recap","objections","usps"])if(!Array.isArray(o[k]))o[k]=d[k];if(!o.id)o.id=i===0?"first":uid();if(!o.name)o.name=i===0?"Første samtale":"Manus "+(i+1);delete o.notes;delete o.title;return o}
+function normPitch(p){p=p||{};let scripts=Array.isArray(p.scripts)&&p.scripts.length?p.scripts:[Object.assign({},p)];/* old flat pitch.json becomes script 1 */
+ const o={title:p.title||"Telefonpitch",scripts:scripts.map(normScript),notes:(Array.isArray(p.notes)?p.notes:[]).map(n=>typeof n==="string"?{date:"",text:n,company:""}:n)};return o}
+let pitch=JSON.parse(JSON.stringify(DEFAULT_PITCH));
+const scriptFor=l=>pitch.scripts.find(x=>l&&x.id===l.script)||pitch.scripts[0];
+/* Placeholders: <fornavn> <selskap> <hva dere gjør> <tema> from Din profil; <navn> <bedrift> <by> <bransje> <grunn> <sist> from the lead. */
+const PH_PROFILE=["fornavn","selskap","hva dere gjør","tema"],PH_LEAD=["navn","bedrift","by","bransje","grunn","sist"];
+function fill(text,l){
+ const pr=profile();const first=n=>String(n||"").trim().split(/\s+/)[0]||"";
+ const map={"fornavn":first(pr.name),"mitt navn":pr.name,"selskap":pr.company,"hva dere gjør":pr.oneliner,"hva vi gjør":pr.oneliner,"tema":pr.topic,"problemet":pr.topic,
+  "navn":l?first(l.contact):"","kontakt":l?first(l.contact):"","bedrift":l?l.company:"","kunde":l?l.company:"","by":l?l.city:"","sted":l?l.city:"","bransje":l?l.nace.replace(/^[\d.]+\s*/,""):"","grunn":l?String(l.reason||"").replace(/^\s*(at|fordi)\s+/i,"").replace(/\.\s*$/,""):"","sist":l&&l.lastContact?l.lastContact:""};
+ return `<span translate="no">${esc(text).replace(/&lt;([^&]{1,60}?)&gt;/g,(m,k)=>{const v=map[k.trim().toLowerCase()];return v?`<b class="ph">${esc(v)}</b>`:`<mark class="ph-missing">&lt;${esc(k)}&gt;</mark>`})}</span>`;
+}
+function msgHtml(sc,l){
+ if(!l||!l.reason||/<grunn>/i.test(sc.msg))return fill(sc.msg,l);
+ // script has no <grunn>: keep the old splice — the sentence up to "er"/"at", the contact's first name, then the reason
+ const first=String(l.contact||"").trim().split(/\s+/)[0];const m=sc.msg.match(/^([\s\S]*?)\s+er\s+at\s+/);let head;if(m)head=m[1];else{const i=sc.msg.lastIndexOf(" er ");const j=sc.msg.indexOf(" at ");head=i>0?sc.msg.slice(0,i):j>0?sc.msg.slice(0,j):sc.msg}head=head.replace(/,?\s*$/,"");
+ const reason=String(l.reason).replace(/^\s*(at|fordi)\s+/i,"").replace(/\.\s*$/,"");
+ return `<span translate="no">${fill(head,l)}${first?`, <b class="ph">${esc(first)}</b>,`:","} er at <b class="ph">${esc(reason)}</b>.</span>`;
+}
+const scriptText=sc=>[sc.open,sc.msg,sc.time,...sc.recap,...sc.objections.flat(),...sc.usps].join(" ");
+function scriptHtml(l,sc){
+ sc=sc||scriptFor(l);const pr=profile();
+ return `<div class="script">
+ ${!pr.name&&!pr.company?'<p class="tiny">Fyll <a href="#/settings">Din profil</a> under Innstillinger, så settes navn, selskap og tema inn i manuset.</p>':""}
+ ${l&&l.callPrep?`<div class="prep"><div class="lbl">Til denne samtalen</div><p>${ud(l.callPrep)}</p></div>`:""}
+ <div class="lbl">1 · Åpning</div><p>${fill(sc.open,l)}</p>
+ <div class="lbl">2 · Budskap</div><p>${msgHtml(sc,l)}</p>${l&&!l.reason?'<p class="tiny">Fyll «Hvorfor ringer du akkurat dem?» på leaden, så settes den inn her.</p>':""}
+ <div class="lbl">3 · Finn tid (to valg, spør NÅR, ikke OM)</div><p>${fill(sc.time,l)}</p>
+ <div class="lbl">4 · Avslutning</div><p style="font-size:14px">${sc.recap.map(x=>fill(x,l)).join("<br>")}</p>
+ <details><summary>Innvendinger (${sc.objections.length})</summary>${sc.objections.map(o=>`<div class="obj"><b>${fill(o[0],l)}</b><span>${fill(o[1],l)}</span></div>`).join("")}</details>
+ <details><summary>USP-er (til møtet, ikke pitchen)</summary>${sc.usps.map(u=>`<div class="obj"><span>${fill(u,l)}</span></div>`).join("")}</details>
+ ${pitch.notes.length?`<details><summary>Innspill fra samtaler (${pitch.notes.length})</summary>${pitch.notes.slice(-8).reverse().map(n=>`<div class="obj"><span>${ud(n.text)}</span><span class="tiny"> · ${esc(n.date)}${n.company?" · "+esc(n.company):""}</span></div>`).join("")}</details>`:""}
+ </div>`;
+}
+let pitchEdit=false,pitchTab=null;let callDraft={};
+function viewPitch(){
+ setActive("pitch");
+ if(!pitch.scripts.find(x=>x.id===pitchTab))pitchTab=pitch.scripts[0].id;
+ const sc=pitch.scripts.find(x=>x.id===pitchTab);const pr=profile();const txt=scriptText(sc);
+ const tabs=`<div class="tabs">${pitch.scripts.map(x=>`<button class="tab ${x.id===sc.id?"on":""}" data-tab="${x.id}">${ud(x.name)}<span class="tiny mono"> ${state.leads.filter(l=>(l.script||pitch.scripts[0].id)===x.id).length}</span></button>`).join("")}${pitchEdit?`<button class="tab add" id="p-adds">+ manus</button>`:""}</div>`;
+ const profileBox=`<div class="card" style="margin-bottom:16px"><h3>Fra Din profil</h3><div class="kv" style="grid-template-columns:120px 1fr">${PH_PROFILE.map(k=>{const v={fornavn:pr.name.split(/\s+/)[0]||"",selskap:pr.company,"hva dere gjør":pr.oneliner,tema:pr.topic}[k];const used=new RegExp("<"+k+">","i").test(txt);return `<div class="mono tiny">&lt;${k}&gt;</div><div>${v?esc(v):'<span class="tiny">tom</span>'}${used?"":' <span class="tiny" style="color:var(--warning)">· ikke brukt i dette manuset</span>'}</div>`}).join("")}</div><div class="tiny" style="margin-top:8px">Fra leaden: <span class="mono">${PH_LEAD.map(k=>"&lt;"+k+"&gt;").join(" ")}</span>. <a href="#/settings">Endre profil</a>.</div></div>`;
+ if(!pitchEdit){
+  main.innerHTML=`<div class="top"><div><h1 style="margin:0">${esc(pitch.title||"Pitch")}</h1><div class="tiny">Mål: booke et møte. Ikke fortell for mye. Hvilket manus en lead bruker velger du på leaden eller i ringemodus.</div></div><div style="display:flex;gap:8px"><button class="btn primary" id="p-edit">Rediger</button></div></div>
+  ${tabs}
+  <div class="grid c2" style="grid-template-columns:1.2fr .8fr;align-items:start">
+   <div class="card">${scriptHtml(null,sc)}</div>
+   <div>
+    ${profileBox}
+    <div class="card"><h2>Innspill fra samtaler <span class="tiny">(${pitch.notes.length})</span></h2>
+     ${pitch.notes.length?`<div class="hist">${pitch.notes.slice().reverse().map(n=>`<div><span class="d">${esc(n.date)}</span><span>${ud(n.text)}${n.company?`<div class="tiny">${ud(n.company)}</div>`:""}</span></div>`).join("")}</div>`:'<div class="tiny">Ingen ennå. Legg inn fra ringemodus, eller her:</div>'}
+     <div class="field" style="margin-top:12px"><input id="p-note" placeholder="Nytt innspill … Enter for å lagre"></div>
+    </div>
+    <div class="tiny" style="margin-top:12px">Tall: 30 samtaler → 10 snakket → 3 møter → 1 salg. 1 av 3–5 tar telefonen. Book 4–5 møter for å få 3 gjennomført. Ha 100 prospekter klare.</div>
+   </div>
+  </div>`;
+  main.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{pitchTab=b.dataset.tab;viewPitch()});
+  $("#p-edit").onclick=()=>{pitchEdit=true;viewPitch()};
+  $("#p-note").onkeydown=e=>{if(e.key==="Enter"&&e.target.value.trim()){pitch.notes.push({date:today(),text:e.target.value.trim(),company:""});store.savePitch();viewPitch();$("#p-note").focus()}};
+  return;
+ }
+ const ta=(k,v,rows=2)=>`<textarea data-pk="${k}" rows="${rows}" style="min-height:0">${esc(v)}</textarea>`;
+ const list=(k,items,ph)=>`<div class="plist" data-pl="${k}">${items.map((v,i)=>`<div class="pitem"><textarea data-pl-k="${k}" data-i="${i}" rows="2" style="min-height:0">${esc(v)}</textarea><button class="btn ghost sm" data-rm="${k}" data-i="${i}" title="Fjern">×</button></div>`).join("")}<button class="btn sm" data-add="${k}">+ ${ph}</button></div>`;
+ main.innerHTML=`<div class="top"><div><h1 style="margin:0">Pitch</h1><div class="tiny">Redigeres rett i feltene og lagres i <span class="mono">pitch.json</span>.</div></div>
+ <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary sm" id="p-done">Ferdig</button><button class="btn sm" id="p-dl">Last ned pitch.json</button><label class="btn sm" style="margin:0">Importer<input type="file" id="p-imp" accept=".json" hidden></label><button class="btn sm ghost" id="p-reset">Tilbakestill alt</button></div></div>
+ ${tabs}
+ <div class="grid c2" style="align-items:start">
+  <div class="card pedit">
+   <div class="row"><div class="field"><label>Navn på manuset</label><input data-pk="name" value="${esc(sc.name)}"></div><div class="field" style="display:flex;align-items:flex-end;gap:8px"><button class="btn sm" id="p-dup">Dupliser</button>${pitch.scripts.length>1?`<button class="btn sm ghost danger" id="p-dels">Slett manus</button>`:""}</div></div>
+   <div class="field"><label>1 · Åpning</label>${ta("open",sc.open,3)}</div>
+   <div class="field"><label>2 · Budskap</label>${ta("msg",sc.msg,3)}</div>
+   <div class="tiny" style="margin:-8px 0 14px">Plassholdere: <span class="mono">&lt;fornavn&gt; &lt;selskap&gt; &lt;hva dere gjør&gt; &lt;tema&gt;</span> fra Din profil · <span class="mono">&lt;navn&gt; &lt;bedrift&gt; &lt;by&gt; &lt;bransje&gt; &lt;grunn&gt; &lt;sist&gt;</span> fra leaden. Uløste vises gult i ringemodus.</div>
+   <div class="field"><label>3 · Finn tid</label>${ta("time",sc.time,2)}</div>
+   <div class="field"><label>4 · Avslutning, punkt for punkt</label>${list("recap",sc.recap,"punkt")}</div>
+  </div>
+  <div>
+   <div class="card pedit"><h2>Innvendinger</h2><div class="tiny" style="margin-bottom:10px">Første linje er innvendingen, andre er svaret ditt.</div>
+    <div data-pl="objections">${sc.objections.map((o,i)=>`<div class="pobj"><input data-po="${i}" data-j="0" value="${esc(o[0])}" placeholder="«Innvending»"><div class="pitem"><textarea data-po="${i}" data-j="1" rows="2" style="min-height:0" placeholder="Svar">${esc(o[1])}</textarea><button class="btn ghost sm" data-rmo="${i}" title="Fjern">×</button></div></div>`).join("")}<button class="btn sm" id="p-addo">+ innvending</button></div>
+   </div>
+   <div class="card pedit" style="margin-top:16px"><h2>USP-er</h2>${list("usps",sc.usps,"USP")}</div>
+   <div class="card pedit" style="margin-top:16px"><h2>Innspill fra samtaler <span class="tiny">(${pitch.notes.length})</span></h2><div class="tiny" style="margin-bottom:10px">Felles for alle manus. Flytt det som holder inn i et manus.</div>
+    ${pitch.notes.length?`<div class="hist">${pitch.notes.slice().reverse().map((n,ri)=>{const i=pitch.notes.length-1-ri;return `<div><span class="d">${esc(n.date)}</span><span style="flex:1">${ud(n.text)}${n.company?`<div class="tiny">${ud(n.company)}</div>`:""}</span><button class="btn ghost sm" data-rmn="${i}">×</button></div>`}).join("")}</div>`:'<div class="tiny">Ingen ennå.</div>'}
+    <div class="field" style="margin-top:12px"><input id="p-note" placeholder="Nytt innspill … Enter for å lagre"></div>
+   </div>
+  </div>
+ </div>`;
+ const grow=t=>{t.style.height="auto";t.style.height=(t.scrollHeight+2)+"px"};main.querySelectorAll("textarea").forEach(grow);
+ const save=()=>{store.savePitch();renderStatus()};
+ main.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{pitchTab=b.dataset.tab;viewPitch()});
+ $("#p-adds").onclick=()=>{const n=normScript(JSON.parse(JSON.stringify(lang==="en"?BLANK_SCRIPT_EN:BLANK_SCRIPT)),pitch.scripts.length);n.id=uid();pitch.scripts.push(n);pitchTab=n.id;save();viewPitch()};
+ $("#p-dup").onclick=()=>{const n=JSON.parse(JSON.stringify(sc));n.id=uid();n.name=sc.name+" (kopi)";pitch.scripts.push(n);pitchTab=n.id;save();viewPitch()};
+ const ds=$("#p-dels");if(ds)ds.onclick=()=>{const n=state.leads.filter(l=>l.script===sc.id).length;if(confirm(`Slette manuset «${sc.name}»?${n?` ${n} leads går tilbake til første manus.`:""}`)){state.leads.forEach(l=>{if(l.script===sc.id)delete l.script});pitch.scripts=pitch.scripts.filter(x=>x.id!==sc.id);pitchTab=pitch.scripts[0].id;store.save();save();viewPitch()}};
+ main.querySelectorAll("[data-pk]").forEach(el=>el.oninput=()=>{sc[el.dataset.pk]=el.value;if(el.tagName==="TEXTAREA")grow(el);save();if(el.dataset.pk==="name"){const t=main.querySelector(`[data-tab="${sc.id}"]`);if(t)t.childNodes[0].textContent=el.value}});
+ main.querySelectorAll("[data-pl-k]").forEach(el=>el.oninput=()=>{sc[el.dataset.plK][el.dataset.i]=el.value;grow(el);save()});
+ main.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{sc[b.dataset.rm].splice(b.dataset.i,1);save();viewPitch()});
+ main.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{sc[b.dataset.add].push("");save();viewPitch();const ts=main.querySelectorAll(`[data-pl-k="${b.dataset.add}"]`);ts[ts.length-1]?.focus()});
+ main.querySelectorAll("[data-po]").forEach(el=>el.oninput=()=>{sc.objections[el.dataset.po][el.dataset.j]=el.value;if(el.tagName==="TEXTAREA")grow(el);save()});
+ main.querySelectorAll("[data-rmo]").forEach(b=>b.onclick=()=>{sc.objections.splice(b.dataset.rmo,1);save();viewPitch()});
+ $("#p-addo").onclick=()=>{sc.objections.push(["",""]);save();viewPitch();const ins=main.querySelectorAll('[data-po][data-j="0"]');ins[ins.length-1]?.focus()};
+ main.querySelectorAll("[data-rmn]").forEach(b=>b.onclick=()=>{pitch.notes.splice(b.dataset.rmn,1);save();viewPitch()});
+ $("#p-note").onkeydown=e=>{if(e.key==="Enter"&&e.target.value.trim()){pitch.notes.push({date:today(),text:e.target.value.trim(),company:""});save();viewPitch();$("#p-note").focus()}};
+ $("#p-done").onclick=()=>{pitchEdit=false;viewPitch()};
+ $("#p-dl").onclick=()=>download("pitch.json",JSON.stringify(pitch,null,1),"application/json");
+ $("#p-imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{pitch=normPitch(JSON.parse(await f.text()));pitchTab=null;save();toast("Pitch importert");viewPitch()}catch(err){toast("Kunne ikke lese filen: "+err.message)}};
+ $("#p-reset").onclick=()=>{if(confirm("Tilbakestille alle manus til de innebygde? Innspill beholdes.")){const notes=pitch.notes;pitch=normPitch(DEFAULT_PITCH);pitch.notes=notes;pitchTab=null;save();viewPitch()}};
+}
+function viewCall(id){
+ const l=state.leads.find(x=>x.id===id);if(!l){location.hash="#/today";return}
+ setActive("today");
+ main.innerHTML=`<div class="top"><div><a href="#/lead/${id}" class="tiny">← ${ud(l.company)}</a><h1 style="margin-top:4px">Ringer ${ud(l.contact||l.company)}</h1></div><div style="display:flex;gap:8px"><button class="btn ghost" id="skip">Hopp over →</button><a class="btn ghost" href="#/today">Avbryt</a></div></div>
+ ${store.mode==="needs-permission"?'<div class="banner">Mappen er låst etter omstart. <a href="#/settings">Gi tilgang</a> så lagres alt til mappen igjen. Det du logger nå ligger trygt i nettleseren til da.</div>':""}
+ <div class="call">
+  <div class="card">${pitch.scripts.length>1?`<div class="field"><label>Manus</label><select id="call-script">${pitch.scripts.map(x=>`<option value="${x.id}" ${x.id===scriptFor(l).id?"selected":""}>${ud(x.name)}</option>`).join("")}</select></div>`:""}${scriptHtml(l)}</div>
+  <div>
+   <div class="card" style="margin-bottom:16px">
+    <div class="phone">${l.phone?`<a href="tel:${esc(H.tel(l.phone))}" style="color:inherit;text-decoration:none">${ud(l.phone)}</a>`:"ingen nummer"}</div>
+    ${H.linksHtml(l).replace('class="links"','class="links" style="margin:8px 0 4px"')}
+    <div class="kv" style="margin-top:12px"><div>Kontakt</div><div>${ud(l.contact||"–")} ${l.role?"· "+esc(l.role):""}</div><div>Selskap</div><div>${ud(l.company)}${l.city?", "+esc(l.city):""}</div><div>Bransje</div><div>${ud(l.nace||"–")}</div><div>Aksjonær</div><div>${ud(l.shareholder||"–")}</div><div>Steg</div><div>${esc(l.stage)}</div><div>Sist</div><div>${ud(l.lastContact||"–")}</div>${l.meetingDate?`<div>Møte</div><div class="mono">${esc(l.meetingDate)} ${esc(meetingSpan(l))}</div>`:""}</div>
+    ${l.notes?`<div class="tiny" style="margin-top:10px;white-space:pre-wrap">${ud(l.notes)}</div>`:""}
+   </div>
+   <h2>Utfall</h2>
+   <div class="outcomes">${OUTCOMES.map(o=>`<button class="btn ${o.secondary?"secondary":""}" data-o="${o.k}">${esc(o.l)}</button>`).join("")}</div>
+   ${(()=>{const acts=state.activities.filter(a=>a.leadId===id).sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts).slice(0,3);return acts.length?`<details class="tips" open style="margin-top:14px"><summary>Sist (${acts.length})</summary><div class="hist">${acts.map(a=>`<div><span class="d">${esc(a.date)}</span><span><b>${esc(a.type)}</b> · ${esc(a.outcome)}${a.notes?`<div class="tiny">${ud(a.notes)}</div>`:""}</span></div>`).join("")}</div></details>`:""})()}
+   <div class="field" style="margin-top:14px"><label>Notat fra samtalen</label><textarea id="call-notes" placeholder="Hva sa de? Hva ble avtalt?">${esc(callDraft.id===id?callDraft.notes||"":"")}</textarea></div>
+   <div class="field"><label>Innspill til pitchen <span class="tiny">(spørsmål de stilte, noe du bør si annerledes)</span></label><input id="pitch-note" placeholder="Enter for å lagre i pitch.json"></div>
+  </div>
+ </div>`;
+ main.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>applyOutcome(l,OUTCOMES.find(o=>o.k===b.dataset.o),$("#call-notes").value));
+ const cs=$("#call-script");if(cs)cs.onchange=()=>{l.script=cs.value;store.save();viewCall(id)};
+ $("#skip").onclick=()=>{const rest=callList().filter(isCallTask);const i=rest.findIndex(x=>x.id===id);const next=rest[(i+1)%rest.length];location.hash=next&&next.id!==id?"#/call/"+next.id:"#/today"};
+ $("#pitch-note").onkeydown=e=>{if(e.key==="Enter"&&e.target.value.trim()){pitch.notes.push({date:today(),text:e.target.value.trim(),company:l.company});store.savePitch();e.target.value="";toast("Lagt til i pitchen")}};
+ $("#call-notes").oninput=e=>{callDraft={id,notes:e.target.value}};
+}
+function applyOutcome(l,o,notes){
+ const finish=(date,extra={},time="",end="",prep=null)=>{
+  if(/^(Snakket|Møte)/.test(o.l))l.lastContact=today();
+  if(prep!==null)l.callPrep=prep;
+  if(o.k==="meeting"){l.meetingDate=date;l.meetingTime=time||"";l.meetingEnd=end||""}
+  if(o.stage!=null&&(o.force||stageIdx(l.stage)<=o.stage)||o.k==="notint")l.stage=STAGES[o.stage];
+  if(o.action){const rn=state.settings.actionRenames||{};l.nextAction=rn[o.action]||o.action;l.nextActionDate=date}
+  if(o.k==="notint"){l.nextAction="";l.nextActionDate="";l.lostReason=extra.lost||""}
+  state.activities.push({id:uid(),leadId:l.id,date:today(),ts:Date.now(),type:o.type,outcome:o.l,notes,next:l.nextAction?`${l.nextAction} ${l.nextActionDate}`:""});
+  store.save();toast("Logget: "+o.l);
+  callDraft={};const next=callList().filter(isCallTask).find(x=>x.id!==l.id);location.hash=next?"#/call/"+next.id:"#/today";
+ };
+ if(o.ask==="date")askDialog(o.k==="meeting"?"Når er møtet?":"Når skal du ringe tilbake?",addDays(today(),o.k==="meeting"?3:2),(d,tm,tm2,pr)=>finish(d,{},tm,tm2,pr),o.k==="meeting",l.callPrep||"");
+ else if(o.ask==="lost")lostDialog(v=>finish(null,{lost:v}));
+ else finish(addDays(today(),o.days));
+}
+
+/* ---------- dialogs ---------- */
+const root=$("#modal-root");
+let modalReturn=null;
+function closeModal(){root.innerHTML="";document.body.style.overflow="";if(modalReturn&&document.contains(modalReturn)){try{modalReturn.focus()}catch(e){}}modalReturn=null}
+const FOCUSABLE='a[href],button:not([disabled]),input:not([type=hidden]):not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+function trapFocus(m,e){if(e.key!=="Tab")return;const f=[...m.querySelectorAll(FOCUSABLE)].filter(x=>x.offsetParent!==null);if(!f.length)return;const first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+function modal(html){modalReturn=document.activeElement;root.innerHTML=T(`<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`);document.body.style.overflow="hidden";$(".modal-bg").onclick=e=>{if(e.target.classList.contains("modal-bg"))closeModal()};const m=$(".modal");a11y(m);const h=m.querySelector(".head h2");if(h){h.id="dlg-"+uid();m.setAttribute("aria-labelledby",h.id)}m.onkeydown=e=>{trapFocus(m,e);if(e.key==="Escape"){e.preventDefault();closeModal()}if(e.key==="Enter"&&e.target.tagName!=="TEXTAREA"){e.preventDefault();$("#ok",m)?.click()}};setTimeout(()=>{const f=m.querySelector(FOCUSABLE+':not(.head *)');if(f&&!m.contains(document.activeElement))f.focus()},0);return m}
+function nameDialog(title,placeholder,cb){const r2=$("#modal-root2");r2.innerHTML=T(`<div class="modal-bg"><div class="modal"><div class="head"><h2>${esc(title)}</h2></div><div class="body"><div class="field"><label>Navn</label><input id="nm" placeholder="${esc(placeholder||"")}" autocomplete="off"></div></div><div class="foot"><button class="btn ghost" id="c">Avbryt</button><button class="btn primary" id="ok">Legg til</button></div></div></div>`);
+ const close=v=>{r2.innerHTML="";cb(v)};const inp=$("#nm",r2);inp.focus();
+ $("#c",r2).onclick=()=>close("");$("#ok",r2).onclick=()=>close(inp.value.trim());
+ r2.querySelector(".modal-bg").onclick=e=>{if(e.target.classList.contains("modal-bg"))close("")};
+ r2.onkeydown=e=>{e.stopPropagation();trapFocus(r2.querySelector(".modal"),e);if(e.key==="Enter"){e.preventDefault();close(inp.value.trim())}if(e.key==="Escape"){e.preventDefault();close("")}};}
+const meetingSpan=l=>l.meetingTime?`kl. ${l.meetingTime}${l.meetingEnd?"–"+l.meetingEnd:""}`:"";
+const addMin=(t,m)=>{if(!/^\d{2}:\d{2}$/.test(t))return "";const [h,mi]=t.split(":").map(Number);const x=(h*60+mi+m)%(24*60);return String(Math.floor(x/60)).padStart(2,"0")+":"+String(x%60).padStart(2,"0")};
+function meetingDialog(l,after){const m=modal(`<div class="head"><h2>${l.meetingDate?"Endre møte":"Legg til møte"}</h2></div><div class="body"><div class="row"><div class="field"><label>Dato</label><input type="date" id="d" value="${esc(l.meetingDate||addDays(today(),3))}"></div><div class="field"><label>Fra – til</label><div style="display:flex;gap:6px;align-items:center"><input type="time" id="t1" step="300" value="${esc(l.meetingTime||"10:00")}"><span class="tiny">–</span><input type="time" id="t2" step="300" value="${esc(l.meetingEnd||addMin(l.meetingTime||"10:00",45))}"></div></div></div><div class="tiny">Kun til visning her. Legg møtet i din egen kalender.</div></div><div class="foot"><div>${l.meetingDate?`<button class="btn ghost danger sm" id="rm">Fjern møte</button>`:""}</div><div style="display:flex;gap:8px"><button class="btn ghost" id="c">Avbryt</button><button class="btn primary" id="ok">Lagre</button></div></div>`);
+ $("#t1",m).onchange=()=>{$("#t2",m).value=addMin($("#t1",m).value,45)};$("#c",m).onclick=closeModal;const rm=$("#rm",m);if(rm)rm.onclick=()=>{l.meetingDate="";l.meetingTime="";l.meetingEnd="";store.save();closeModal();after&&after()};
+ $("#ok",m).onclick=()=>{const d=$("#d",m).value;if(!d)return;const was=!!l.meetingDate;l.meetingDate=d;l.meetingTime=$("#t1",m).value;l.meetingEnd=$("#t2",m).value;if(stageIdx(l.stage)<3)l.stage=STAGES[3];if(!/^møte/i.test(l.nextAction||"")||!was){l.nextAction="Møte";l.nextActionDate=d}if(!was)state.activities.push({id:uid(),leadId:l.id,date:today(),ts:Date.now(),type:"Møte",outcome:"Møte booket",notes:"",next:`Møte ${d} ${meetingSpan(l)}`});store.save();closeModal();toast(was?"Møte oppdatert":"Møte lagt til");after&&after()}}
+function askDialog(title,def,cb,withTime=false,prep=null){const m=modal(`<div class="head"><h2>${esc(title)}</h2></div><div class="body">${prep!==null?`<div class="field"><label>Til neste samtale</label><textarea id="prep" placeholder="Hva sa de? Hva lovte du?">${esc(prep)}</textarea></div>`:""}<div class="row"><div class="field"><label>Dato</label><input type="date" id="d" value="${def}"></div>${withTime?`<div class="field"><label>Fra – til</label><div style="display:flex;gap:6px;align-items:center"><input type="time" id="tm" value="10:00" step="300"><span class="tiny">–</span><input type="time" id="tm2" value="10:45" step="300"></div></div>`:""}</div>${withTime?'<div class="tiny">Kun til visning her. Legg møtet i din egen kalender.</div>':""}</div><div class="foot"><button class="btn ghost" id="c">Avbryt</button><button class="btn primary" id="ok">Lagre</button></div>`);$("#c",m).onclick=closeModal;$("#ok",m).onclick=()=>{const v=$("#d",m).value;if(!v)return;const tm=withTime?$("#tm",m).value:"",tm2=withTime?$("#tm2",m).value:"";const pr=$("#prep",m)?$("#prep",m).value:null;closeModal();cb(v,tm,tm2,pr)};if(withTime)$("#tm",m).onchange=()=>{$("#tm2",m).value=addMin($("#tm",m).value,45)};$("#d",m).focus()}
+function lostDialog(cb){const m=modal(`<div class="head"><h2>Hvorfor ikke?</h2></div><div class="body"><div class="radios">${LOST.map((r,i)=>`<label><input type="radio" name="lr" value="${esc(r)}" ${i===0?"checked":""}>${esc(r)}</label>`).join("")}</div></div><div class="foot"><button class="btn ghost" id="c">Avbryt</button><button class="btn primary" id="ok">Lagre</button></div>`);$("#c",m).onclick=closeModal;$("#ok",m).onclick=()=>{const v=m.querySelector("input[name=lr]:checked").value;closeModal();cb(v)}}
+function logDialog(l,after){
+ const m=modal(`<div class="head"><h2>Logg aktivitet</h2></div><div class="body"><div class="row"><div class="field"><label>Dato</label><input type="date" id="d" value="${today()}"></div><div class="field"><label>Type</label><select id="t">${["Ring","E-post","Møte","LinkedIn","Annet"].map(x=>`<option value="${x}">${x}</option>`).join("")}</select></div></div><div class="field"><label>Utfall</label><select id="o">${OUTCOMES.map(o=>`<option value="${esc(o.l)}">${esc(o.l)}</option>`).join("")}<option value="Annet">Annet</option></select></div><div class="field"><label>Notat</label><textarea id="n"></textarea></div><div class="row"><div class="field"><label>Neste handling</label>${selectHtml("nextAction",l.nextAction,'id="na"').replace('data-f="nextAction"','').replace(/<option value="__add__">.*?<\/option>/,"")}</div><div class="field"><label>Dato</label><input type="date" id="nd" value="${esc(l.nextActionDate)}"></div></div></div><div class="foot"><button class="btn ghost" id="c">Avbryt</button><button class="btn primary" id="ok">Lagre</button></div>`);
+ $("#c",m).onclick=closeModal;
+ $("#ok",m).onclick=()=>{state.activities.push({id:uid(),leadId:l.id,date:$("#d",m).value,ts:Date.now(),type:$("#t",m).value,outcome:$("#o",m).value,notes:$("#n",m).value,next:$("#na",m).value});l.lastContact=$("#d",m).value;l.nextAction=$("#na",m).value;l.nextActionDate=$("#nd",m).value;store.save();closeModal();after&&after()};
+}
+
+/* ---------- wizard ---------- */
+function wizard(){
+ const l=newLead();let step=0;let roles=[];let searchT,searchSeq=0,rolesFor="";
+ const steps=["Selskap","Personer","Hvorfor","Neste steg"];
+ const m=modal(`<div class="head"><h2>Ny lead</h2><div class="steps" id="steps"></div></div><div class="body" id="wb"></div><div class="foot"><div class="tiny" id="wh"></div><div style="display:flex;gap:8px"><button class="btn ghost" id="back">Tilbake</button><button class="btn primary" id="next">Neste</button></div></div>`);
+ const wbEl=$("#wb",m);const wb={set innerHTML(v){wbEl.innerHTML=T(v);a11y(wbEl)},querySelectorAll:(...a)=>wbEl.querySelectorAll(...a),querySelector:(...a)=>wbEl.querySelector(...a)};
+ function hints(){const h=fieldHints(l);wb.querySelectorAll("[data-hint]").forEach(el=>el.innerHTML=T(h[el.dataset.hint]||""))}
+ function bind(){wb.querySelectorAll("[data-f]").forEach(el=>{el.oninput=()=>{if(LISTS[el.dataset.f]&&handleAdd(el,el.dataset.f,v=>{l[el.dataset.f]=v;render()}))return;l[el.dataset.f]=el.type==="checkbox"?el.checked:el.type==="radio"?(el.checked?el.value:l[el.dataset.f]):el.value;if(el.dataset.f==="emailConsent"){const n=wb.querySelector("[data-consent-note]");if(n){n.hidden=!el.checked;if(el.checked)n.querySelector("input").focus()}}hints()}})}
+ function normalize(){l.orgnr=H.orgnr(l.orgnr)||l.orgnr;l.phone=H.phone(l.phone);l.website=H.domain(l.website);l.email=String(l.email||"").trim().toLowerCase();deriveContactType(l)}
+ function render(){
+  $("#steps",m).innerHTML=T(steps.map((s,i)=>`<span class="${i===step?"on":i<step?"done":""}">${i+1} ${s}</span>`).join(""));
+  $("#back",m).disabled=step===0;$("#next",m).textContent=t(step===steps.length-1?"Lagre lead":"Neste");
+  $("#wh",m).innerHTML=T(step===0?"Søk i Brønnøysundregistrene, eller skriv inn selv. <kbd>Enter</kbd> går videre.":step===1?"Daglig leder og styreleder hentes fra Brreg. Aksjonær finner du på proff.no.":step===2?"Én setning som gjør at det føles som du ringer akkurat dem.":"Alt du trenger er en neste handling med dato.");
+  if(step===0)wb.innerHTML=`<div class="field"><label>Selskap</label><input id="bs" placeholder="Firmanavn eller org.nr" autocomplete="off" value="${esc(l.company)}"><div class="results" id="br" hidden></div></div>
+   ${H.linksHtml(l)}
+   <div class="row"><div class="field"><label>Org.nr</label><input data-f="orgnr" value="${esc(l.orgnr)}" inputmode="numeric"><div class="hint" data-hint="orgnr">${fieldHints(l).orgnr}</div></div><div class="field"><label>Sted</label><input data-f="city" value="${esc(l.city)}"></div></div>
+   <div class="row"><div class="field"><label>Bransje / NACE</label><input data-f="nace" value="${esc(l.nace)}"></div><div class="field"><label>Nettside</label><input data-f="website" value="${esc(l.website)}" placeholder="firma.no"></div></div>
+   <div class="row"><div class="field"><label>Segment</label>${selectHtml("segment",l.segment)}</div><div class="field"><label>Kilde</label>${selectHtml("source",l.source)}</div></div>`;
+  else if(step===1)wb.innerHTML=`${roles.length?`<div class="field"><label>Roller fra Brreg (klikk for å bruke)</label><div class="results" style="max-height:160px">${roles.map((r,i)=>`<div data-r="${i}">${ud(r.name)}<span class="s"> · ${ud(r.role)}</span></div>`).join("")}</div></div>`:l.orgnr?'<div class="tiny" style="margin-bottom:12px">Fant ingen roller i Brreg for dette org.nr.</div>':""}
+   ${H.linksHtml(l)}
+   <div class="row"><div class="field"><label>Kontaktperson</label><input data-f="contact" value="${esc(l.contact)}"></div><div class="field"><label>Rolle</label><input data-f="role" value="${esc(l.role)}"></div></div>
+   <div class="row"><div class="field"><label>Telefon</label><input data-f="phone" type="tel" value="${esc(l.phone)}" placeholder="Fra 1881"><div class="hint">Formateres når du går videre. Jobbnummer foran privat mobil.</div></div><div class="field"><label>E-post</label><input data-f="email" type="email" value="${esc(l.email)}" placeholder="post@firma.no"><div class="hint" data-hint="email">${fieldHints(l).email}</div></div></div>
+   <div class="row"><div></div><div class="field">${consentHtml(l)}</div></div>
+   <div class="row"><div class="field"><label>Største aksjonær ${proffLink(l)}</label><input data-f="shareholder" value="${esc(l.shareholder)}" placeholder="Fra proff.no"></div><div class="field"><label>LinkedIn</label><input data-f="linkedin" value="${esc(l.linkedin)}"></div></div>
+   ${tips("people")}`;
+  else if(step===2)wb.innerHTML=`<div class="field"><label>Hvorfor ringer du akkurat dem?</label><textarea data-f="reason" placeholder="f.eks. dere har nettopp fått ny daglig leder / vant et Doffin-anbud / håndterer sensitive kundedata i ${esc(l.nace.split(" ").slice(1).join(" ")||"bransjen")}">${esc(l.reason)}</textarea><div class="hint" data-hint="reason">${fieldHints(l).reason||"Settes rett inn i pitchen når du ringer."}</div></div>
+   <div class="row"><div class="field"><label>Est. verdi (NOK)</label><input data-f="value" type="number" value="${esc(l.value)}"></div><div class="field"><label>Notater</label><input data-f="notes" value="${esc(l.notes)}" placeholder="Om virksomheten og salget, ikke om personen"><div class="hint" data-hint="notes">${fieldHints(l).notes}</div></div></div>
+   <div class="field"><label>GDPR-grunnlag</label><textarea data-f="gdprBasis" style="min-height:64px;font-size:13px">${esc(l.gdprBasis)}</textarea></div>
+   ${tips("notes")}`;
+  else wb.innerHTML=`<div class="row"><div class="field"><label>Neste handling</label>${selectHtml("nextAction",l.nextAction)}</div><div class="field"><label>Dato</label><input data-f="nextActionDate" type="date" value="${esc(l.nextActionDate)}"></div></div>
+   <div class="field"><label>Steg</label><select data-f="stage">${STAGES.map(s=>`<option value="${esc(s)}" ${s===l.stage?"selected":""}>${esc(s)}</option>`).join("")}</select></div>
+   <div class="card" style="background:var(--inset)"><div class="kv"><div>Selskap</div><div>${ud(l.company||"–")}</div><div>Kontakt</div><div>${ud(l.contact||"–")}${l.role?" · "+esc(l.role):""}</div><div>Telefon</div><div class="mono">${ud(l.phone||"–")}</div><div>E-post</div><div>${ud(l.email||"–")}${l.emailConsent?" · samtykke":l.email&&!H.emailIsGeneric(l.email)?" · kun telefon":""}</div></div></div>`;
+  bind();
+  if(step===0){const bs=$("#bs",m),br=$("#br",m);bs.focus();bs.oninput=()=>{l.company=bs.value;clearTimeout(searchT);searchT=setTimeout(async()=>{if(bs.value.trim().length<3){br.hidden=true;return}const seq=++searchSeq;try{const rs=await brreg.search(bs.value);if(seq!==searchSeq)return;br.hidden=!rs.length;br.innerHTML=T(rs.map((r,i)=>`<div data-i="${i}">${ud(r.company)}<span class="s"> · ${r.orgnr} · ${ud(r.city)}${r.employees!=null?" · "+r.employees+" ans.":""}</span></div>`).join(""));br.querySelectorAll("[data-i]").forEach(d=>d.onclick=()=>{Object.assign(l,rs[d.dataset.i]);if(!l.source)l.source="brreg.no";roles=[];render()})}catch(e){br.hidden=false;br.innerHTML=T(`<div class="s">Brreg utilgjengelig (${esc(e.message)}). Skriv inn selv.</div>`)}},350)}}
+  if(step===1)wb.querySelectorAll("[data-r]").forEach(d=>d.onclick=()=>{const r=roles[d.dataset.r];l.contact=r.name;l.role=r.role;render()});
+  const first=wb.querySelector("input:not([type=radio]),textarea");if(step>0&&first)first.focus();
+ }
+ async function go(dir){
+  if(dir>0){normalize();if(H.sensitive(l.reason)){toast("«Hvorfor ringer du akkurat dem?» inneholder noe som ser ut som en særlig kategori. Fjern det først.");return}if(H.sensitive(l.notes)){toast("Notatet inneholder noe som ser ut som en særlig kategori. Fjern det først.");return}}
+  if(dir>0&&step===0){if(!l.company.trim()){toast("Selskap mangler");return}if(l.orgnr&&!H.orgnrValid(l.orgnr)){toast("Org.nr ser ugyldig ut");return}if(l.orgnr&&rolesFor!==l.orgnr){try{roles=await brreg.roles(l.orgnr.replace(/\s/g,""));rolesFor=l.orgnr}catch(e){}}}
+  if(dir>0&&step===steps.length-1){if(!l.nextActionDate)l.nextActionDate=addDays(today(),1);state.leads.push(l);store.save();closeModal();toast(t("Lagret")+" "+l.company,true);route();return}
+  step=Math.max(0,Math.min(steps.length-1,step+dir));render();
+ }
+ $("#back",m).onclick=()=>go(-1);$("#next",m).onclick=()=>go(1);
+ const cancel=()=>{if(!l.company.trim()||confirm("Forkaste denne leaden?"))closeModal()};
+ $(".modal-bg").onclick=e=>{if(e.target.classList.contains("modal-bg"))cancel()};
+ m.onkeydown=e=>{trapFocus(m,e);if(e.key==="Enter"&&e.target.tagName!=="TEXTAREA"&&!e.target.closest("#bs")){e.preventDefault();go(1)}if(e.key==="Enter"&&e.target.closest("#bs")){const f=$("#br [data-i]",m);if(f&&!$("#br",m).hidden){f.click()}else go(1)}if(e.key==="Escape"){e.preventDefault();cancel()}};
+ render();
+}
+
+/* ---------- lists ---------- */
+function viewLists(){
+ setActive("lists");
+ const used=(f,v)=>state.leads.filter(l=>l[f]===v).length;
+ main.innerHTML=`<div class="top"><div><h1 style="margin:0">Lister</h1><div class="tiny">Verdiene i nedtrekksmenyene. Endrer du et navn, oppdateres leads som bruker det. «+ Ny …» nederst i hver meny legger også til her.</div></div></div>
+ <div class="grid c3" style="align-items:start">${Object.entries(LISTS).map(([f,L])=>`<div class="card"><h2>${esc(L.plural)} <span class="muted mono" style="font-size:13px;font-weight:400">${listOf(f).length}</span></h2>
+  <div class="tiny" style="margin-bottom:12px">${f==="segment"?"Hvem du selger til. Brukes til å filtrere og til å se hva som konverterer.":f==="source"?"Hvor leaden kom fra.":"Det som kan stå som neste handling. Ringe-handlinger (starter med «Ring») åpner ringemodus fra oppgavelisten."}</div>
+  <div class="plist">${listOf(f).map((v,i)=>`<div class="pitem"><input data-lf="${f}" data-i="${i}" value="${esc(v)}" title="${used(f,v)} leads"><span class="tiny mono" style="min-width:2.5em;text-align:right">${used(f,v)||""}</span><button class="btn ghost sm" data-lrm="${f}" data-i="${i}" title="Fjern">×</button></div>`).join("")}<button class="btn sm" data-ladd="${f}">+ ${L.label.toLowerCase()}</button></div>
+  <div class="tiny" style="margin-top:10px"><button class="btn ghost sm" data-lreset="${f}">Tilbakestill til standard</button></div></div>`).join("")}</div>`;
+ main.querySelectorAll("[data-lf]").forEach(el=>el.onchange=()=>{const f=el.dataset.lf,i=+el.dataset.i,list=listOf(f),old=list[i],v=el.value.trim();if(!v){el.value=old;return}list[i]=v;state.leads.forEach(l=>{if(l[f]===old)l[f]=v});if(f==="nextAction"){const rn=state.settings.actionRenames||(state.settings.actionRenames={});for(const k of Object.keys(rn))if(rn[k]===old)rn[k]=v;if(DEFAULT_ACTIONS.includes(old)||OUTCOMES.some(o=>o.action===old))rn[old]=v}store.save();toast(`«${old}» → «${v}»`);viewLists()});
+ main.querySelectorAll("[data-lrm]").forEach(b=>b.onclick=()=>{const f=b.dataset.lrm,list=listOf(f),v=list[+b.dataset.i];const n=used(f,v);if(confirm(`Fjerne «${v}» fra listen?${n?` ${n} leads beholder verdien.`:""}`)){list.splice(+b.dataset.i,1);store.save();viewLists()}});
+ main.querySelectorAll("[data-ladd]").forEach(b=>b.onclick=()=>{const f=b.dataset.ladd;nameDialog(`Ny ${LISTS[f].label.toLowerCase()}`,LISTS[f].ph,name=>{if(!name)return;const list=listOf(f);if(!list.includes(name))list.push(name);store.save();viewLists()})});
+ main.querySelectorAll("[data-lreset]").forEach(b=>b.onclick=()=>{const f=b.dataset.lreset;if(confirm(`Tilbakestille ${LISTS[f].plural.toLowerCase()} til standardlisten? Leads beholder verdiene sine.`)){state.settings[LISTS[f].key]=LISTS[f].def.slice();store.save();viewLists()}});
+}
+
+/* ---------- settings ---------- */
+function viewSettings(){
+ setActive("settings");
+ const fs=store.supportsFS();
+ const expired=state.leads.filter(l=>l.dateAdded&&addDays(l.dateAdded,365)<=today()&&l.stage!==STAGES[5]);
+ main.innerHTML=`<div class="top"><h1>Innstillinger</h1></div>
+ <div class="grid c2" style="align-items:start">
+  <div>
+   <div class="card">
+    <h2>Lagring</h2>
+    ${store.storageBroken&&store.mode!=="fs"?'<div class="banner danger" style="margin:0 0 14px">Nettleseren nekter å lagre (privat modus eller blokkert nettstedsdata). Alt du legger inn forsvinner når fanen lukkes. Velg en mappe hvis du kan, ellers last ned JSON før du går.</div>':""}
+    ${fs?`<p class="muted" style="margin-top:0">Velg en mappe på maskinen, gjerne en som synkes eller tas backup av. Appen skriver <span class="mono">${APP.slug}-data.json</span> (kilden), <span class="mono">${APP.slug}.xlsx</span> (samme data som regneark) og <span class="mono">pitch.json</span> (manuset) dit ved hver endring. Ingenting forlater maskinen.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${store.mode==="needs-permission"?'<button class="btn primary" id="grant">Gi tilgang til mappen</button>':""}<button class="btn ${store.mode==="fs"?"":"primary"}" id="pick">${store.mode==="fs"?"Bytt mappe":"Velg mappe"}</button></div>
+    <div class="tiny" style="margin-top:10px">${store.mode==="fs"?"Mappe: <b>"+esc(store.dirHandle.name)+"</b>":"Ingen mappe valgt. Data ligger i nettleserens lager."}</div>
+    ${store.lastError?`<div class="banner danger" style="margin:12px 0 0">Siste feil: ${esc(store.lastError)}</div>`:""}`
+    :`<div class="banner danger" style="margin:0" id="nofs">Denne nettleseren tilbyr ikke mappetilgang (File System Access API). Safari har den ikke, Brave har den skrudd av som standard. Bruk Chrome eller Edge for lagring til mappe. Her ligger data kun i nettleseren, så eksporter jevnlig.</div>
+    <div class="tiny" id="brave-help" hidden style="margin-top:10px"><b>Brave:</b> funksjonen er skrudd av som standard. Åpne <span class="mono">brave://flags/#file-system-access-api</span>, sett den til <b>Enabled</b>, start Brave på nytt og åpne denne filen igjen. Alternativt bruk Chrome eller Edge.</div>`}
+   </div>
+   <div class="card" style="margin-top:16px">
+    <h2>Eksport og import</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="ex-x">Last ned xlsx</button><button class="btn" id="ex-j">Last ned JSON (backup)</button><button class="btn" id="ex-c">Last ned CSV</button></div>
+    <h3 style="margin-top:18px">Til HubSpot</h3>
+    <p class="tiny" style="margin-top:0">To filer med HubSpot sine standard kolonnenavn. Importer selskaper først, så kontakter; kontaktene kobles til selskap via navn og domene. Org.nr og steg kommer som egendefinerte felter du oppretter under importen.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn secondary" id="ex-hc">Selskaper (CSV)</button><button class="btn secondary" id="ex-hk">Kontakter (CSV)</button></div>
+    <div class="field" style="margin-top:16px"><label>Importer fra xlsx (arket «Leads»), CSV eller JSON-backup</label><input type="file" id="imp" accept=".xlsx,.csv,.json"></div>
+    <div class="tiny">Import legger til leads som ikke finnes fra før (samme org.nr eller navn hoppes over). JSON-backup erstatter alt.</div>
+   </div>
+  </div>
+  <div>
+   <div class="card"><h2>Din profil</h2><div class="tiny" style="margin-bottom:12px">Settes inn i manuset der det står <span class="mono">&lt;fornavn&gt; &lt;selskap&gt; &lt;hva dere gjør&gt; &lt;tema&gt;</span>.</div>
+    <div class="row"><div class="field"><label>Navn</label><input data-p="name" value="${esc(profile().name)}"></div><div class="field"><label>Selskap</label><input data-p="company" value="${esc(profile().company)}"></div></div>
+    <div class="field"><label>Hva dere gjør, i én setning</label><input data-p="oneliner" value="${esc(profile().oneliner)}" placeholder="bygger systemer som holder kundedata i Europa"></div>
+    <div class="field"><label>Tema du ringer om</label><input data-p="topic" value="${esc(profile().topic)}" placeholder="GDPR og hvor kundedataene ligger"></div>
+   </div>
+   <div class="card" style="margin-top:16px">
+    <h2>GDPR-rydding</h2>
+    <p class="muted" style="margin-top:0">Leads eldre enn 12 måneder som ikke er vunnet. Slett dem, eller oppdater «lagt til»-datoen hvis det er en levende dialog.</p>
+    ${expired.length?`<div class="list">${expired.map(l=>`<div class="item" data-id="${l.id}"><div class="main"><div class="t">${ud(l.company)}</div><div class="s">lagt til ${ud(l.dateAdded)} · ${esc(l.stage)}</div></div><button class="btn danger sm" data-del="${l.id}">Slett</button></div>`).join("")}</div>`:'<div class="tiny">Ingenting å rydde.</div>'}
+   </div>
+   <div class="card" style="margin-top:16px"><h2>Nettlesere</h2>
+    <table style="font-size:13px"><tr><th>Nettleser</th><th>Lagring til mappe</th></tr>
+    <tr><td>Chrome, Edge</td><td><span class="ok" style="color:var(--verdigris-hover)">Fungerer</span>. Anbefalt.</td></tr>
+    <tr><td>Brave</td><td>Skrudd av som standard. Skru på: lim inn <span class="mono">brave://flags/#file-system-access-api</span> i adressefeltet, velg <b>Enabled</b>, klikk <b>Relaunch</b>, åpne denne filen igjen.</td></tr>
+    <tr><td>Safari, Firefox</td><td>Ikke støttet. Data ligger kun i nettleseren; bruk «Last ned JSON» som backup og «Importer» for å hente den tilbake.</td></tr>
+    <tr><td>Mobil</td><td>Kun lesing og enkel registrering i nettleserlager. Ringemodus fungerer, med tap-to-call.</td></tr></table>
+    <div class="tiny" style="margin-top:8px">Mappetilgang bruker File System Access API. Første gang etter omstart av nettleseren må du klikke «Gi tilgang» én gang.</div>
+   </div>
+   <div class="card" style="margin-top:16px"><h2>Datasikkerhet</h2><ul style="margin:0;padding-left:18px;font-size:13px;color:var(--text-2)">${GDPR_TIPS.safety.map(x=>`<li style="margin-bottom:6px">${esc(x)}</li>`).join("")}</ul>
+    <div class="tiny" style="margin-top:10px">Kilder: <a href="https://www.datatilsynet.no/rettigheter-og-plikter/virksomhetenes-plikter/" target="_blank" rel="noopener">Datatilsynet, virksomhetens plikter</a> · <a href="https://www.forbrukertilsynet.no/lov-og-rett/veiledninger/veiledning-om-markedsforing-via-e-post-sms-o-l" target="_blank" rel="noopener">Forbrukertilsynet, mfl. §15</a></div></div>
+   <div class="card" style="margin-top:16px"><h2>Utseende</h2><div class="theme" style="padding:0"><div class="seg" role="group" aria-label="Tema" style="max-width:320px"><button data-theme-pref="system">System</button><button data-theme-pref="dark">Mørkt</button><button data-theme-pref="light">Lyst</button></div></div><div class="tiny" style="margin-top:8px">System følger maskinens innstilling.</div>
+    <div class="theme" style="padding:12px 0 0"><div class="lbl">Språk</div><div class="seg" role="group" aria-label="Språk" style="max-width:320px"><button data-lang="nb">Norsk</button><button data-lang="en">English</button></div></div></div>
+   <div class="card" style="margin-top:16px;border-color:var(--danger-border);background:var(--danger-surface)"><h2>Nullstill</h2><button class="btn danger" id="wipe">Slett alle data i nettleseren</button><div class="tiny" style="margin-top:8px">Rører ikke filene i mappen, og kobler fra mappen så de ikke overskrives. Velg mappen igjen for å hente dem tilbake.</div></div>
+   <div class="card" style="margin-top:16px"><h2>Om ${esc(APP.name)}</h2>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><svg viewBox="0 0 800 800" style="width:40px;height:40px;flex:none" aria-hidden="true"><circle cx="400" cy="400" r="360" fill="none" stroke="#FF6B00" stroke-width="4"/> <circle cx="400" cy="400" r="245" fill="none" stroke="#FF6B00" stroke-width="2" stroke-dasharray="10 13" opacity="0.5"/> <line x1="400" y1="640" x2="400" y2="220" stroke="#FF6B00" stroke-width="18" stroke-linecap="round"/> <line x1="400" y1="640" x2="310" y2="700" stroke="#FF6B00" stroke-width="8" stroke-linecap="round" opacity="0.45"/> <line x1="400" y1="640" x2="490" y2="700" stroke="#FF6B00" stroke-width="8" stroke-linecap="round" opacity="0.45"/> <line x1="400" y1="640" x2="400" y2="730" stroke="#FF6B00" stroke-width="6" stroke-linecap="round" opacity="0.3"/> <line x1="400" y1="360" x2="225" y2="235" stroke="#FF6B00" stroke-width="10" stroke-linecap="round"/> <line x1="400" y1="360" x2="575" y2="235" stroke="#FF6B00" stroke-width="10" stroke-linecap="round"/> <line x1="283" y1="277" x2="306" y2="214" stroke="#FF6B00" stroke-width="7" stroke-linecap="round"/> <line x1="517" y1="277" x2="494" y2="214" stroke="#FF6B00" stroke-width="7" stroke-linecap="round"/> <circle cx="400" cy="155" r="26" fill="#FF6B00"/> <circle cx="535" cy="196" r="18" fill="#FF6B00"/> <circle cx="637" cy="336" r="18" fill="#FF6B00" opacity="0.85"/> <circle cx="612" cy="522" r="16" fill="#FF6B00" opacity="0.7"/> <circle cx="522" cy="612" r="13" fill="#FF6B00" opacity="0.55"/> <circle cx="278" cy="612" r="13" fill="#FF6B00" opacity="0.55"/> <circle cx="188" cy="522" r="16" fill="#FF6B00" opacity="0.7"/> <circle cx="163" cy="336" r="18" fill="#FF6B00" opacity="0.85"/> <circle cx="265" cy="196" r="18" fill="#FF6B00"/></svg><div><div style="font-family:var(--display);font-weight:600;letter-spacing:.08em;text-transform:uppercase">Svart<span style="color:var(--verdigris)">alfheim</span> Solutions</div><div class="tiny">Klepp, Norge</div></div></div>
+    <p class="muted" style="margin-top:0">${esc(APP.name)} er Odins ravn som flyr ut, finner det som er verdt å vite, og kommer tilbake og forteller. Et gratis verktøy fra ${esc(APP.company)}, et norsk utviklingsselskap som bygger for bedrifter som vil holde dataene sine i Europa. Én fil, ingen konto, ingenting sendes noe sted. Del den videre til gründere og selgere som trenger noe enkelt å starte med.</p>
+    <div class="kv" style="grid-template-columns:110px 1fr">
+     <div>Nettside</div><div><a href="${APP.site}" target="_blank" rel="noopener">svartalfheim.no</a></div>
+     <div>Kontakt</div><div><a href="mailto:${APP.email}?subject=${encodeURIComponent(APP.name)}">${esc(APP.email)}</a></div>
+     <div>LinkedIn</div><div><a href="${APP.linkedin}" target="_blank" rel="noopener">Svartalfheim Solutions</a></div>
+     <div>Personvern</div><div><a href="mailto:${APP.privacy}">${esc(APP.privacy)}</a></div>
+     <div>Org.nr</div><div class="mono">${esc(APP.orgnr)}</div>
+     <div>Versjon</div><div class="mono">${esc(APP.version)}</div>
+    </div>
+    <p class="tiny" style="margin:12px 0 0">Trenger dere hjelp med GDPR, EU-hosting eller et system som gjør mer enn dette? Det er det vi driver med. Send en e-post, så tar vi en kaffe.</p>
+   </div>
+  </div>
+ </div>`;
+ if(!fs){store.isBrave().then(b=>{const el=$("#brave-help");if(el&&b)el.hidden=false})}
+ if(fs){$("#pick").onclick=async()=>{try{await store.pickDir();store.lastError=null;renderStatus();viewSettings()}catch(e){if(e.name==="AbortError")return;store.lastError=e.message;toast(e.message);viewSettings()}};const g=$("#grant");if(g)g.onclick=async()=>{await store.grant();renderStatus();viewSettings()}}
+ $("#ex-x").onclick=()=>download(APP.slug+".xlsx",buildXlsx(),"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ $("#ex-j").onclick=()=>download(APP.slug+"-backup-"+today()+".json",JSON.stringify(state,null,1),"application/json");
+ const csv=(rows)=>"\uFEFF"+rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");
+ const domain=l=>String(l.website||"").replace(/^https?:\/\//,"").replace(/^www\./,"").split("/")[0];
+ const hsStatus=l=>({0:"NEW",1:"ATTEMPTED_TO_CONTACT",2:"IN_PROGRESS",3:"CONNECTED",4:"OPEN_DEAL",5:"OPEN_DEAL",6:"OPEN_DEAL",7:"UNQUALIFIED"}[stageIdx(l.stage)]||"NEW");
+ $("#ex-hc").onclick=()=>download("hubspot-companies.csv",csv([["Company name","Company domain name","Phone number","City","Industry description","Description","Org.nr",APP.name+" stage","Lead status"],...state.leads.map(l=>[l.company,domain(l),l.phone,l.city,l.nace,[l.segment?"Segment: "+l.segment:"",l.shareholder?"Største aksjonær: "+l.shareholder:"",l.reason?"Hvorfor: "+l.reason:"",l.notes].filter(Boolean).join("\n"),l.orgnr,l.stage,hsStatus(l)])]),"text/csv");
+ $("#ex-hk").onclick=()=>download("hubspot-contacts.csv",csv([["First name","Last name","Email","Phone number","Job title","Company name","Company domain name","LinkedIn URL","Lead status","Legal basis for processing contact's data","Notes"],...state.leads.filter(l=>l.contact).map(l=>{const n=l.contact.trim().split(/\s+/);return[n.slice(0,-1).join(" ")||n[0],n.length>1?n[n.length-1]:"",canEmail(l)?l.email:"",l.phone,l.role,l.company,domain(l),l.linkedin,hsStatus(l),l.emailConsent?"Freely given consent from contact":"Legitimate interest – prospect/lead",[l.emailConsent?"E-postsamtykke: "+(l.consentNote||"ja"):"",l.gdprBasis,l.notes].filter(Boolean).join("\n")]})]),"text/csv");
+ $("#ex-c").onclick=()=>{const rows=[FIELDS,...state.leads.map(l=>FIELDS.map(f=>l[f]??""))];download(APP.slug+"-leads.csv","﻿"+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n"),"text/csv")};
+ $("#imp").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{let n;if(/\.json$/i.test(f.name)){const d=JSON.parse(await f.text());if(!confirm("Erstatte alle data med denne backupen?"))return;state.leads=d.leads||[];state.activities=d.activities||[];state.settings=d.settings||state.settings;migrate();n=state.leads.length}else if(/\.xlsx$/i.test(f.name))n=await importXlsx(await f.arrayBuffer());else n=importRows(parseCsv(await f.text()));store.save();toast(`Importerte ${n} leads`);renderStatus();viewSettings()}catch(err){toast("Import feilet: "+err.message)}};
+ main.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const l=state.leads.find(x=>x.id===b.dataset.del);if(confirm(`Slette ${l.company}?`)){state.leads=state.leads.filter(x=>x.id!==l.id);state.activities=state.activities.filter(a=>a.leadId!==l.id);store.save();viewSettings()}});
+ main.querySelectorAll(".item").forEach(el=>el.onclick=e=>{if(e.target.dataset.del)return;location.hash="#/lead/"+el.dataset.id});
+ main.querySelectorAll("[data-p]").forEach(el=>el.onchange=()=>{profile()[el.dataset.p]=el.value.trim();store.save()});
+ main.querySelectorAll("[data-theme-pref]").forEach(b=>b.onclick=()=>theme.set(b.dataset.themePref));theme.apply();
+ main.querySelectorAll("[data-lang]").forEach(b=>{b.onclick=()=>LANG.set(b.dataset.lang);b.classList.toggle("on",b.dataset.lang===lang)});
+ $("#wipe").onclick=()=>{if(confirm("Slette alle leads og aktiviteter i nettleseren?")){state.leads=[];state.activities=[];state.settings.seeded=true;try{localStorage.removeItem(APP.slug+"-data");localStorage.removeItem(APP.legacySlug+"-data")}catch(e){}store.dirHandle=null;store.mode="local";store.kvSet("dir",null);renderStatus();viewSettings()}};
+}
+
+/* ---------- router ---------- */
+function route(){
+ const h=location.hash||"#/today";const [_,v,id]=h.split("/");
+ renderStatus();
+ ({today:viewToday,pipeline:viewPipeline,leads:viewLeads,pitch:viewPitch,lists:viewLists,settings:viewSettings,lead:()=>viewLead(id),call:()=>viewCall(id)}[v]||viewToday)();
+ window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+$("#btn-new").onclick=wizard;
+/* Theme preference — mirrors asgard lib/theme.ts + useThemePreference: one stored
+   preference ('system'|'dark'|'light', key svart_theme), resolved against
+   prefers-color-scheme, followed live while 'system'. */
+const theme={
+ key:"svart_theme",unpersisted:null,mql:typeof matchMedia==="function"?matchMedia("(prefers-color-scheme: dark)"):null,
+ get(){if(this.unpersisted)return this.unpersisted;try{const r=localStorage.getItem(this.key);if(r==="dark"||r==="light"||r==="system")return r}catch(e){}return "system"},
+ resolve(p){if(p==="dark"||p==="light")return p;return (!this.mql||this.mql.matches)?"dark":"light"},
+ apply(){document.documentElement.dataset.theme=this.resolve(this.get());document.querySelectorAll("[data-theme-pref]").forEach(b=>b.classList.toggle("on",b.dataset.themePref===this.get()))},
+ set(p){try{localStorage.setItem(this.key,p);this.unpersisted=null}catch(e){this.unpersisted=p}this.apply()}
+};
+theme.apply();
+if(theme.mql)theme.mql.addEventListener("change",()=>{if(theme.get()==="system")theme.apply()});
+document.querySelectorAll("[data-theme-pref]").forEach(b=>b.onclick=()=>theme.set(b.dataset.themePref));
+document.querySelectorAll(".side [data-lang]").forEach(b=>b.onclick=()=>LANG.set(b.dataset.lang));applyLangStatic();
+document.addEventListener("keydown",e=>{if(e.key.toLowerCase()==="n"&&!e.metaKey&&!e.ctrlKey&&!root.children.length&&!$("#modal-root2").children.length&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)){e.preventDefault();wizard()}});
+window.addEventListener("beforeunload",e=>{if(store.dirty){e.preventDefault();e.returnValue=""}});
+store.init().catch(e=>console.warn(e)).then(route);
+</script>
+</body>
+</html>
