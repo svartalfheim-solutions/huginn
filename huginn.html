@@ -130,9 +130,9 @@ h3{font-size:15px;font-weight:600;margin:0 0 8px}
 /* cards */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;box-shadow:var(--card-shadow)}
 .grid{display:grid;gap:16px}
-.grid.c2{grid-template-columns:1fr 1fr}.grid.c3{grid-template-columns:repeat(3,1fr)}.grid.c4{grid-template-columns:repeat(4,1fr)}.grid.c5{grid-template-columns:repeat(5,1fr)}
-@media(max-width:900px){.grid.c3,.grid.c4,.grid.c5{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.grid.c3,.grid.c4{grid-template-columns:1fr}.grid.c5{grid-template-columns:1fr 1fr}}
+.grid.c2{grid-template-columns:1fr 1fr}.grid.c3{grid-template-columns:repeat(3,1fr)}.grid.c4{grid-template-columns:repeat(4,1fr)}.grid.c5{grid-template-columns:repeat(5,1fr)}.grid.c6{grid-template-columns:repeat(6,1fr)}
+@media(max-width:900px){.grid.c3,.grid.c4,.grid.c5,.grid.c6{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:600px){.grid.c3,.grid.c4{grid-template-columns:1fr}.grid.c5,.grid.c6{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){.grid.c2{grid-template-columns:1fr!important}}
 .stat{padding:16px 20px}
 .stat .n{font-size:34px;font-weight:600;line-height:1.1;font-family:var(--mono)}
@@ -322,7 +322,7 @@ label.btn input{display:none}
    Free to use and share as-is. Questions, ideas, or help keeping your
    customer data inside the EU: hello@svartalfheim.no
    ===================================================================== */
-const APP={name:"Huginn",slug:"huginn",legacySlug:"prospektor",version:"0.11.2",company:"Svartalfheim Solutions AS",orgnr:"937497989",site:"https://svartalfheim.no",email:"hello@svartalfheim.no",phone:"",/* no phone in the shipped build; the example lead carries email only */privacy:"privacy@svartalfheim.no",linkedin:"https://www.linkedin.com/company/svartalfheim-as"};
+const APP={name:"Huginn",slug:"huginn",legacySlug:"prospektor",version:"0.12.0",company:"Svartalfheim Solutions AS",orgnr:"937497989",site:"https://svartalfheim.no",email:"hello@svartalfheim.no",phone:"",/* no phone in the shipped build; the example lead carries email only */privacy:"privacy@svartalfheim.no",linkedin:"https://www.linkedin.com/company/svartalfheim-as"};
 
 /* ---------- constants (mirrors the sheet's Lists tab) ---------- */
 const STAGES=["1 Prospekt","2 Aktiv prospekt","3 Sendt e-post","4 Møte booket","5 Tilbud/pris sendt","6 Vunnet","7 Rabattsalg","8 Tapt / neste år"];
@@ -373,7 +373,7 @@ const SHEET_HEADERS={ // English template headers -> fields (import from the xls
    translated for display only, so a file can move between languages. */
 const I18N={
 "I dag":"Today","Pipeline":"Pipeline","Leads":"Leads","Pitch":"Pitch","Innstillinger":"Settings","Ny lead":"New lead","Tema":"Theme","Mørkt":"Dark","Lyst":"Light","Språk":"Language",
-"oppgaver i dag":"tasks today","Oppgaveliste":"Task list","Åpne leads":"Open leads","Møter neste 7 dager":"Meetings next 7 days","Over 12 måneder (GDPR)":"Over 12 months (GDPR)","Ingen oppgaver i dag.":"No tasks today.","Ingen åpne leads.":"No open leads.","Ingen møter booket de neste 7 dagene.":"No meetings booked in the next 7 days.","åpne leads":"open leads","møter neste 7 dager":"meetings next 7 days","over 12 mnd (GDPR)":"over 12 months (GDPR)","Ringeliste":"Call list","Ring":"Call","Trakt":"Funnel","Steg":"Stage","Antall":"Count","Andel":"Ratio","Mål":"Target","Samtaler":"Calls","Snakket med":"Conversations","Møter booket":"Meetings booked","Møter holdt":"Meetings held","Vunnet":"Won",
+"oppgaver i dag":"tasks today","planlagt neste 7 dager":"planned next 7 days","Planlagt neste 7 dager":"Planned next 7 days","Ingenting planlagt de neste 7 dagene.":"Nothing planned for the next 7 days.","Oppgaveliste":"Task list","Åpne leads":"Open leads","Møter neste 7 dager":"Meetings next 7 days","Over 12 måneder (GDPR)":"Over 12 months (GDPR)","Ingen oppgaver i dag.":"No tasks today.","Ingen åpne leads.":"No open leads.","Ingen møter booket de neste 7 dagene.":"No meetings booked in the next 7 days.","åpne leads":"open leads","møter neste 7 dager":"meetings next 7 days","over 12 mnd (GDPR)":"over 12 months (GDPR)","Ringeliste":"Call list","Ring":"Call","Trakt":"Funnel","Steg":"Stage","Antall":"Count","Andel":"Ratio","Mål":"Target","Samtaler":"Calls","Snakket med":"Conversations","Møter booket":"Meetings booked","Møter holdt":"Meetings held","Vunnet":"Won",
 "Kursets benchmark: 30 samtaler → 10 snakket → 3 møter → 1 salg.":"Course benchmark: 30 calls → 10 conversations → 3 meetings → 1 sale.",
 "Trykk":"Press","for å legge til den første.":"to add the first one.","i dag":"today","d over":"d overdue",
 "Mappen er låst etter omstart.":"The folder is locked after a restart.","Gi tilgang":"Grant access","så lagres alt til mappen igjen.":"and everything is saved to the folder again.","Data ligger kun i denne nettleseren.":"Data lives only in this browser.","Velg en mappe":"Pick a folder","for varig lagring, xlsx og pitch-fil.":"for durable storage, xlsx and the pitch file.",
@@ -645,19 +645,20 @@ function dueClass(d){const t=today();return !d?"":d<t?"over":d===t?"today":""}
 function dueLabel(d){const t=today();if(!d)return"";if(d<t){const n=Math.round((new Date(t)-new Date(d))/86400000);return `${n} d over`}if(d===t)return"i dag";return d}
 
 let todayFilter="due";
-function taskLists(){const t=today();const due=callList();const open=state.leads.filter(isOpen).sort((a,b)=>(a.nextActionDate||"9").localeCompare(b.nextActionDate||"9"));const md=l=>l.meetingDate||l.nextActionDate||"";const week=state.leads.filter(l=>(l.stage===STAGES[3]||l.meetingDate)&&md(l)>=t&&md(l)<=addDays(t,7)&&isOpen(l)).sort((a,b)=>md(a).localeCompare(md(b)));const expired=state.leads.filter(l=>l.dateAdded&&addDays(l.dateAdded,365)<=t&&l.stage!==STAGES[5]);const actIds=new Set(state.activities.map(a=>a.leadId));const touched=state.leads.filter(l=>isOpen(l)&&actIds.has(l.id)).sort((a,b)=>(b.lastContact||"").localeCompare(a.lastContact||"")||(a.nextActionDate||"9").localeCompare(b.nextActionDate||"9"));return{due,open,week,expired,touched}}
+function taskLists(){const t=today();const due=callList();const open=state.leads.filter(isOpen).sort((a,b)=>(a.nextActionDate||"9").localeCompare(b.nextActionDate||"9"));const md=l=>l.meetingDate||l.nextActionDate||"";const week=state.leads.filter(l=>(l.stage===STAGES[3]||l.meetingDate)&&md(l)>=t&&md(l)<=addDays(t,7)&&isOpen(l)).sort((a,b)=>md(a).localeCompare(md(b)));const expired=state.leads.filter(l=>l.dateAdded&&addDays(l.dateAdded,365)<=t&&l.stage!==STAGES[5]);const actIds=new Set(state.activities.map(a=>a.leadId));const touched=state.leads.filter(l=>isOpen(l)&&actIds.has(l.id)).sort((a,b)=>(b.lastContact||"").localeCompare(a.lastContact||"")||(a.nextActionDate||"9").localeCompare(b.nextActionDate||"9"));const upcoming=state.leads.filter(l=>isOpen(l)&&l.nextActionDate&&l.nextActionDate>t&&l.nextActionDate<=addDays(t,7)).sort((a,b)=>a.nextActionDate.localeCompare(b.nextActionDate));return{due,open,week,expired,touched,upcoming}}
 const isCallTask=l=>/^(ring|call)/i.test(l.nextAction||"Ring");
 function viewToday(){
  setActive("today");const f=funnel();const t=today();const L=taskLists();
  const pct=(a,b)=>b?Math.round(a/b*100)+" %":"–";
- const filters={due:{h:"Oppgaveliste",e:"Ingen oppgaver i dag."},open:{h:"Åpne leads",e:"Ingen åpne leads."},week:{h:"Møter neste 7 dager",e:"Ingen møter booket de neste 7 dagene."},touched:{h:"Leads med aktivitet",e:"Ingen leads har aktivitet ennå."},expired:{h:"Over 12 måneder (GDPR)",e:"Ingenting å rydde."}};
+ const filters={due:{h:"Oppgaveliste",e:"Ingen oppgaver i dag."},upcoming:{h:"Planlagt neste 7 dager",e:"Ingenting planlagt de neste 7 dagene."},open:{h:"Åpne leads",e:"Ingen åpne leads."},week:{h:"Møter neste 7 dager",e:"Ingen møter booket de neste 7 dagene."},touched:{h:"Leads med aktivitet",e:"Ingen leads har aktivitet ennå."},expired:{h:"Over 12 måneder (GDPR)",e:"Ingenting å rydde."}};
  const list=L[todayFilter];const cur=filters[todayFilter];
  main.innerHTML=`
  <div class="top"><h1>I dag</h1><div class="muted tiny mono">${t}</div></div>
  ${store.storageBroken&&store.mode!=="fs"?'<div class="banner danger">Nettleseren nekter å lagre (privat modus eller blokkert nettstedsdata). Alt du legger inn forsvinner når fanen lukkes. <a href="#/settings">Velg en mappe</a> hvis du kan, ellers last ned JSON før du går.</div>':""}
  ${store.mode!=="fs"?`<div class="banner">${store.mode==="needs-permission"?'Mappen er låst etter omstart. <a href="#/settings">Gi tilgang</a> så lagres alt til mappen igjen.':'Data ligger kun i denne nettleseren. <a href="#/settings">Velg en mappe</a> for varig lagring, xlsx og pitch-fil.'}</div>`:""}
- <div class="grid c5" style="margin-bottom:24px">
+ <div class="grid c6" style="margin-bottom:24px">
   <button class="card stat filter ${todayFilter==="due"?"on":""} ${L.due.length?'warn':''}" data-filter="due"><div class="n">${L.due.length}</div><div class="l">oppgaver i dag</div></button>
+  <button class="card stat filter ${todayFilter==="upcoming"?"on":""}" data-filter="upcoming"><div class="n">${L.upcoming.length}</div><div class="l">planlagt neste 7 dager</div></button>
   <button class="card stat filter ${todayFilter==="open"?"on":""}" data-filter="open"><div class="n">${L.open.length}</div><div class="l">åpne leads</div></button>
   <button class="card stat filter ${todayFilter==="week"?"on":""} good" data-filter="week"><div class="n">${L.week.length}</div><div class="l">møter neste 7 dager</div></button>
   <button class="card stat filter ${todayFilter==="touched"?"on":""}" data-filter="touched"><div class="n">${L.touched.length}</div><div class="l">med aktivitet</div></button>
