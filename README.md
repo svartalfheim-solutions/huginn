@@ -9,6 +9,15 @@ Named after Odin's raven Huginn ("thought"), who flies out over the world
 each morning and comes back to report. The mark is the rune Ansuz (ᚨ), the
 rune of speech.
 
+## Last ned / Download
+
+**[Download huginn.html](https://github.com/svartalfheim-solutions/huginn/releases/latest/download/huginn.html)**
+(latest release). Save it anywhere and open it in Chrome or Edge. That is the
+whole install.
+
+Older versions and release notes are under
+[Releases](https://github.com/svartalfheim-solutions/huginn/releases).
+
 ## Bruk / Use
 
 1. Open `huginn.html` in **Chrome or Edge** (Brave works after enabling
@@ -44,7 +53,12 @@ Norway needs consent (markedsføringsloven §15); Huginn will tell you so.
 
 Everything is in `huginn.html`: CSS, a small i18n layer, the xlsx writer and
 reader, the Brreg client, and the views. No build step, no dependencies.
-Bump `APP.version` when you change behaviour.
+Bump `APP.version` when you change behaviour, and after merging tag a release
+with the file attached so the download link above stays current:
+
+```
+gh release create vX.Y.Z huginn.html --target main --title "Huginn X.Y.Z" --notes "..."
+```
 
 ## Licence
 
