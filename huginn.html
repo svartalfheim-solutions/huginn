@@ -205,6 +205,15 @@ tr.exists td{opacity:.55}
 .modal .head{padding:20px 24px 12px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .modal .head h2{margin:0;font-family:var(--display);font-weight:600;font-size:20px}
 .modal .body{padding:24px}
+.wheel-wrap{position:relative;width:min(100%,360px);margin:0 auto 16px;aspect-ratio:1}
+.wheel-wrap svg.wheel{width:100%;height:100%;display:block;border-radius:50%;box-shadow:var(--sh-md);transition:transform 4.6s cubic-bezier(.12,.6,.1,1)}
+.wheel-wrap svg.wheel text{font-family:var(--body);font-weight:600}
+.wheel-wrap .pin{position:absolute;left:50%;top:-6px;width:0;height:0;margin-left:-11px;border-left:11px solid transparent;border-right:11px solid transparent;border-top:22px solid var(--text);filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));transform-origin:50% 0;z-index:1}
+.wheel-wrap.spinning .pin{animation:pin-tick .16s linear infinite}
+@keyframes pin-tick{0%,100%{transform:rotate(0)}50%{transform:rotate(-14deg)}}
+.wheel-res{text-align:center;min-height:54px}
+.wheel-res .t{font-family:var(--display);font-weight:600;font-size:20px}
+@media (prefers-reduced-motion:reduce){.wheel-wrap svg.wheel{transition-duration:.01s}.wheel-wrap.spinning .pin{animation:none}}
 .modal .foot{padding:16px 24px;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .steps{display:flex;gap:6px;font-size:12px;color:var(--text-3)}
 .steps span{padding:3px 10px;border-radius:999px;border:1px solid var(--border-subtle)}
@@ -322,7 +331,7 @@ label.btn input{display:none}
    Free to use and share as-is. Questions, ideas, or help keeping your
    customer data inside the EU: hello@svartalfheim.no
    ===================================================================== */
-const APP={name:"Huginn",slug:"huginn",legacySlug:"prospektor",version:"0.12.0",company:"Svartalfheim Solutions AS",orgnr:"937497989",site:"https://svartalfheim.no",email:"hello@svartalfheim.no",phone:"",/* no phone in the shipped build; the example lead carries email only */privacy:"privacy@svartalfheim.no",linkedin:"https://www.linkedin.com/company/svartalfheim-as"};
+const APP={name:"Huginn",slug:"huginn",legacySlug:"prospektor",version:"0.13.0",company:"Svartalfheim Solutions AS",orgnr:"937497989",site:"https://svartalfheim.no",email:"hello@svartalfheim.no",phone:"",/* no phone in the shipped build; the example lead carries email only */privacy:"privacy@svartalfheim.no",linkedin:"https://www.linkedin.com/company/svartalfheim-as"};
 
 /* ---------- constants (mirrors the sheet's Lists tab) ---------- */
 const STAGES=["1 Prospekt","2 Aktiv prospekt","3 Sendt e-post","4 Møte booket","5 Tilbud/pris sendt","6 Vunnet","7 Rabattsalg","8 Tapt / neste år"];
@@ -373,7 +382,7 @@ const SHEET_HEADERS={ // English template headers -> fields (import from the xls
    translated for display only, so a file can move between languages. */
 const I18N={
 "I dag":"Today","Pipeline":"Pipeline","Leads":"Leads","Pitch":"Pitch","Innstillinger":"Settings","Ny lead":"New lead","Tema":"Theme","Mørkt":"Dark","Lyst":"Light","Språk":"Language",
-"oppgaver i dag":"tasks today","planlagt neste 7 dager":"planned next 7 days","Planlagt neste 7 dager":"Planned next 7 days","Ingenting planlagt de neste 7 dagene.":"Nothing planned for the next 7 days.","Oppgaveliste":"Task list","Åpne leads":"Open leads","Møter neste 7 dager":"Meetings next 7 days","Over 12 måneder (GDPR)":"Over 12 months (GDPR)","Ingen oppgaver i dag.":"No tasks today.","Ingen åpne leads.":"No open leads.","Ingen møter booket de neste 7 dagene.":"No meetings booked in the next 7 days.","åpne leads":"open leads","møter neste 7 dager":"meetings next 7 days","over 12 mnd (GDPR)":"over 12 months (GDPR)","Ringeliste":"Call list","Ring":"Call","Trakt":"Funnel","Steg":"Stage","Antall":"Count","Andel":"Ratio","Mål":"Target","Samtaler":"Calls","Snakket med":"Conversations","Møter booket":"Meetings booked","Møter holdt":"Meetings held","Vunnet":"Won",
+"oppgaver i dag":"tasks today","planlagt neste 7 dager":"planned next 7 days","Planlagt neste 7 dager":"Planned next 7 days","Ingenting planlagt de neste 7 dagene.":"Nothing planned for the next 7 days.","Spinn hjulet":"Spin the wheel","Spinn igjen":"Spin again","Spinn":"Spin","Lykkehjulet":"Wheel of fortune","Hjulet velger hvem du ringer nå.":"The wheel picks who you call now.","Lukk":"Close","på hjulet":"on the wheel","Oppgaveliste":"Task list","Åpne leads":"Open leads","Møter neste 7 dager":"Meetings next 7 days","Over 12 måneder (GDPR)":"Over 12 months (GDPR)","Ingen oppgaver i dag.":"No tasks today.","Ingen åpne leads.":"No open leads.","Ingen møter booket de neste 7 dagene.":"No meetings booked in the next 7 days.","åpne leads":"open leads","møter neste 7 dager":"meetings next 7 days","over 12 mnd (GDPR)":"over 12 months (GDPR)","Ringeliste":"Call list","Ring":"Call","Trakt":"Funnel","Steg":"Stage","Antall":"Count","Andel":"Ratio","Mål":"Target","Samtaler":"Calls","Snakket med":"Conversations","Møter booket":"Meetings booked","Møter holdt":"Meetings held","Vunnet":"Won",
 "Kursets benchmark: 30 samtaler → 10 snakket → 3 møter → 1 salg.":"Course benchmark: 30 calls → 10 conversations → 3 meetings → 1 sale.",
 "Trykk":"Press","for å legge til den første.":"to add the first one.","i dag":"today","d over":"d overdue",
 "Mappen er låst etter omstart.":"The folder is locked after a restart.","Gi tilgang":"Grant access","så lagres alt til mappen igjen.":"and everything is saved to the folder again.","Data ligger kun i denne nettleseren.":"Data lives only in this browser.","Velg en mappe":"Pick a folder","for varig lagring, xlsx og pitch-fil.":"for durable storage, xlsx and the pitch file.",
@@ -666,7 +675,7 @@ function viewToday(){
  </div>
  <div class="grid c2" style="grid-template-columns:1.3fr .7fr;align-items:start">
   <div>
-   <h2>${cur.h} <span class="muted mono" style="font-size:13px;font-weight:400">${list.length}</span></h2>
+   <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px"><h2 style="margin:0">${cur.h} <span class="muted mono" style="font-size:13px;font-weight:400">${list.length}</span></h2>${todayFilter==="due"&&wheelPool().length>1?'<button class="btn sm" id="spin">Spinn hjulet</button>':""}</div>
    ${list.length?`<div class="list">${list.map(l=>{const call=isCallTask(l);const sub=todayFilter==="expired"?`lagt til ${ud(l.dateAdded)}`:todayFilter==="touched"?`${ud(l.contact||"—")} · sist kontakt ${esc(l.lastContact||"–")} · ${esc(l.nextAction||"")}${l.nextActionDate?" "+esc(l.nextActionDate):""}`:`${ud(l.contact||"—")}${l.role?" · "+esc(l.role):""} · ${esc(l.nextAction||"Ring")}${l.meetingDate&&(todayFilter==="week"||/^møte/i.test(l.nextAction||""))?` · <span class="mono">${esc(l.meetingDate)} ${esc(meetingSpan(l))}</span>`:""}`;return `<div class="item" data-id="${l.id}"><div class="main"><div class="t">${ud(l.company)}</div><div class="s">${sub}</div></div><span class="chip stage">${esc(l.stage)}</span><span class="due ${dueClass(l.nextActionDate)}">${dueLabel(l.nextActionDate)}</span>${todayFilter==="expired"?`<button class="btn danger sm" data-del="${l.id}">Slett</button>`:call?`<button class="btn primary sm" data-call="${l.id}">Ring</button>`:`<button class="btn sm" data-open="${l.id}">Åpne</button>`}</div>`}).join("")}</div>`
    :`<div class="empty">${cur.e}${state.leads.length?"":' Trykk <kbd>N</kbd> for å legge til den første.'}</div>`}
   </div>
@@ -686,10 +695,36 @@ function viewToday(){
   </div>
  </div>`;
  main.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{todayFilter=b.dataset.filter;viewToday()});
+ const sp=main.querySelector("#spin");if(sp)sp.onclick=openWheel;
  main.querySelectorAll(".item").forEach(el=>el.onclick=e=>{if(e.target.dataset.call||e.target.dataset.del||e.target.dataset.open)return;location.hash="#/lead/"+el.dataset.id});
  main.querySelectorAll("[data-call]").forEach(b=>b.onclick=()=>location.hash="#/call/"+b.dataset.call);
  main.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>location.hash="#/lead/"+b.dataset.open);
  main.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const l=state.leads.find(x=>x.id===b.dataset.del);if(confirm(`Slette ${l.company}?`)){state.leads=state.leads.filter(x=>x.id!==l.id);state.activities=state.activities.filter(a=>a.leadId!==l.id);store.save();viewToday()}});
+}
+
+/* Lykkehjul: picks a random call from today's due call tasks. */
+function wheelPool(){return callList().filter(isCallTask)}
+function openWheel(){
+ const pool=wheelPool();const n=pool.length;if(n<2)return;
+ const a=360/n,R=98,pt=d=>{const r=(d-90)*Math.PI/180;return (R*Math.cos(r)).toFixed(2)+" "+(R*Math.sin(r)).toFixed(2)};
+ const fills=[["var(--orange)","#0D0D0D"],["var(--surface-2)","var(--text)"],["var(--verdigris)","#fff"],["var(--inset)","var(--text)"]];
+ const fs=Math.max(3.4,Math.min(8,2*Math.PI*60/n*.55));const maxc=Math.max(6,Math.floor(74/(fs*.56)));
+ const segs=pool.map((l,i)=>{const c=fills[i===n-1&&n%4===1?2:i%4];const name=l.company.length>maxc?l.company.slice(0,maxc-1)+"…":l.company;
+  return `<path d="M0 0L${pt(i*a)}A${R} ${R} 0 0 1 ${pt((i+1)*a)}Z" fill="${c[0]}" stroke="var(--border)" stroke-width=".5"/>${n<=40?`<text transform="rotate(${((i+.5)*a-90).toFixed(2)})" x="92" y="0" text-anchor="end" dominant-baseline="central" font-size="${fs.toFixed(1)}" fill="${c[1]}">${esc(name)}</text>`:""}`}).join("");
+ const m=modal(`<div class="head"><h2>Lykkehjulet</h2><span class="muted tiny mono">${n} på hjulet</span></div>
+ <div class="body"><div class="wheel-wrap" translate="no"><div class="pin"></div><svg class="wheel" viewBox="-100 -100 200 200" aria-hidden="true">${segs}<circle r="9" fill="var(--surface)" stroke="var(--border)" stroke-width=".8"/></svg></div>
+ <div class="wheel-res" id="wres" aria-live="polite"><div class="muted">Hjulet velger hvem du ringer nå.</div></div></div>
+ <div class="foot"><button class="btn ghost" id="wclose">Lukk</button><div style="display:flex;gap:8px"><button class="btn" id="wagain" style="display:none">Spinn igjen</button><button class="btn primary" id="ok">Spinn</button></div></div>`);
+ const wrap=m.querySelector(".wheel-wrap"),svg=m.querySelector("svg.wheel"),res=m.querySelector("#wres"),ok=m.querySelector("#ok"),again=m.querySelector("#wagain");
+ const dur=matchMedia("(prefers-reduced-motion:reduce)").matches?60:4700;let rot=0,busy=false,pick=null;
+ const spin=()=>{if(busy)return;busy=true;pick=null;ok.disabled=again.disabled=true;
+  const k=Math.floor(Math.random()*n);const want=(360-((k+.5)*a+(Math.random()-.5)*a*.8)+360)%360;
+  rot+=5*360+((want-rot%360)+360)%360;svg.style.transform=`rotate(${rot}deg)`;wrap.classList.add("spinning");
+  setTimeout(()=>{if(!document.contains(svg))return;busy=false;wrap.classList.remove("spinning");pick=pool[k];
+   res.innerHTML=`<div class="t">${ud(pick.company)}</div><div class="muted">${ud(pick.contact||"—")}${pick.role?" · "+esc(pick.role):""}${pick.phone?' · <span class="mono">'+ud(pick.phone)+"</span>":""}</div>`;
+   ok.textContent=t("Ring");ok.disabled=again.disabled=false;again.style.display="";ok.focus()},dur)};
+ ok.onclick=()=>{if(pick){const id=pick.id;closeModal();location.hash="#/call/"+id}else spin()};
+ again.onclick=spin;m.querySelector("#wclose").onclick=closeModal;
 }
 
 function viewPipeline(){
