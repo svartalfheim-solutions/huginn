@@ -338,7 +338,7 @@ label.btn input{display:none}
    Free to use and share as-is. Questions, ideas, or help keeping your
    customer data inside the EU: hello@svartalfheim.no
    ===================================================================== */
-const APP={name:"Huginn",slug:"huginn",legacySlug:"prospektor",version:"0.13.1",company:"Svartalfheim Solutions AS",orgnr:"937497989",site:"https://svartalfheim.no",email:"hello@svartalfheim.no",phone:"",/* no phone in the shipped build; the example lead carries email only */privacy:"privacy@svartalfheim.no",linkedin:"https://www.linkedin.com/company/svartalfheim-as"};
+const APP={name:"Huginn",slug:"huginn",legacySlug:"prospektor",version:"0.13.2",company:"Svartalfheim Solutions AS",orgnr:"937497989",site:"https://svartalfheim.no",email:"hello@svartalfheim.no",phone:"",/* no phone in the shipped build; the example lead carries email only */privacy:"privacy@svartalfheim.no",linkedin:"https://www.linkedin.com/company/svartalfheim-as"};
 
 /* ---------- constants (mirrors the sheet's Lists tab) ---------- */
 const STAGES=["1 Prospekt","2 Aktiv prospekt","3 Sendt e-post","4 Møte booket","5 Tilbud/pris sendt","6 Vunnet","7 Rabattsalg","8 Tapt / neste år"];
@@ -390,7 +390,7 @@ const SHEET_HEADERS={ // English template headers -> fields (import from the xls
 const I18N={
 "I dag":"Today","Pipeline":"Pipeline","Leads":"Leads","Pitch":"Pitch","Innstillinger":"Settings","Ny lead":"New lead","Tema":"Theme","Mørkt":"Dark","Lyst":"Light","Språk":"Language",
 "oppgaver i dag":"tasks today","planlagt neste 7 dager":"planned next 7 days","Planlagt neste 7 dager":"Planned next 7 days","Ingenting planlagt de neste 7 dagene.":"Nothing planned for the next 7 days.","Spinn hjulet":"Spin the wheel","Spinn igjen":"Spin again","Spinn":"Spin","Lykkehjulet":"Wheel of fortune","Hjulet velger hvem du ringer nå.":"The wheel picks who you call now.","Lukk":"Close","på hjulet":"on the wheel","Oppgaveliste":"Task list","Åpne leads":"Open leads","Møter neste 7 dager":"Meetings next 7 days","Over 12 måneder (GDPR)":"Over 12 months (GDPR)","Ingen oppgaver i dag.":"No tasks today.","Ingen åpne leads.":"No open leads.","Ingen møter booket de neste 7 dagene.":"No meetings booked in the next 7 days.","åpne leads":"open leads","møter neste 7 dager":"meetings next 7 days","over 12 mnd (GDPR)":"over 12 months (GDPR)","Ringeliste":"Call list","Ring":"Call","Trakt":"Funnel","Steg":"Stage","Antall":"Count","Andel":"Ratio","Mål":"Target","Samtaler":"Calls","Snakket med":"Conversations","Møter booket":"Meetings booked","Møter holdt":"Meetings held","Vunnet":"Won",
-"Kursets benchmark: 30 samtaler → 10 snakket → 3 møter → 1 salg.":"Course benchmark: 30 calls → 10 conversations → 3 meetings → 1 sale.",
+"Tommelfingerregel: 30 samtaler → 10 snakket → 3 møter → 1 salg.":"Rule of thumb: 30 calls → 10 conversations → 3 meetings → 1 sale.",
 "Trykk":"Press","for å legge til den første.":"to add the first one.","i dag":"today","d over":"d overdue",
 "Mappen er låst etter omstart.":"The folder is locked after a restart.","Gi tilgang":"Grant access","så lagres alt til mappen igjen.":"and everything is saved to the folder again.","Data ligger kun i denne nettleseren.":"Data lives only in this browser.","Velg en mappe":"Pick a folder","for varig lagring, xlsx og pitch-fil.":"for durable storage, xlsx and the pitch file.",
 "Dra kort mellom kolonner for å endre steg.":"Drag cards between columns to change stage.",
@@ -696,7 +696,7 @@ function viewToday(){
     <tr><td>Møter booket</td><td>${f.booked}</td><td>${pct(f.booked,f.calls)}</td><td>10 %</td></tr>
     <tr><td>Møter holdt</td><td>${f.held}</td><td>${pct(f.held,f.booked)}</td><td>60–75 %</td></tr>
     <tr><td>Vunnet</td><td>${f.won}</td><td>${pct(f.won,f.calls)}</td><td>3 %</td></tr></table>
-    <div class="tiny" style="margin-top:8px">Kursets benchmark: 30 samtaler → 10 snakket → 3 møter → 1 salg.</div>
+    <div class="tiny" style="margin-top:8px">Tommelfingerregel: 30 samtaler → 10 snakket → 3 møter → 1 salg.</div>
    </div>
    <h2 style="margin-top:20px">Pipeline</h2>
    <div class="card" style="padding:12px 16px"><table>${STAGES.map(s=>`<tr><td>${esc(s)}</td><td class="mono" style="text-align:right">${state.leads.filter(l=>l.stage===s).length}</td></tr>`).join("")}</table></div>
