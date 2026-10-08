@@ -3,7 +3,8 @@
 **Huginn by Svartalfheim** — a free, single-file, local-first CRM for founder-led
 B2B prospecting and cold calling in Norway. One HTML file. No account, no
 server, nothing leaves your machine except company lookups against
-data.brreg.no.
+data.brreg.no and NACE codes from data.ssb.no. Fonts are embedded, so there
+is no request to Google Fonts.
 
 Named after Odin's raven Huginn ("thought"), who flies out over the world
 each morning and comes back to report. The mark is the rune Ansuz (ᚨ), the
